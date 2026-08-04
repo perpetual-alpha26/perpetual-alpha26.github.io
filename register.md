@@ -25,9 +25,9 @@ title: Register
                         <!-- Member 1 (Required) -->
                         <tr>
                             <td style="font-weight: bold; color: var(--accent-color);">1)</td>
-                            <td><input type="text" name="fi-text-member1_name" required placeholder="Required"></td>
-                            <td><input type="text" name="fi-text-member1_surname" required placeholder="Required"></td>
-                            <td><input type="email" name="fi-email-member1_email" required placeholder="Required" pattern="^[^@\s]+@[^@\s]+\.[^@\s]+$"></td>
+                            <td><input type="text" name="fi-sender-firstName" required placeholder="Required"></td>
+                            <td><input type="text" name="fi-sender-lastName" required placeholder="Required"></td>
+                            <td><input type="email" name="fi-sender-email" required placeholder="Required" pattern="^[^@\s]+@[^@\s]+\.[^@\s]+$"></td>
                             <td><input type="text" name="fi-text-member1_affiliation"></td>
                             <td style="text-align: center;"><input type="checkbox" name="fi-text-member1_icaif"></td>
                         </tr>
@@ -83,13 +83,22 @@ document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('registration-form');
     const submitBtn = document.getElementById('submit-btn');
 
-    const rows = [1, 2, 3, 4].map(i => ({
-        name: form.querySelector(`[name="fi-text-member${i}_name"]`),
-        surname: form.querySelector(`[name="fi-text-member${i}_surname"]`),
-        email: form.querySelector(`[name="fi-email-member${i}_email"]`),
-        affiliation: form.querySelector(`[name="fi-text-member${i}_affiliation"]`),
-        icaif: form.querySelector(`[name="fi-text-member${i}_icaif"]`)
-    }));
+    const rows = [
+        {
+            name: form.querySelector(`[name="fi-sender-firstName"]`),
+            surname: form.querySelector(`[name="fi-sender-lastName"]`),
+            email: form.querySelector(`[name="fi-sender-email"]`),
+            affiliation: form.querySelector(`[name="fi-text-member1_affiliation"]`),
+            icaif: form.querySelector(`[name="fi-text-member1_icaif"]`)
+        },
+        ...[2, 3, 4].map(i => ({
+            name: form.querySelector(`[name="fi-text-member${i}_name"]`),
+            surname: form.querySelector(`[name="fi-text-member${i}_surname"]`),
+            email: form.querySelector(`[name="fi-email-member${i}_email"]`),
+            affiliation: form.querySelector(`[name="fi-text-member${i}_affiliation"]`),
+            icaif: form.querySelector(`[name="fi-text-member${i}_icaif"]`)
+        }))
+    ];
 
     function isRowValid(row) {
         return row.name.value.trim() !== '' && 
