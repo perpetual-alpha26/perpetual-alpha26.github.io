@@ -5,7 +5,7 @@ title: Register
 
 <div class="page-content">
     <h1>Register Your Team</h1>
-    <p>Registration for Perpetual Alpha is open! Gather your team of 1 to 4 members and enroll using the form below. At least one team member should be available to present at ICAIF '26 Milan.</p>
+    <p>Registration for Perpetual Alpha is open! Gather your team of 1 to 4 members and enroll using the form below. At least one team member should be available to physically present at ICAIF '26 Milan.</p>
 
     <div class="glass-card" style="margin-top: 2rem;">
         <form action="YOUR_GETFORM_ENDPOINT" method="POST">
