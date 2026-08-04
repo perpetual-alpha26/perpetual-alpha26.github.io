@@ -8,7 +8,7 @@ title: Register
     <p>Registration for Perpetual Alpha is open! Gather your team of 1 to 4 members and enroll using the form below. At least one team member should be available to physically present at ICAIF '26 Milan.</p>
 
     <div class="glass-card" style="margin-top: 2rem;">
-        <form action="https://forminit.com/f/9i2y6md1lrn" method="POST" id="registration-form">
+        <form action="https://forminit.com/f/jz4gf8061mg" method="POST" id="registration-form">
             <div style="overflow-x: auto;">
                 <table class="registration-table">
                     <thead>
