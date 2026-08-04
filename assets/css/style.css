@@ -235,6 +235,53 @@ main {
 .page-content li { margin-bottom: 0.5rem; }
 .page-content strong { color: var(--text-primary); }
 
+/* Form Styling */
+.registration-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.registration-table th, .registration-table td {
+    padding: 0.75rem;
+    border: none;
+    border-bottom: 1px solid var(--surface-border);
+}
+
+.registration-table th {
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.registration-table input[type="text"],
+.registration-table input[type="email"] {
+    width: 100%;
+    padding: 0.6rem;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid transparent;
+    color: var(--text-primary);
+    border-radius: 4px;
+    font-family: inherit;
+    transition: all 0.3s ease;
+}
+
+.registration-table input[type="text"]:focus,
+.registration-table input[type="email"]:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    background: rgba(255,255,255,0.1);
+    box-shadow: 0 0 8px var(--accent-glow);
+}
+
+.registration-table input[type="checkbox"] {
+    width: 1.2rem;
+    height: 1.2rem;
+    cursor: pointer;
+    accent-color: var(--accent-color);
+}
+
 /* Table styling for schedule */
 table {
     width: 100%;
