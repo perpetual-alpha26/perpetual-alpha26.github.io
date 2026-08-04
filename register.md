@@ -8,7 +8,7 @@ title: Register
     <p>Registration for Perpetual Alpha is open! Gather your team of 1 to 4 members and enroll using the form below. At least one team member should be available to physically present at ICAIF '26 Milan.</p>
 
     <div class="glass-card" style="margin-top: 2rem;">
-        <form action="YOUR_GETFORM_ENDPOINT" method="POST">
+        <form action="YOUR_GETFORM_ENDPOINT" method="POST" id="registration-form">
             <div style="overflow-x: auto;">
                 <table class="registration-table">
                     <thead>
@@ -63,12 +63,7 @@ title: Register
             </div>
             
             <div style="margin-top: 2rem; text-align: center;">
-                <label style="color: var(--text-secondary); cursor: pointer; display: inline-flex; align-items: center; gap: 0.5rem; justify-content: center; margin-bottom: 1.5rem;">
-                    <input type="checkbox" id="human-check" style="width: 1.2rem; height: 1.2rem; accent-color: var(--accent-color);">
-                    Yes, I am human
-                </label>
-                <br>
-                <button type="submit" class="btn" id="submit-btn">Submit Registration</button>
+                <button class="g-recaptcha btn" id="submit-btn" data-sitekey="6Lca43QtAAAAAJGup0D6qelMd6_3TZhubF1BV9ZD" data-callback="onSubmit" data-action="submit">Submit Registration</button>
             </div>
         </form>
     </div>
@@ -78,11 +73,15 @@ title: Register
     <p><strong>Contact Email:</strong> <a href="mailto:{{ site.email }}">{{ site.email }}</a></p>
 </div>
 
+<script src="https://www.google.com/recaptcha/enterprise.js?render=6Lca43QtAAAAAJGup0D6qelMd6_3TZhubF1BV9ZD"></script>
 <script>
+function onSubmit(token) {
+    document.getElementById("registration-form").submit();
+}
+
 document.addEventListener('DOMContentLoaded', function() {
-    const form = document.querySelector('form');
+    const form = document.getElementById('registration-form');
     const submitBtn = document.getElementById('submit-btn');
-    const humanCheck = document.getElementById('human-check');
 
     const rows = [1, 2, 3, 4].map(i => ({
         name: form.querySelector(`[name="member${i}_name"]`),
@@ -133,9 +132,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
         rows.forEach(r => { if(r.icaif.disabled) r.icaif.checked = false; });
 
-        // Rule 7: Submit button enabled if row 1 is valid AND at least one checkbox is checked AND human check is checked
+        // Rule 7: Submit button enabled if row 1 is valid AND at least one checkbox is checked
         let anyChecked = rows.some(r => r.icaif.checked);
-        submitBtn.disabled = !(row1Valid && anyChecked && humanCheck.checked);
+        submitBtn.disabled = !(row1Valid && anyChecked);
         
         if (submitBtn.disabled) {
             submitBtn.style.opacity = '0.5';
@@ -150,7 +149,6 @@ document.addEventListener('DOMContentLoaded', function() {
         input.addEventListener('input', updateFormState);
         input.addEventListener('change', updateFormState);
     });
-    humanCheck.addEventListener('change', updateFormState);
 
     updateFormState();
 });
