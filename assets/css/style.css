@@ -282,6 +282,11 @@ main {
     accent-color: var(--accent-color);
 }
 
+.registration-table input:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
 /* Table styling for schedule */
 table {
     width: 100%;
