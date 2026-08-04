@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Perpetual Alpha - On-Chain Trading Hackathon
+title: Perpetual Alpha
 ---
 
 <div class="hero">
