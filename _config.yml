@@ -2,7 +2,7 @@ title: Perpetual Alpha
 email: perpetual.alpha26@gmail.com
 description: An On-Chain Algorithmic Trading Competition on the Hyperliquid Testnet
 url: "https://perpetual-alpha26.github.io"
-baseurl: "/perpetual-alpha26"
+baseurl: ""
 
 markdown: kramdown
 theme: null
