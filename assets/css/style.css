@@ -136,7 +136,7 @@ main {
 }
 
 .hero-image img {
-    max-width: 80%;
+    max-width: 55%;
     border-radius: 20px;
     box-shadow: 0 0 40px var(--accent-glow);
     border: 1px solid var(--surface-border);
@@ -224,6 +224,9 @@ main {
 }
 
 /* Markdown Content Styling */
+.page-content {
+    margin-top: 3rem;
+}
 .page-content h1 { font-size: 2.5rem; color: var(--accent-color); margin-bottom: 2rem; }
 .page-content h2 { font-size: 2rem; margin-top: 3rem; border-bottom: 1px solid var(--surface-border); padding-bottom: 0.5rem; }
 .page-content p { margin-bottom: 1.5rem; color: var(--text-secondary); font-size: 1.1rem; }
