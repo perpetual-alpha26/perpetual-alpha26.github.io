@@ -31,6 +31,8 @@
         {{ content }}
     </main>
     {% include footer.html %}
+    {% if page.url == '/' or page.url == '/index.html' %}
     {% include particles.html %}
+    {% endif %}
 </body>
 </html>
