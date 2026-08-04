@@ -23,6 +23,18 @@ title: Perpetual Alpha
 
 <div class="card-grid" style="margin-top: 4rem;">
     <div class="glass-card">
+        <h3>Important Dates</h3>
+        <ul style="list-style-type: none; padding: 0;">
+            <li style="margin-bottom: 0.5rem;"><strong style="color: var(--accent-color);">Sep 13:</strong> Deadline registration</li>
+            <li style="margin-bottom: 0.5rem;"><strong style="color: var(--accent-color);">Oct 5:</strong> Practice tests (non-scoring).</li>
+            <li style="margin-bottom: 0.5rem;"><strong style="color: var(--accent-color);">Oct 19:</strong> 3, 2, 1 ... GO!</li>
+            <li style="margin-bottom: 0.5rem;"><strong style="color: var(--accent-color);">Nov 6:</strong> End of the competition</li>
+            <li style="margin-bottom: 0.5rem;"><strong style="color: var(--accent-color);">Nov 9:</strong> Report submission</li>
+            <li style="margin-bottom: 0.5rem;"><strong style="color: var(--accent-color);">Nov 12:</strong> Winners Announcement</li>
+        </ul>
+    </div>
+
+    <div class="glass-card">
         <h3>Areas of Interest</h3>
         <p>Trading strategies and asset management, AI agents and reinforcement learning, and blockchain/DeFi. The competition offers a rare combination: a fully live trading environment with realistic, industry-level market microstructure.</p>
     </div>
