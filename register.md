@@ -28,7 +28,7 @@ title: Register
                             <td><input type="text" name="fi-sender-firstName" maxlength="25" required placeholder="Required"></td>
                             <td><input type="text" name="fi-sender-lastName" maxlength="25" required placeholder="Required"></td>
                             <td><input type="email" name="fi-sender-email" maxlength="50" required placeholder="Required" pattern="^[^@\s]+@[^@\s]+\.[^@\s]+$"></td>
-                            <td><input type="text" name="fi-text-member1_affiliation" maxlength="25"></td>
+                            <td><input type="text" name="fi-text-member1_affiliation" maxlength="100"></td>
                             <td style="text-align: center;"><input type="checkbox" name="fi-text-member1_icaif"></td>
                         </tr>
                         <!-- Member 2 -->
@@ -37,7 +37,7 @@ title: Register
                             <td><input type="text" name="fi-text-member2_name" maxlength="25"></td>
                             <td><input type="text" name="fi-text-member2_surname" maxlength="25"></td>
                             <td><input type="email" name="fi-email-member2_email" maxlength="50" pattern="^[^@\s]+@[^@\s]+\.[^@\s]+$"></td>
-                            <td><input type="text" name="fi-text-member2_affiliation" maxlength="25"></td>
+                            <td><input type="text" name="fi-text-member2_affiliation" maxlength="100"></td>
                             <td style="text-align: center;"><input type="checkbox" name="fi-text-member2_icaif"></td>
                         </tr>
                         <!-- Member 3 -->
@@ -46,7 +46,7 @@ title: Register
                             <td><input type="text" name="fi-text-member3_name" maxlength="25"></td>
                             <td><input type="text" name="fi-text-member3_surname" maxlength="25"></td>
                             <td><input type="email" name="fi-email-member3_email" maxlength="50" pattern="^[^@\s]+@[^@\s]+\.[^@\s]+$"></td>
-                            <td><input type="text" name="fi-text-member3_affiliation" maxlength="25"></td>
+                            <td><input type="text" name="fi-text-member3_affiliation" maxlength="100"></td>
                             <td style="text-align: center;"><input type="checkbox" name="fi-text-member3_icaif"></td>
                         </tr>
                         <!-- Member 4 -->
@@ -55,7 +55,7 @@ title: Register
                             <td><input type="text" name="fi-text-member4_name" maxlength="25"></td>
                             <td><input type="text" name="fi-text-member4_surname" maxlength="25"></td>
                             <td><input type="email" name="fi-email-member4_email" maxlength="50" pattern="^[^@\s]+@[^@\s]+\.[^@\s]+$"></td>
-                            <td><input type="text" name="fi-text-member4_affiliation" maxlength="25"></td>
+                            <td><input type="text" name="fi-text-member4_affiliation" maxlength="100"></td>
                             <td style="text-align: center;"><input type="checkbox" name="fi-text-member4_icaif"></td>
                         </tr>
                     </tbody>
