@@ -17,8 +17,8 @@ title: Register
                             <th>Name</th>
                             <th>Surname</th>
                             <th>Email</th>
-                            <th>Affiliation</th>
-                            <th style="text-align: center;">Available<br>Join<br>ICAIF</th>
+                            <th style="text-align: center;">Affiliation<br>(Optional)</th>
+                            <th style="text-align: center;">Available<br>Present<br>at ICAIF</th>
                         </tr>
                     </thead>
                     <tbody>
