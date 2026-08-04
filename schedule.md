@@ -18,9 +18,9 @@ title: Important Dates
             </thead>
             <tbody>
                 <tr>
-                    <td><strong>Aug 24 – Sep 13</strong></td>
-                    <td><strong>Publicity & Registration</strong></td>
-                    <td>Website, rules, and API documentation published; registration opens.</td>
+                    <td><strong>Sep 13</strong></td>
+                    <td><strong>Registration Deadline</strong></td>
+                    <td>Registration Deadline</td>
                 </tr>
                 <tr>
                     <td><strong>Sep 14 – Oct 4</strong></td>
