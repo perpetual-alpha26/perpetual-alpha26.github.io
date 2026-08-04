@@ -11,9 +11,13 @@ title: Committee & Sponsors
         <div class="glass-card">
             <h3>Organizing Committee</h3>
             <ul>
-                <li><strong>[Organizer Name]</strong> - [Affiliation]</li>
-                <li><strong>[Organizer Name]</strong> - [Affiliation]</li>
-                <li><strong>[Organizer Name]</strong> - [Affiliation]</li>
+                <li><strong>Federico Gatta</strong> - Scuola Normale Superiore</li>
+                <li><strong>Giorgio Guidetti</strong> - Milano Blockchain Week</li>
+                <li><strong>Manuel Naviglio</strong> - Scuola Normale Superiore</li>
+                <li><strong>Andrea Prampolini</strong> - Intesa Sanpaolo</li>
+                <li><strong>Marcello Restelli</strong> - Politecnico di Milano</li>
+                <li><strong>Francesco Tarantelli</strong> - Università di Bologna</li>
+                <li><strong>Edoardo Vittori</strong> - Intesa Sanpaolo</li>
             </ul>
         </div>
     </div>

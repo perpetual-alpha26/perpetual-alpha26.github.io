@@ -99,7 +99,7 @@ a:hover {
 /* Main Content area */
 main {
     min-height: calc(100vh - 80px - 200px);
-    padding: 4rem 0;
+    padding: 7rem 0 4rem 0;
 }
 
 /* Hero Section */
@@ -136,7 +136,7 @@ main {
 }
 
 .hero-image img {
-    max-width: 100%;
+    max-width: 80%;
     border-radius: 20px;
     box-shadow: 0 0 40px var(--accent-glow);
     border: 1px solid var(--surface-border);
