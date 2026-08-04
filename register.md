@@ -25,38 +25,38 @@ title: Register
                         <!-- Member 1 (Required) -->
                         <tr>
                             <td style="font-weight: bold; color: var(--accent-color);">1)</td>
-                            <td><input type="text" name="member1_name" required placeholder="Required"></td>
-                            <td><input type="text" name="member1_surname" required placeholder="Required"></td>
-                            <td><input type="email" name="member1_email" required placeholder="Required" pattern="^[^@\s]+@[^@\s]+\.[^@\s]+$"></td>
-                            <td><input type="text" name="member1_affiliation"></td>
-                            <td style="text-align: center;"><input type="checkbox" name="member1_icaif"></td>
+                            <td><input type="text" name="fi-text-member1_name" required placeholder="Required"></td>
+                            <td><input type="text" name="fi-text-member1_surname" required placeholder="Required"></td>
+                            <td><input type="email" name="fi-email-member1_email" required placeholder="Required" pattern="^[^@\s]+@[^@\s]+\.[^@\s]+$"></td>
+                            <td><input type="text" name="fi-text-member1_affiliation"></td>
+                            <td style="text-align: center;"><input type="checkbox" name="fi-text-member1_icaif"></td>
                         </tr>
                         <!-- Member 2 -->
                         <tr>
                             <td style="font-weight: bold; color: var(--text-secondary);">2)</td>
-                            <td><input type="text" name="member2_name"></td>
-                            <td><input type="text" name="member2_surname"></td>
-                            <td><input type="email" name="member2_email" pattern="^[^@\s]+@[^@\s]+\.[^@\s]+$"></td>
-                            <td><input type="text" name="member2_affiliation"></td>
-                            <td style="text-align: center;"><input type="checkbox" name="member2_icaif"></td>
+                            <td><input type="text" name="fi-text-member2_name"></td>
+                            <td><input type="text" name="fi-text-member2_surname"></td>
+                            <td><input type="email" name="fi-email-member2_email" pattern="^[^@\s]+@[^@\s]+\.[^@\s]+$"></td>
+                            <td><input type="text" name="fi-text-member2_affiliation"></td>
+                            <td style="text-align: center;"><input type="checkbox" name="fi-text-member2_icaif"></td>
                         </tr>
                         <!-- Member 3 -->
                         <tr>
                             <td style="font-weight: bold; color: var(--text-secondary);">3)</td>
-                            <td><input type="text" name="member3_name"></td>
-                            <td><input type="text" name="member3_surname"></td>
-                            <td><input type="email" name="member3_email" pattern="^[^@\s]+@[^@\s]+\.[^@\s]+$"></td>
-                            <td><input type="text" name="member3_affiliation"></td>
-                            <td style="text-align: center;"><input type="checkbox" name="member3_icaif"></td>
+                            <td><input type="text" name="fi-text-member3_name"></td>
+                            <td><input type="text" name="fi-text-member3_surname"></td>
+                            <td><input type="email" name="fi-email-member3_email" pattern="^[^@\s]+@[^@\s]+\.[^@\s]+$"></td>
+                            <td><input type="text" name="fi-text-member3_affiliation"></td>
+                            <td style="text-align: center;"><input type="checkbox" name="fi-text-member3_icaif"></td>
                         </tr>
                         <!-- Member 4 -->
                         <tr>
                             <td style="font-weight: bold; color: var(--text-secondary);">4)</td>
-                            <td><input type="text" name="member4_name"></td>
-                            <td><input type="text" name="member4_surname"></td>
-                            <td><input type="email" name="member4_email" pattern="^[^@\s]+@[^@\s]+\.[^@\s]+$"></td>
-                            <td><input type="text" name="member4_affiliation"></td>
-                            <td style="text-align: center;"><input type="checkbox" name="member4_icaif"></td>
+                            <td><input type="text" name="fi-text-member4_name"></td>
+                            <td><input type="text" name="fi-text-member4_surname"></td>
+                            <td><input type="email" name="fi-email-member4_email" pattern="^[^@\s]+@[^@\s]+\.[^@\s]+$"></td>
+                            <td><input type="text" name="fi-text-member4_affiliation"></td>
+                            <td style="text-align: center;"><input type="checkbox" name="fi-text-member4_icaif"></td>
                         </tr>
                     </tbody>
                 </table>
@@ -84,11 +84,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const submitBtn = document.getElementById('submit-btn');
 
     const rows = [1, 2, 3, 4].map(i => ({
-        name: form.querySelector(`[name="member${i}_name"]`),
-        surname: form.querySelector(`[name="member${i}_surname"]`),
-        email: form.querySelector(`[name="member${i}_email"]`),
-        affiliation: form.querySelector(`[name="member${i}_affiliation"]`),
-        icaif: form.querySelector(`[name="member${i}_icaif"]`)
+        name: form.querySelector(`[name="fi-text-member${i}_name"]`),
+        surname: form.querySelector(`[name="fi-text-member${i}_surname"]`),
+        email: form.querySelector(`[name="fi-email-member${i}_email"]`),
+        affiliation: form.querySelector(`[name="fi-text-member${i}_affiliation"]`),
+        icaif: form.querySelector(`[name="fi-text-member${i}_icaif"]`)
     }));
 
     function isRowValid(row) {
