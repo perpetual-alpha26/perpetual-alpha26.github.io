@@ -63,6 +63,11 @@ title: Register
             </div>
             
             <div style="margin-top: 2rem; text-align: center;">
+                <label style="color: var(--text-secondary); cursor: pointer; display: inline-flex; align-items: center; gap: 0.5rem; justify-content: center; margin-bottom: 1.5rem;">
+                    <input type="checkbox" id="human-check" style="width: 1.2rem; height: 1.2rem; accent-color: var(--accent-color);">
+                    Yes, I am human
+                </label>
+                <br>
                 <button type="submit" class="btn" id="submit-btn">Submit Registration</button>
             </div>
         </form>
@@ -77,6 +82,7 @@ title: Register
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.querySelector('form');
     const submitBtn = document.getElementById('submit-btn');
+    const humanCheck = document.getElementById('human-check');
 
     const rows = [1, 2, 3, 4].map(i => ({
         name: form.querySelector(`[name="member${i}_name"]`),
@@ -127,9 +133,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
         rows.forEach(r => { if(r.icaif.disabled) r.icaif.checked = false; });
 
-        // Rule 7: Submit button enabled if row 1 is valid AND at least one checkbox is checked
+        // Rule 7: Submit button enabled if row 1 is valid AND at least one checkbox is checked AND human check is checked
         let anyChecked = rows.some(r => r.icaif.checked);
-        submitBtn.disabled = !(row1Valid && anyChecked);
+        submitBtn.disabled = !(row1Valid && anyChecked && humanCheck.checked);
         
         if (submitBtn.disabled) {
             submitBtn.style.opacity = '0.5';
@@ -144,6 +150,7 @@ document.addEventListener('DOMContentLoaded', function() {
         input.addEventListener('input', updateFormState);
         input.addEventListener('change', updateFormState);
     });
+    humanCheck.addEventListener('change', updateFormState);
 
     updateFormState();
 });
