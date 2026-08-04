@@ -26,6 +26,11 @@ title: Perpetual Alpha
         <h3>Areas of Interest</h3>
         <p>Trading strategies and asset management, AI agents and reinforcement learning, and blockchain/DeFi. The competition offers a rare combination: a fully live trading environment with realistic, industry-level market microstructure.</p>
     </div>
+
+    <div class="glass-card">
+        <h3>Relevance & Impact</h3>
+        <p>The setting connects AI research to concrete questions the financial community cares about: robustness of learned strategies out-of-sample and out-of-simulation, risk-aware objectives beyond raw return, and responsible evaluation of trading agents.</p>
+    </div>
     
     <div class="glass-card">
         <h3>Originality</h3>
@@ -33,12 +38,12 @@ title: Perpetual Alpha
     </div>
 
     <div class="glass-card">
-        <h3>Relevance & Impact</h3>
-        <p>The setting connects AI research to concrete questions the financial community cares about: robustness of learned strategies out-of-sample and out-of-simulation, risk-aware objectives beyond raw return, and responsible evaluation of trading agents.</p>
+        <h3>Target Audience</h3>
+        <p>Everyone is welcome to participate. Participation of students (Bachelor, Master, and PhD) is highly encouraged. No previous experience in Hyperliquid, as the participant will be provided with a couple of weeks to practice with the platform and run demo strategies.</p>
     </div>
 
     <div class="glass-card">
-        <h3>Target Audience</h3>
-        <p>The competition is designed for teams of up to 4 people. Everyone is welcome to participate. Participation of students (Bachelor, Master, and PhD) is highly encouraged.</p>
+        <h3>Eligible Teams</h3>
+        <p>Teams must be made up of 1 to 4 people. At least one team member should be available to present at ICAIF '26 Milan.</p>
     </div>
 </div>
