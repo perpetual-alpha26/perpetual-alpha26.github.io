@@ -5,7 +5,7 @@ title: Perpetual Alpha
 
 <div class="hero">
     <div class="hero-content">
-        <h1 class="hero-title">Perpetual <span class="highlight">Alpha</span></h1>
+        <h1 class="hero-title">Perpetual Alpha</h1>
         <p class="hero-subtitle">An On-Chain Algorithmic Trading Competition on the Hyperliquid Testnet</p>
         <a href="{{ '/register' | relative_url }}" class="btn">Register Now</a>
     </div>
@@ -16,8 +16,8 @@ title: Perpetual Alpha
 
 <div class="page-content">
     <h2>Overview</h2>
-    <p>We propose a live algorithmic trading competition in which teams design, implement, and operate autonomous trading agents on the Hyperliquid testnet, a high-performance decentralized derivatives exchange.</p>
-    <p>Using the recently introduced HIP-3 builder-deployed perpetuals standard, the organizers will deploy a dedicated set of perpetual futures markets exclusively for the competition, spanning major cryptos, stock indexes, exchange rates, and commodities.</p>
+    <p>Perpetual Alpha is a live algorithmic trading competition in which teams design, implement, and operate autonomous trading agents on the Hyperliquid testnet, a high-performance decentralized derivatives exchange.</p>
+    <!-- <p>Using the recently introduced HIP-3 builder-deployed perpetuals standard, the organizers will deploy a dedicated set of perpetual futures markets exclusively for the competition, spanning major cryptos, stock indexes, exchange rates, and commodities.</p> -->
     <p>Over a multi-week live trading phase, teams compete under identical starting conditions with testnet (non-monetary) capital. Final rankings combine three components: realized profit and loss, the risk profile of the strategy, and the sophistication of the algorithm as assessed by an expert jury. Winners will be announced and top teams will present their approaches at the ICAIF 2026 Competition Track in Milan.</p>
 </div>
 
@@ -60,7 +60,6 @@ title: Perpetual Alpha
     </div>
 </div>
 
-<!--
 <div class="page-content" style="margin-top: 4rem;">
     <h2>Sponsors & Partners</h2>
     <p>We are grateful to our sponsors for supporting this competition and providing the infrastructure for the live trading phase.</p>
@@ -69,4 +68,3 @@ title: Perpetual Alpha
         <p><em>[Sponsor Logos and Banners will be placed here]</em></p>
     </div>
 </div>
--->
