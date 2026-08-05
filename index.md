@@ -5,7 +5,7 @@ title: Perpetual Alpha
 
 <div class="hero">
     <div class="hero-content">
-        <h1 class="hero-title">Perpetual Alpha</h1>
+        <h1 class="hero-title">Perpetual <span style="color: var(--accent-color);">Alpha</span></h1>
         <p class="hero-subtitle">An On-Chain Algorithmic Trading Competition on the Hyperliquid Testnet</p>
         <a href="{{ '/register' | relative_url }}" class="btn">Register Now</a>
     </div>
@@ -60,6 +60,7 @@ title: Perpetual Alpha
     </div>
 </div>
 
+<!--
 <div class="page-content" style="margin-top: 4rem;">
     <h2>Sponsors & Partners</h2>
     <p>We are grateful to our sponsors for supporting this competition and providing the infrastructure for the live trading phase.</p>
@@ -68,3 +69,4 @@ title: Perpetual Alpha
         <p><em>[Sponsor Logos and Banners will be placed here]</em></p>
     </div>
 </div>
+-->

@@ -1,9 +1,5 @@
 <header class="site-header" id="site-header">
     <div class="container header-content">
-        <a href="{{ '/' | relative_url }}" class="logo" style="display: flex; align-items: center; gap: 12px;">
-            <span class="logo-text">Perpetual <span class="highlight">Alpha</span></span>
-            <img src="{{ '/assets/images/logo.png' | relative_url }}" alt="Logo" style="height: 35px; width: auto;">
-        </a>
         <button id="mobile-menu-btn" class="mobile-menu-btn">☰</button>
         <nav class="main-nav" id="main-nav">
             <a href="{{ '/' | relative_url }}" class="{% if page.url == '/' or page.url == '/index.html' %}active{% endif %}">Home</a>
