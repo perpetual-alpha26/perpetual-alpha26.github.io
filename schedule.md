@@ -5,7 +5,7 @@ title: Important Dates
 
 <div class="page-content">
     <h1>Important Dates</h1>
-    <p>The schedule gives participants six weeks between onboarding and the scored phase. Thus, teams have adequate time to prepare high-quality entries.</p>
+    <p>The schedule gives participants five weeks between onboarding and the scored phase. Thus, teams have adequate time to prepare high-quality entries.</p>
 
     <div class="glass-card" style="margin-top: 2rem;">
         <table class="schedule-table">

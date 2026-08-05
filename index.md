@@ -51,7 +51,7 @@ title: Perpetual Alpha
 
     <div class="glass-card">
         <h3>Target Audience</h3>
-        <p>Everyone is welcome to participate. Participation of students (Bachelor, Master, and PhD) is highly encouraged. No previous experience in Hyperliquid, as the participant will be provided with a couple of weeks to practice with the platform and run demo strategies.</p>
+        <p>Everyone is welcome to participate. Participation of students (Bachelor, Master, and PhD) is highly encouraged. No previous experience in Hyperliquid, as the participant will be provided with five weeks to practice with the platform and run demo strategies.</p>
     </div>
 
     <div class="glass-card">
