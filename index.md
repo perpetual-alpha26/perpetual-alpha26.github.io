@@ -59,3 +59,12 @@ title: Perpetual Alpha
         <p>Teams must be made up of 1 to 4 people. At least one team member should be available to present at ICAIF '26 Milan.</p>
     </div>
 </div>
+
+<div class="page-content" style="margin-top: 4rem;">
+    <h2>Sponsors & Partners</h2>
+    <p>We are grateful to our sponsors for supporting this competition and providing the infrastructure for the live trading phase.</p>
+
+    <div class="glass-card" style="margin-top: 2rem; text-align: center;">
+        <p><em>[Sponsor Logos and Banners will be placed here]</em></p>
+    </div>
+</div>
