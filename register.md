@@ -76,12 +76,19 @@ title: Register
 <script src="https://www.google.com/recaptcha/enterprise.js?render=6Lca43QtAAAAAJGup0D6qelMd6_3TZhubF1BV9ZD"></script>
 <script>
 function onSubmit(token) {
+    if (document.getElementById('submit-btn').disabled) return;
     document.getElementById("registration-form").submit();
 }
 
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('registration-form');
     const submitBtn = document.getElementById('submit-btn');
+    
+    // Wrap submit button to handle pointer-events and cursor correctly
+    const submitWrapper = document.createElement('div');
+    submitWrapper.style.display = 'inline-block';
+    submitBtn.parentNode.insertBefore(submitWrapper, submitBtn);
+    submitWrapper.appendChild(submitBtn);
 
     const rows = [
         {
@@ -113,6 +120,12 @@ document.addEventListener('DOMContentLoaded', function() {
         row.email.disabled = !enable;
         row.affiliation.disabled = !enable;
         
+        let tooltipMsg = enable ? "" : "Add previous participants info before";
+        row.name.parentNode.title = tooltipMsg;
+        row.surname.parentNode.title = tooltipMsg;
+        row.email.parentNode.title = tooltipMsg;
+        row.affiliation.parentNode.title = tooltipMsg;
+        
         if (!enable) {
             row.name.value = '';
             row.surname.value = '';
@@ -139,7 +152,14 @@ document.addEventListener('DOMContentLoaded', function() {
         rows[2].icaif.disabled = !row3Valid;
         rows[3].icaif.disabled = !row4Valid;
 
-        rows.forEach(r => { if(r.icaif.disabled) r.icaif.checked = false; });
+        rows.forEach(r => { 
+            if(r.icaif.disabled) {
+                r.icaif.checked = false; 
+                r.icaif.parentNode.title = "Add participants info before";
+            } else {
+                r.icaif.parentNode.title = "";
+            }
+        });
 
         // Rule 7: Submit button enabled if row 1 is valid AND at least one checkbox is checked
         let anyChecked = rows.some(r => r.icaif.checked);
@@ -147,10 +167,14 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (submitBtn.disabled) {
             submitBtn.style.opacity = '0.5';
-            submitBtn.style.cursor = 'not-allowed';
+            submitBtn.style.pointerEvents = 'none';
+            submitWrapper.style.cursor = 'not-allowed';
+            submitWrapper.title = "Complete Team Leader info and check at least one 'Available Present at ICAIF' box";
         } else {
             submitBtn.style.opacity = '1';
-            submitBtn.style.cursor = 'pointer';
+            submitBtn.style.pointerEvents = 'auto';
+            submitWrapper.style.cursor = 'pointer';
+            submitWrapper.title = "";
         }
     }
 
