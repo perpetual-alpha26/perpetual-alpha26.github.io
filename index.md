@@ -18,7 +18,7 @@ title: Perpetual Alpha
     <h2>Overview</h2>
     <p>Perpetual Alpha is a live algorithmic trading competition in which teams design, implement, and operate autonomous trading agents on the Hyperliquid testnet, a high-performance decentralized derivatives exchange.</p>
     <!-- <p>Using the recently introduced HIP-3 builder-deployed perpetuals standard, the organizers will deploy a dedicated set of perpetual futures markets exclusively for the competition, spanning major cryptos, stock indexes, exchange rates, and commodities.</p> -->
-    <p>Over a multi-week live trading phase, teams compete under identical starting conditions with testnet (non-monetary) capital. Final rankings combine three components: realized profit and loss, the risk profile of the strategy, and the sophistication of the algorithm as assessed by an expert jury. Winners will be announced and top teams will present their approaches at the ICAIF 2026 Competition Track in Milan.</p>
+    <p>Over a multi-week live trading phase, teams compete under identical starting conditions with testnet (non-monetary) capital. Final rankings combine three components: realized profit and loss, the risk profile of the strategy, and the sophistication of the algorithm as assessed by an expert jury. Top teams will present their approaches at the ICAIF 2026 Competition Track in Milan.</p>
 </div>
 
 <div class="card-grid" style="margin-top: 4rem;">
@@ -28,7 +28,7 @@ title: Perpetual Alpha
             <li style="margin-bottom: 0.5rem;"><strong style="color: var(--accent-color);">Sep 13:</strong> Deadline registration</li>
             <li style="margin-bottom: 0.5rem;"><strong style="color: var(--accent-color);">Oct 5:</strong> Practice tests (non-scoring).</li>
             <li style="margin-bottom: 0.5rem;"><strong style="color: var(--accent-color);">Oct 19:</strong> 3, 2, 1 ... GO!</li>
-            <li style="margin-bottom: 0.5rem;"><strong style="color: var(--accent-color);">Nov 6:</strong> End of the competition</li>
+            <li style="margin-bottom: 0.5rem;"><strong style="color: var(--accent-color);">Nov 6:</strong> End of the trading phase</li>
             <li style="margin-bottom: 0.5rem;"><strong style="color: var(--accent-color);">Nov 9:</strong> Report submission</li>
             <li style="margin-bottom: 0.5rem;"><strong style="color: var(--accent-color);">Nov 12:</strong> Winners Announcement</li>
         </ul>
@@ -51,15 +51,16 @@ title: Perpetual Alpha
 
     <div class="glass-card">
         <h3>Target Audience</h3>
-        <p>Everyone is welcome to participate. Participation of students (Bachelor, Master, and PhD) is highly encouraged. No previous experience in Hyperliquid is needed, as the participant will be provided with five weeks to practice with the platform and run demo strategies.</p>
+        <p>Everyone is welcome to participate. Participation of students is highly encouraged. No previous experience in Hyperliquid is needed, as the participant will be provided with dedicated material and five weeks to practice with the platform and run demo strategies.</p>
     </div>
 
     <div class="glass-card">
         <h3>Eligible Teams</h3>
-        <p>Teams must be made up of 1 to 4 people. At least one team member should be available to present at ICAIF '26 Milan.</p>
+        <p>Teams are limited to 4 people maximum. At least one team member should be available to physically present their strategy at ICAIF 2026 Competition Track in Milan.</p>
     </div>
 </div>
 
+<!-- 
 <div class="page-content" style="margin-top: 4rem;">
     <h2>Sponsors & Partners</h2>
     <p>We are grateful to our sponsors for supporting this competition and providing the infrastructure for the live trading phase.</p>
@@ -68,3 +69,4 @@ title: Perpetual Alpha
         <p><em>[Sponsor Logos and Banners will be placed here]</em></p>
     </div>
 </div>
+-->
