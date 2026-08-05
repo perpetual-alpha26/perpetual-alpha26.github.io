@@ -16,7 +16,6 @@ title: About the Competition
 
     <h2>Eligible Teams</h2>
     <p>Teams must be made up of 1 to 4 people. At least one team member should be available to present at ICAIF '26 Milan.</p>
-    /*<p>Teams must be made up of 1 to 4 people. At least one team member should be available to present at ICAIF '26 Milan. One free conference ticket per winning team will provided as part of the awards.</p>*/
 
     <h2>Evaluation Protocol</h2>
     <p>Teams are evaluated according three criterion:</p>
@@ -33,7 +32,6 @@ title: About the Competition
     <p>A public web leaderboard, updated in near real time from on-chain data, will display equity curves, PnL, and volatility for all teams throughout the live phase (with a short delay to avoid strategy leakage).</p>
 
     <h2>Awards</h2>
-    /*<p>The top teams will be invited to present at ICAIF '26 Milan. The prizes include certificates and one free ticket (per time) to attend the conference. Other prizes are to be defined.</p>*/
     <p>The top teams will be invited to present at ICAIF '26 Milan. The prizes are to be defined.</p>
 
 </div>
