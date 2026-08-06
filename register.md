@@ -5,7 +5,7 @@ title: Register
 
 <div class="page-content">
     <h1>Register Your Team</h1>
-    <p>Registration for Perpetual Alpha is open! Gather your team of 1 to 4 members and enroll using the form below. At least one team member should be available to physically present at ICAIF '26 Milan.</p>
+    <p>Registration for Perpetual Alpha is open! Gather your team of 1 to 4 members and enroll using the form below. At least one team member must be available to attend ICAIF 2026 in Milan in person.</p>
 
     <div class="glass-card" style="margin-top: 2rem;">
         <form action="https://forminit.com/f/jz4gf8061mg" method="POST" id="registration-form">
@@ -69,7 +69,7 @@ title: Register
     </div>
 
     <h2 style="margin-top: 4rem;">Questions?</h2>
-    <p>If you have any questions regarding the competition, eligibility, or technical requirements, please don't hesitate to reach out to the organizers.</p>
+    <p>Questions about the competition, eligibility, or technical requirements? Reach out to the organizers — we're happy to help.</p>
     <p><strong>Contact Email:</strong> <a href="mailto:{{ site.email }}">{{ site.email }}</a></p>
 </div>
 

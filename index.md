@@ -18,30 +18,30 @@ title: Perpetual Alpha
     <h2>Overview</h2>
     <p>Perpetual Alpha is a live algorithmic trading competition in which teams design, implement, and operate autonomous trading agents on the Hyperliquid testnet, a high-performance decentralized derivatives exchange.</p>
     <!-- <p>Using the recently introduced HIP-3 builder-deployed perpetuals standard, the organizers will deploy a dedicated set of perpetual futures markets exclusively for the competition, spanning major cryptos, stock indexes, exchange rates, and commodities.</p> -->
-    <p>Over a multi-week live trading phase, teams compete under identical starting conditions with testnet (non-monetary) capital. The hackathon runs on live, adversarial market infrastructure. Participants interact with each other and with organizer-operated market-making bots on the same order books. Final rankings combine three components: realized profit and loss, the risk profile of the strategy, and the sophistication of the algorithm as assessed by an expert jury. Top teams will present their approaches at the ICAIF 2026 Competition Track in Milan.</p>
+    <p>Over a multi-week live trading phase, teams compete under identical starting conditions with testnet (non-monetary) capital. The hackathon runs on live, adversarial market infrastructure. Participants interact with each other and with organizer-operated market-making bots on the same order books. Final rankings combine three components: realized profit and loss, the risk profile of the strategy, and the sophistication of the algorithm as assessed by an expert jury. Top teams will be invited to present their approaches at the ICAIF 2026 Competition Track in Milan.</p>
 </div>
 
 <div class="card-grid" style="margin-top: 4rem;">
     <div class="glass-card">
         <h3>Important Dates</h3>
         <ul style="list-style-type: none; padding: 0;">
-            <li style="margin-bottom: 0.5rem;"><strong style="color: var(--accent-color);">Sep 13:</strong> Deadline registration</li>
-            <li style="margin-bottom: 0.5rem;"><strong style="color: var(--accent-color);">Oct 5:</strong> Practice tests (non-scoring).</li>
-            <li style="margin-bottom: 0.5rem;"><strong style="color: var(--accent-color);">Oct 19:</strong> 3, 2, 1 ... GO!</li>
+            <!-- <li style="margin-bottom: 0.5rem;"><strong style="color: var(--accent-color);">Sep 13:</strong> Deadline registration</li> -->
+            <li style="margin-bottom: 0.5rem;"><strong style="color: var(--accent-color);">Oct 5:</strong> Practice tests (non-scored).</li>
+            <li style="margin-bottom: 0.5rem;"><strong style="color: var(--accent-color);">Oct 19:</strong> 3, 2, 1 ... GO! Scored Phase</li>
             <li style="margin-bottom: 0.5rem;"><strong style="color: var(--accent-color);">Nov 6:</strong> End of the trading phase</li>
             <li style="margin-bottom: 0.5rem;"><strong style="color: var(--accent-color);">Nov 9:</strong> Report submission</li>
-            <li style="margin-bottom: 0.5rem;"><strong style="color: var(--accent-color);">Nov 12:</strong> Winners Announcement</li>
+            <li style="margin-bottom: 0.5rem;"><strong style="color: var(--accent-color);">Nov 14-17:</strong> ICAIF 2026 Milan</li>
         </ul>
     </div>
 
     <div class="glass-card">
         <h3>Areas of Interest</h3>
-        <p>Trading strategies and asset management, AI agents and reinforcement learning, and blockchain/DeFi. The competition offers a rare combination: a fully live trading environment with realistic, industry-level market microstructure.</p>
+        <p>Trading strategies and asset management, AI agents and reinforcement learning, and blockchain/DeFi. You'll trade in a fully live environment with realistic, industry-level market microstructure — a rare opportunity to test strategies against real market dynamics.</p>
     </div>
 
     <div class="glass-card">
-        <h3>Relevance & Impact</h3>
-        <p>The setting connects AI research to concrete questions the financial community cares about: robustness of learned strategies out-of-sample and out-of-simulation, risk-aware objectives beyond raw return, and responsible evaluation of trading agents.</p>
+        <h3>Beyond the Leaderboard</h3>
+        <p>You'll be tackling problems the financial industry actually cares about: how well a strategy holds up out-of-sample and out-of-simulation, risk-aware objectives beyond raw return, and responsible evaluation of trading algorithms.</p>
     </div>
     
 <!-- 
@@ -53,12 +53,12 @@ title: Perpetual Alpha
 
     <div class="glass-card">
         <h3>Target Audience</h3>
-        <p>Everyone is welcome to participate. Participation of students is highly encouraged. No previous experience in Hyperliquid is needed, as the participant will be provided with dedicated material and five weeks to practice with the platform and run demo strategies.</p>
+        <p>Everyone is welcome — students are especially encouraged to take part. No previous experience with Hyperliquid is needed, as you'll be provided with dedicated material and several weeks to practice with the platform and run demo strategies.</p>
     </div>
 
     <div class="glass-card">
         <h3>Eligible Teams</h3>
-        <p>Teams are limited to 4 people maximum. At least one team member should be available to physically present their strategy at ICAIF 2026 Competition Track in Milan.</p>
+        <p>Teams are made up of 1 to 4 people. At least one team member must be available to physically present their strategy at ICAIF 2026 Competition Track in Milan.</p>
     </div>
 </div>
 
