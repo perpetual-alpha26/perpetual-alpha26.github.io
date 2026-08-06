@@ -7,7 +7,7 @@ title: About the Competition
     <h1>About the Competition</h1>
 
     <h2>Task</h2>
-    <p>Each team builds and deploys an autonomous trading algorithm that trades a fixed universe of perpetual futures on the Hyperliquid testnet, via its public API. Your algorithm will manage the full trading lifecycle: signal generation, order placement on a live order book, position and margin management, funding-rate dynamics, and risk control across assets with different trading regimes. The tradable universe will span multiple asset classes. Further details on the assets and oracles will be shared soon.</p>
+    <p>You will build and deploy an autonomous trading algorithm that trades a fixed universe of perpetual futures on the Hyperliquid testnet, via its public API. Your algorithm will manage the full trading lifecycle: signal generation, order placement on a live order book, position and margin management, funding-rate dynamics, and risk control across assets with different trading regimes. The tradable universe will span multiple asset classes. Further details on the assets and oracles will be shared soon.</p>
 
     <h2>The Trading Platform</h2>
     <p>Hyperliquid is a layer-1 blockchain whose core state is a fully on-chain central limit order book supporting perpetual futures with cross and isolated margin, funding, and liquidation. Its HIP-3 standard allows an approved deployer to launch and operate independent perpetual markets — choosing the underlying, the oracle, contract specifications, margin parameters, and fee schedule — on the shared matching engine. HIP-3 is available on the Hyperliquid testnet, which mirrors mainnet functionality with valueless test tokens distributed via a faucet.</p>
