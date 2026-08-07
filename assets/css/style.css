@@ -159,15 +159,12 @@ main {
 
 .hero-title {
     font-size: 4rem;
-    background: linear-gradient(135deg, #fff 0%, #a5b4fc 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: #fff;
     margin-bottom: 1rem;
 }
 
 .hero-title .highlight {
-    background: none;
-    -webkit-text-fill-color: var(--accent-color);
+    color: var(--accent-color);
 }
 
 .hero-subtitle {
