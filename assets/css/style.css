@@ -153,7 +153,7 @@ main {
 }
 
 .hero-content {
-    flex: 0 0 50%;
+    flex: 0 0 47%;
     position: relative;
     z-index: 2;
 }
@@ -175,10 +175,10 @@ main {
 }
 
 .hero-image {
-    flex: 0 0 55%;
+    flex: 0 0 53%;
     display: flex;
     justify-content: flex-end;
-    margin-left: -5%;
+    margin-left: 0;
     position: relative;
     z-index: 1;
 }
