@@ -189,6 +189,7 @@ main {
     border: none;
     box-shadow: none;
     border-radius: 0;
+    mix-blend-mode: screen;
 }
 
 /* Glassmorphism Cards */
