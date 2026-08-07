@@ -150,11 +150,12 @@ main {
     justify-content: space-between;
     margin-top: 2rem;
     margin-bottom: 6rem;
-    gap: 4rem;
 }
 
 .hero-content {
-    flex: 1;
+    flex: 0 0 50%;
+    position: relative;
+    z-index: 2;
 }
 
 .hero-title {
@@ -174,9 +175,12 @@ main {
 }
 
 .hero-image {
-    flex: 1;
+    flex: 0 0 55%;
     display: flex;
     justify-content: flex-end;
+    margin-left: -5%;
+    position: relative;
+    z-index: 1;
 }
 
 .hero-image img {
