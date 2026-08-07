@@ -64,7 +64,7 @@ title: Register
             
             <div style="margin-top: 2rem; text-align: center;">
                 <div id="submit-wrapper" style="display: inline-block;">
-                    <button class="g-recaptcha btn" id="submit-btn" data-sitekey="6Lca43QtAAAAAJGup0D6qelMd6_3TZhubF1BV9ZD" data-callback="onSubmit" data-action="submit">Submit Registration</button>
+                    <button type="submit" class="btn" id="submit-btn">Submit Registration</button>
                 </div>
             </div>
         </form>
@@ -75,12 +75,7 @@ title: Register
     <p><strong>Contact Email:</strong> <a href="mailto:{{ site.email }}">{{ site.email }}</a></p>
 </div>
 
-<script src="https://www.google.com/recaptcha/enterprise.js?render=6Lca43QtAAAAAJGup0D6qelMd6_3TZhubF1BV9ZD"></script>
 <script>
-function onSubmit(token) {
-    if (document.getElementById('submit-btn').disabled) return;
-    document.getElementById("registration-form").submit();
-}
 
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('registration-form');
