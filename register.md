@@ -63,7 +63,9 @@ title: Register
             </div>
             
             <div style="margin-top: 2rem; text-align: center;">
-                <button class="g-recaptcha btn" id="submit-btn" data-sitekey="6Lca43QtAAAAAJGup0D6qelMd6_3TZhubF1BV9ZD" data-callback="onSubmit" data-action="submit">Submit Registration</button>
+                <div id="submit-wrapper" style="display: inline-block;">
+                    <button class="g-recaptcha btn" id="submit-btn" data-sitekey="6Lca43QtAAAAAJGup0D6qelMd6_3TZhubF1BV9ZD" data-callback="onSubmit" data-action="submit">Submit Registration</button>
+                </div>
             </div>
         </form>
     </div>
@@ -83,12 +85,7 @@ function onSubmit(token) {
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('registration-form');
     const submitBtn = document.getElementById('submit-btn');
-    
-    // Wrap submit button to handle pointer-events and cursor correctly
-    const submitWrapper = document.createElement('div');
-    submitWrapper.style.display = 'inline-block';
-    submitBtn.parentNode.insertBefore(submitWrapper, submitBtn);
-    submitWrapper.appendChild(submitBtn);
+    const submitWrapper = document.getElementById('submit-wrapper');
 
     const rows = [
         {

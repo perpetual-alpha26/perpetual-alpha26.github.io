@@ -6,7 +6,7 @@ title: Perpetual Alpha
 <div class="hero">
     <div class="hero-content">
         <h1 class="hero-title">Perpetual <span class="highlight">Alpha</span></h1>
-        <p class="hero-subtitle">An On-Chain Algorithmic Trading Competition on the Hyperliquid Testnet</p>
+        <p class="hero-subtitle">The AI Trading Competition on Hyperliquid</p>
         <a href="{{ '/register' | relative_url }}" class="btn">Register Now</a>
     </div>
     <div class="hero-image">
