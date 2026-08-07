@@ -15,11 +15,11 @@ permalink: /thanks
         <h3 style="margin-top: 1.5rem;">What happens next?</h3>
         <ul>
             <li style="margin-bottom: 0.5rem;">We will be in contact soon via the email address you provided with instructions for the next steps.</li>
-            <li style="margin-bottom: 0.5rem;">If you haven't already, please make sure to join our official communication channels to stay up-to-date with announcements.</li>
+            <!-- <li style="margin-bottom: 0.5rem;">If you haven't already, please make sure to join our official communication channels to stay up-to-date with announcements.</li> -->
             <li style="margin-bottom: 0.5rem;">Shine the keyboard and start preparing your trading strategies!</li>
         </ul>
         
-        <p style="margin-top: 2rem; text-align: center;">We are excited to see you at ICAIF '26 Milan!</p>
+        <p style="margin-top: 2rem; text-align: center;">We are excited to welcome you onboard!</p>
         
         <div style="text-align: center; margin-top: 2rem;">
             <a href="{{ '/' | relative_url }}" class="btn">Return to Homepage</a>
