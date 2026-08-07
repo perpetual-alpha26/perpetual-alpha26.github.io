@@ -82,6 +82,10 @@ a:hover {
     height: 80px;
 }
 
+.mobile-brand {
+    display: none;
+}
+
 .logo-text {
     font-size: 1.5rem;
     font-weight: 700;
@@ -375,6 +379,26 @@ td {
     
     .mobile-menu-btn {
         display: block;
+    }
+    .header-content {
+        justify-content: space-between;
+    }
+    .mobile-brand {
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+    }
+    .mobile-logo {
+        height: 30px;
+        margin-right: 10px;
+    }
+    .mobile-title {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: #fff;
+    }
+    .mobile-title .highlight {
+        color: var(--accent-color);
     }
     .main-nav {
         display: none;
