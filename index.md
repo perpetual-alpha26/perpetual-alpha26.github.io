@@ -58,7 +58,7 @@ title: Perpetual Alpha
 
     <div class="glass-card">
         <h3>Eligible Teams</h3>
-        <p>Teams are made up of 1 to 4 people. At least one team member must be available to physically present their strategy at ICAIF 2026 Competition Track in Milan.</p>
+        <p>Teams must be made up of 1 to 4 members. Should the team be selected as a winner, at least one member must be available to attend ICAIF 2026 in Milan in person to present its work.</p>
     </div>
 </div>
 

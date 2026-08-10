@@ -15,7 +15,7 @@ title: About the Competition
     <p>Market-making bots will quote continuously in all markets to guarantee baseline liquidity, and per-market position limits will prevent any single team from cornering a book. Your team will receive one whitelisted API wallet, funded with a testnet balance identical to every other team — top-ups aren't permitted. Technical instructions and a backtesting dataset will be provided soon, so you can test your strategy ahead of the competition.</p>
 
     <h2>Eligible Teams</h2>
-    <p>Eligible Teams: Teams must be made up of 1 to 4 members. At least one team member must be available to attend ICAIF 2026 in Milan in person.</p>
+    <p>Eligible Teams: Teams must be made up of 1 to 4 members. Should the team be selected as a winner, at least one member must be available to attend ICAIF 2026 in Milan in person to present its work.</p>
 
     <h2>Evaluation Protocol</h2>
     <p>Teams are evaluated according to three criteria:</p>

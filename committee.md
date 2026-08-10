@@ -23,7 +23,7 @@ title: Committee & Sponsors
     </div>
 
     <h2 style="margin-top: 4rem;">Expert Jury</h2>
-    <p>Our panel of expert jurors will evaluate each team's technical report and the sophistication of their trading algorithm. The full list of jurors will be published after the competition concludes.</em></p>
+    <p>Our panel of expert jurors will evaluate each team's technical report and the sophistication of their trading algorithm. The full list of jurors will be published after the competition concludes.</p>
     
     <div class="glass-card" style="margin-top: 2rem;">
         <ul>
