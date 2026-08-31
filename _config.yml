@@ -6,6 +6,3 @@ baseurl: ""
 
 markdown: kramdown
 theme: null
-
-plugins:
-  - jekyll-sitemap
