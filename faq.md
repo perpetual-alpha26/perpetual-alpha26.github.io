@@ -5,8 +5,7 @@ permalink: /faq/
 ---
 
 <div class="page-header" style="text-align: center; margin: 4rem 0 2rem 0;">
-    <h1 style="color: var(--text-primary); font-size: 2.5rem; margin-bottom: 1rem;">Frequently Asked <span class="highlight" style="color: var(--accent-color);">Questions</span></h1>
-    <p style="color: var(--text-secondary); max-width: 600px; margin: 0 auto;">Answers to the most common questions about the Perpetual Alpha competition.</p>
+    <h1 style="font-size: 2.5rem; margin-bottom: 2rem;" class="highlight">Frequently Asked Questions</h1>
 </div>
 
 <div class="faq-container" style="max-width: 800px; margin: 0 auto; padding-bottom: 4rem;">
