@@ -3,8 +3,7 @@ layout: default
 title: FAQ
 permalink: /faq/
 ---
-
-<div class="page-header" style="text-align: center; margin: 4rem 0 2rem 0;">
+<div class="page-header" style="max-width: 800px; margin: 4rem auto 2rem auto; text-align: left;">
     <h1 style="font-size: 2.5rem; margin-bottom: 2rem; color: var(--accent-color);">Frequently Asked Questions</h1>
 </div>
 
