@@ -5,7 +5,7 @@ permalink: /faq/
 ---
 
 <div class="page-header" style="text-align: center; margin: 4rem 0 2rem 0;">
-    <h1 style="font-size: 2.5rem; margin-bottom: 2rem;" class="highlight">Frequently Asked Questions</h1>
+    <h1 style="font-size: 2.5rem; margin-bottom: 2rem; color: var(--accent-color);">Frequently Asked Questions</h1>
 </div>
 
 <div class="faq-container" style="max-width: 800px; margin: 0 auto; padding-bottom: 4rem;">
