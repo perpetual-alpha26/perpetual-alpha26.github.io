@@ -219,6 +219,60 @@ main {
     border-color: rgba(0, 255, 209, 0.3);
 }
 
+/* FAQ Accordion */
+details {
+    background: var(--surface-color);
+    border: 1px solid var(--surface-border);
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+details:hover {
+    border-color: rgba(0, 255, 209, 0.3);
+}
+
+summary {
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--text-primary);
+    cursor: pointer;
+    list-style: none;
+    outline: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+summary::-webkit-details-marker {
+    display: none;
+}
+
+summary::after {
+    content: '+';
+    color: var(--accent-color);
+    font-size: 1.5rem;
+    font-weight: 300;
+    transition: transform 0.3s ease;
+}
+
+details[open] summary::after {
+    transform: rotate(45deg);
+}
+
+details[open] summary {
+    margin-bottom: 1rem;
+    color: var(--accent-color);
+}
+
+.faq-answer {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    padding-left: 0.5rem;
+    border-left: 2px solid var(--accent-color);
+}
+
 .glass-card h3 {
     color: var(--accent-color);
     margin-bottom: 1rem;
