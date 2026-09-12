@@ -23,7 +23,7 @@ title: Important Dates
                     <td>Team registration closes.</td>
                 </tr>
                 <tr>
-                    <td><strong>Sep 14 – Oct 4</strong></td>
+                    <td><strong>Sep 21 – Oct 4</strong></td>
                     <td><strong>Onboarding</strong></td>
                     <td>Wallet whitelisting, testnet funding, and tutorial notebooks.</td>
                 </tr>
