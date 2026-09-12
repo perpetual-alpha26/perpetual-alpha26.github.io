@@ -18,7 +18,7 @@ title: Important Dates
             </thead>
             <tbody>
                 <tr>
-                    <td><strong>Sep 13</strong></td>
+                    <td><strong>Sep 20</strong></td>
                     <td><strong>Registration Deadline</strong></td>
                     <td>Team registration closes.</td>
                 </tr>
