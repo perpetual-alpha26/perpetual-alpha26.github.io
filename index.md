@@ -25,7 +25,7 @@ title: Perpetual Alpha
     <div class="glass-card">
         <h3>Important Dates</h3>
         <ul style="list-style-type: none; padding: 0;">
-            <!-- <li style="margin-bottom: 0.5rem;"><strong style="color: var(--accent-color);">Sep 20:</strong> Deadline registration</li> -->
+            <li style="margin-bottom: 0.5rem;"><strong style="color: var(--accent-color);">Sep 20:</strong> Deadline registration</li>
             <li style="margin-bottom: 0.5rem;"><strong style="color: var(--accent-color);">Oct 5:</strong> Practice tests (non-scored).</li>
             <li style="margin-bottom: 0.5rem;"><strong style="color: var(--accent-color);">Oct 19:</strong> 3, 2, 1 ... GO! Scored Phase</li>
             <li style="margin-bottom: 0.5rem;"><strong style="color: var(--accent-color);">Nov 6:</strong> End of the trading phase</li>
