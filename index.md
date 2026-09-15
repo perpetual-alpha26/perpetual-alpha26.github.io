@@ -64,9 +64,9 @@ title: Perpetual Alpha
 
 <div class="page-content" style="margin-top: 4rem;">
     <!-- <h2>Sponsors & Partners</h2>
-    <p>We are grateful to our sponsors for supporting this competition and providing the infrastructure for the live trading phase.</p> -->
+    <p>We are grateful to our sponsors for supporting this competition and providing the infrastructure for the competition.</p> -->
     <h2>Partners</h2>
-    <p>We are grateful to our partners for providing the infrastructure for the live trading phase.</p>
+    <p>We are grateful to our partners for providing the infrastructure for the competition.</p>
 
     <div class="glass-card" style="margin-top: 2rem; text-align: center;">
         <div style="margin-bottom: 1rem;">

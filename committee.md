@@ -39,4 +39,15 @@ title: Committee & Sponsors
         <p><em>[Sponsor Logos and Banners will be placed here]</em></p>
     </div>
 -->
+    <h2 style="margin-top: 4rem;">Partners</h2>
+    <p>We are grateful to our partners for providing the infrastructure for the competition.</p>
+
+    <div class="glass-card" style="margin-top: 2rem; text-align: center;">
+        <div style="margin-bottom: 1rem;">
+            <p style="color: var(--accent-color); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem; margin-bottom: 1.5rem;">Market Maker Partner</p>
+            <a href="https://keyrock.eu/" target="_blank">
+                <img src="{{ '/assets/images/keyrock.png' | relative_url }}" alt="Keyrock Logo" style="max-width: 250px; height: auto; filter: drop-shadow(0 0 8px rgba(0,255,209,0.2)); transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+            </a>
+        </div>
+    </div>
 </div>
