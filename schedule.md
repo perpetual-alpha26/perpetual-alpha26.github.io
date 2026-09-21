@@ -17,7 +17,7 @@ title: Important Dates
                 </tr>
             </thead>
             <tbody>
-                <tr>
+                <tr style="text-decoration: line-through; opacity: 0.5;">
                     <td><strong>Sep 20</strong></td>
                     <td><strong>Registration Deadline</strong></td>
                     <td>Team registration closes.</td>

@@ -1,6 +1,7 @@
 ---
 layout: default
 title: Register
+published: false
 ---
 
 <div class="page-content">
