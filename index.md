@@ -7,7 +7,6 @@ title: Perpetual Alpha
     <div class="hero-content">
         <h1 class="hero-title">Perpetual <span class="highlight">Alpha</span></h1>
         <p class="hero-subtitle">The AI Trading Competition on Hyperliquid</p>
-        <a href="{{ '/register' | relative_url }}" class="btn">Register Now</a>
     </div>
     <div class="hero-image">
         <img src="{{ '/assets/images/hero_image.png' | relative_url }}" alt="Perpetual Alpha Hero Image - Duomo Silhouette">
