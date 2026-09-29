@@ -104,6 +104,7 @@ A request that fails as a whole returns `{"status": "err", "response": "<reason>
 **Margin.**
 
 - Cross or isolated, chosen per market with `update_leverage(n, coin, is_cross=True|False)`, up to that market's max leverage. The SDK defaults to cross.
+- Until you set it, each market starts at **cross, 20x**, or the market's max leverage if that is lower (10x on HYPE). Set leverage explicitly before you trade. Check the current setting with `{"type": "activeAssetData", "user": "0x…", "coin": "{{ v.dex }}:BTC"}`.
 - **Cross:** your positions on `{{ v.dex }}` share your dex balance as margin. A loss on one eats into the margin of the others.
 - **Isolated:** each position has its own margin, which you can add to or remove with `update_isolated_margin`.
 - A position is liquidated when its margin falls below maintenance margin, which is half the initial margin at max leverage. For BTC at 40x that is 1.25% of notional.
@@ -211,6 +212,7 @@ Quoting 10 markets on both sides and replacing every second uses about 20 reques
 | `orderStatus` | `user, oid` (or cloid) | One order's status |
 | `userFills` / `userFillsByTime` | `user` (`startTime`, `endTime`) | Your fills |
 | `userFunding` | `user, startTime, endTime?` | Your funding payments |
+| `activeAssetData` | `user, coin` | Your leverage and margin mode on that market, max order sizes |
 | `userFees` | `user` | Your fee rates |
 | `userRateLimit` | `user` | Your action budget |
 | `extraAgents` | `user` | Your approved API wallets |
