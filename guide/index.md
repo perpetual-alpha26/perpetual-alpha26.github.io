@@ -62,7 +62,7 @@ If you have run bots on a centralized exchange, this is what the familiar pieces
 | Spot wallet / futures wallet | **Spot balance** and **dex balance**. Only the dex balance can be traded. |
 | `timestamp` / `recvWindow` | `nonce`: the current time in milliseconds, unique per API wallet |
 | Funding every 8 hours | Funding **every hour** |
-| Cross / isolated margin | **Isolated only** on this venue |
+| Cross / isolated margin | Both, chosen per market. Cross shares your dex balance across all your positions. |
 | Market order | An IOC limit order with a price cap |
 | Post-only | Time-in-force `Alo` ("add liquidity only") |
 | Client order id | `cloid`, a 16-byte hex string |
@@ -279,6 +279,8 @@ now = int(time.time() * 1000)
 print(info.candles_snapshot("{{ v.dex }}:BTC", "1m", now - 3_600_000, now))
 ```
 
+For backtesting: each market copies a live Hyperliquid mainnet market (`BTC`, `xyz:SP500`, …), so that market's history is a close proxy. The mapping is in the [reference](reference/#markets).
+
 <div class="callout warn" markdown="1">
 **Always name our dex.** Pass `"dex": "{{ v.dex }}"` to account and market-wide queries, and use the prefixed coin (`{{ v.dex }}:BTC`) everywhere else. With plain `BTC`, or without `dex`, the API returns Hyperliquid's native markets **with no error**. A strategy built on those prices is trading the wrong thing.
 </div>
@@ -309,8 +311,8 @@ def sz(s):  # round down to the lot size
     return int(s * 10**sz_decimals) / 10**sz_decimals
 
 
-# 1. Isolated leverage (the SDK defaults to cross, which this venue rejects)
-check(exchange.update_leverage(3, COIN, is_cross=False))
+# 1. Leverage for this market: 3x cross (pass is_cross=False for isolated)
+check(exchange.update_leverage(3, COIN))
 
 # 2. Post-only bid 2% under mid, about $15
 mid = float(info.all_mids(DEX)[COIN])

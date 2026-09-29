@@ -24,31 +24,37 @@ Lookup material for the [Participant Guide](../). Values below are for the **{{ 
 | WebSocket | `{{ v.ws_url }}` |
 | Dex | `{{ v.dex }}` (dex index {{ v.dex_index }}) |
 | Collateral | `{{ v.collateral }}`. Full id for transfers: `{{ v.collateral_wire }}`. Token names aren't unique; the id is. |
-| Margin | Isolated only |
+| Margin | Cross or isolated, your choice per market |
 | Explorer | `{{ v.explorer }}<address>` |
 
 ## Markets
 
 Specs come from the chain. Read them at runtime with `{"type": "meta", "dex": "{{ v.dex }}"}` rather than hard-coding them.
 
-| Coin | Underlying | Price is quoted as | Lot | Max leverage | Asset id |
-|---|---|---|---|---|---|
-| `{{ v.dex }}:BTC` | Bitcoin | USD per BTC | 0.0001 | 40x | {{ base_id }} |
-| `{{ v.dex }}:ETH` | Ether | USD per ETH | 0.0001 | 25x | {{ base_id | plus: 1 }} |
-| `{{ v.dex }}:HYPE` | Hyperliquid token | USD per HYPE | 0.01 | 10x | {{ base_id | plus: 2 }} |
-| `{{ v.dex }}:SP500` | S&P 500 index | index points | 0.001 | 50x | {{ base_id | plus: 3 }} |
-| `{{ v.dex }}:EWY` | iShares MSCI South Korea ETF | USD per share | 0.001 | 20x | {{ base_id | plus: 4 }} |
-| `{{ v.dex }}:EWJ` | iShares MSCI Japan ETF | USD per share | 0.001 | 20x | {{ base_id | plus: 5 }} |
-| `{{ v.dex }}:BRENT` | Brent crude oil | USD per barrel | 0.01 | 20x | {{ base_id | plus: 6 }} |
-| `{{ v.dex }}:GOLD` | Gold | USD per troy ounce | 0.0001 | 25x | {{ base_id | plus: 7 }} |
-| `{{ v.dex }}:USDEUR` | Euro vs US dollar | **USD per 1 EUR** (≈ 1.1, the EUR/USD rate) | 0.1 | 50x | {{ base_id | plus: 8 }} |
-| `{{ v.dex }}:USDJPY` | US dollar vs yen | **JPY per 1 USD** (≈ 150) | 0.01 | 50x | {{ base_id | plus: 9 }} |
+Each market copies a live Hyperliquid **mainnet** market: its lot size, max leverage and funding parameters. That mainnet market's history (candles, funding, trades) is a close proxy for backtesting.
+
+| Coin | Underlying | Price is quoted as | Lot | Max leverage | Copies (mainnet) | Asset id |
+|---|---|---|---|---|---|---|
+| `{{ v.dex }}:BTC` | Bitcoin | USD per BTC | 0.0001 | 40x | `BTC` | {{ base_id }} |
+| `{{ v.dex }}:ETH` | Ether | USD per ETH | 0.0001 | 25x | `ETH` | {{ base_id | plus: 1 }} |
+| `{{ v.dex }}:HYPE` | Hyperliquid token | USD per HYPE | 0.01 | 10x | `HYPE` | {{ base_id | plus: 2 }} |
+| `{{ v.dex }}:SP500` | S&P 500 index | index points | 0.001 | 50x | `xyz:SP500` | {{ base_id | plus: 3 }} |
+| `{{ v.dex }}:EWY` | iShares MSCI South Korea ETF | USD per share | 0.001 | 20x | `xyz:EWY` | {{ base_id | plus: 4 }} |
+| `{{ v.dex }}:EWJ` | iShares MSCI Japan ETF | USD per share | 0.001 | 20x | `xyz:EWJ` | {{ base_id | plus: 5 }} |
+| `{{ v.dex }}:BRENT` | Brent crude oil | USD per barrel | 0.01 | 20x | `xyz:BRENTOIL` | {{ base_id | plus: 6 }} |
+| `{{ v.dex }}:GOLD` | Gold | USD per troy ounce | 0.0001 | 25x | `xyz:GOLD` | {{ base_id | plus: 7 }} |
+| `{{ v.dex }}:USDEUR` | Euro vs US dollar | **USD per 1 EUR** (≈ 1.1, the EUR/USD rate) | 0.1 | 50x | `xyz:EUR` | {{ base_id | plus: 8 }} |
+| `{{ v.dex }}:USDJPY` | US dollar vs yen | **JPY per 1 USD** (≈ 150) | 0.01 | 50x | `xyz:JPY` | {{ base_id | plus: 9 }} |
+
+Frontends show a few of these under display names: `S&P500`, `BRENTOIL`, `EURUSD`. The API always uses the coin names above.
+
+On the scored venue, BTC's lot will be 0.00001, matching mainnet. The practice lot can't be changed after registration.
 
 <div class="callout warn" markdown="1">
-**The two FX markets are quoted in opposite directions.** `USDEUR` is priced in dollars per euro and `USDJPY` in yen per dollar. Check the price, not the name, before you build a cross-asset signal.
+**The two FX markets are quoted in opposite directions.** Despite its name, `USDEUR` is priced as EUR/USD, in dollars per euro. `USDJPY` is priced in yen per dollar. Check the price, not the name, before you build a cross-asset signal.
 </div>
 
-**Trading hours.** Every market trades 24/7 on the order book. The oracle price moves only while the underlying market is open: crypto always; the ETFs, index, FX, oil and gold on their own schedules. While the underlying is closed, the oracle holds its last price. Expect gaps when the underlying reopens, especially on Monday mornings.
+**Trading hours.** Every market trades 24/7, and so does every oracle, including the stock, index, FX and commodity markets. There is no closed-market session. See [oracle and mark price](#oracle-and-mark-price).
 
 ## Price and size rules
 
@@ -97,28 +103,56 @@ A request that fails as a whole returns `{"status": "err", "response": "<reason>
 
 **Margin.**
 
-- Isolated only: each position has its own margin. Set leverage per market with `update_leverage(n, coin, is_cross=False)`, up to that market's max.
-- Add or remove margin on an open position with `update_isolated_margin`.
+- Cross or isolated, chosen per market with `update_leverage(n, coin, is_cross=True|False)`, up to that market's max leverage. The SDK defaults to cross.
+- **Cross:** your positions on `{{ v.dex }}` share your dex balance as margin. A loss on one eats into the margin of the others.
+- **Isolated:** each position has its own margin, which you can add to or remove with `update_isolated_margin`.
 - A position is liquidated when its margin falls below maintenance margin, which is half the initial margin at max leverage. For BTC at 40x that is 1.25% of notional.
 - `liquidationPx` is in `clearinghouseState.assetPositions`.
 
-**Open interest caps.** Each market has a cap on total open interest across all participants. Orders that would increase open interest past it are rejected. Current caps: `{"type": "perpDexLimits", "dex": "{{ v.dex }}"}`.
+**Open interest caps.** Each market's total open interest, across all participants, is capped at **$100,000** notional. Orders that would increase open interest past the cap are rejected. Live values: `{"type": "perpDexLimits", "dex": "{{ v.dex }}"}`.
 
 **Funding.**
 
-- Paid **every hour**, between longs and shorts.
-- The rate is driven by the premium of the order book over the oracle, plus a small interest component.
-- A positive rate means longs pay shorts.
+- Paid **every hour**, between longs and shorts. A positive rate means longs pay shorts.
+- Hyperliquid's builder-dex formula, per 8 hours: `multiplier × (P + clamp(interest − P, ±clamp))`. Each hour pays one eighth.
+- `P` is the premium: the mid of the book's impact prices against the oracle. It is measured against the oracle, not the mark.
 - Payment = position size × oracle price × hourly rate.
-- Current rate: `funding` in `metaAndAssetCtxs`. History: `fundingHistory`. Your own payments: `userFunding`.
+- Parameters copy each market's mainnet counterpart:
 
-**Fees.** Charged in `{{ v.collateral }}` on every fill. Check your rates with `{"type": "userFees", "user": "0x…"}`. On a builder dex like `{{ v.dex }}` they are twice Hyperliquid's base tier: 0.09% taker, 0.03% maker.
+| Markets | Multiplier | Interest (per 8 h) | Clamp (per 8 h) |
+|---|---|---|---|
+| BTC, ETH, HYPE | 1 | 0.01% | ±0.05% |
+| SP500, EWY, EWJ, BRENT, GOLD | 0.5 | 0.01% | ±0.03% |
+| USDEUR, USDJPY | 0.5 | 0 | ±0.03% |
+
+- Current rate: `funding` in `metaAndAssetCtxs`. Parameters: `perpDexs`. History: `fundingHistory`. Your own payments: `userFunding`.
+
+**Fees.** Charged in `{{ v.collateral }}` on every fill, at Hyperliquid's default rates for a builder dex: twice the base tier, so 0.09% taker and 0.03% maker. Check yours with `{"type": "userFees", "user": "0x…"}`.
 
 ## Oracle and mark price
 
-- **Oracle price.** An external reference computed by [SEDA](https://seda.xyz) from multiple venues. It is pushed on-chain about every 3.5 seconds.
-- **Mark price.** Used for PnL, margin and liquidations. It follows the oracle, cross-checked against the book, and moves at most 1% per update. If oracle updates ever stop for more than 10 seconds, the mark falls back to the order book.
-- **Final scoring** marks positions to the **oracle** price at the end of the Live Trading phase.
+**Oracle price: 24/7, never from our book.**
+
+- Every market's oracle is a [SEDA](https://seda.xyz) composite: a median across external venues.
+- Those venues trade around the clock, for stocks, indexes, FX and commodities as well as crypto. There is no closed-market session.
+- Our own order book never sets the oracle: it is thin and driven by the competition.
+- It is pushed on-chain about every 3.5 seconds.
+
+**Mark price: used for PnL, margin and liquidations.** It is the median of three inputs:
+
+```
+mark = median( oracle,
+               oracle + 150-second average of (book mid − oracle),   capped at oracle ± 1/maxLeverage
+               median(best bid, best ask, last trade) )
+```
+
+- Each input moves at most 0.5% per update.
+- The mark only follows the book when both the live book and its last 150 seconds agree. A single order can't move it.
+- It never leaves oracle ± 1/maxLeverage: ±2% on a 50x market, ±5% on a 20x one.
+- With no two-sided book, the average decays to zero and the mark equals the oracle.
+- If oracle updates ever stop for more than 10 seconds, the mark falls back to the order book.
+
+**Final scoring** marks positions to the **oracle** price at the end of the Live Trading phase.
 
 ## Rate limits
 
@@ -216,7 +250,6 @@ Send `{"method": "subscribe", "subscription": {...}}` to `{{ v.ws_url }}`, and `
 | `Order could not immediately match against any resting orders` | `Ioc` with nothing to fill at your price | Check the book, widen your cap |
 | `Insufficient margin to place order` | Not enough free balance for size ÷ leverage | Smaller size, higher leverage, or add margin |
 | `Reduce only order would increase position` | Reduce-only on the wrong side or bigger than the position | Check side and size |
-| Error on `update_leverage` | Cross margin requested | Pass `is_cross=False` |
 | `Too many cumulative requests sent` | Account action budget spent | Slow down; see [rate limits](#rate-limits) |
 | Error mentioning `nonce` | Two processes share an API wallet, or your clock is off | One API wallet per process; sync your clock |
 | Queries return empty / zero | Querying the API wallet's address, or forgot `dex` | Use the team wallet address and `dex: "{{ v.dex }}"` |
@@ -244,6 +277,9 @@ Send `{"method": "subscribe", "subscription": {...}}` to `{{ v.ws_url }}`, and `
 
 **cloid**
 : Client order id, 16 bytes of hex that you choose.
+
+**Cross margin**
+: All your positions on the dex share your dex balance as margin.
 
 **Funding**
 : Hourly payment between longs and shorts that keeps the perp price close to the oracle.
