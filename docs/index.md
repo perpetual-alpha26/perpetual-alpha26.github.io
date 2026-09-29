@@ -195,7 +195,7 @@ Confirm it's live:
 ```bash
 curl -s {{ v.api_url }}/info -H 'Content-Type: application/json' \
   -d '{"type":"extraAgents","user":"'$TEAM_WALLET'"}'
-# [{"address":"0x…","name":"bot1","validUntil":1796083200000}]
+# [{"name":"bot1","address":"0x…","validUntil":1796083200000}]
 ```
 
 **Now put the team wallet key away.** You only need it again to move funds or to replace an API wallet.
@@ -252,7 +252,7 @@ Test it:
 
 ```bash
 python -c "from client import *; print(info.user_state(ACCOUNT, DEX)['marginSummary'])"
-# {'accountValue': '100000.0', 'totalNtlPos': '0.0', 'totalRawUsd': '100000.0', 'totalMarginUsed': '0.0'}
+# {'accountValue': '10000.0', 'totalNtlPos': '0.0', 'totalRawUsd': '10000.0', 'totalMarginUsed': '0.0'}
 ```
 
 ## 6. Read the market
@@ -326,7 +326,7 @@ check(exchange.cancel(COIN, oid))
 
 # 4. Buy now: IOC, willing to pay up to 1% over mid
 print(check(exchange.order(COIN, True, size, px(mid * 1.01), {"limit": {"tif": "Ioc"}})))
-# [{'filled': {'totalSz': '0.0057', 'avgPx': '2640.1', 'oid': 123456}}]
+# [{'filled': {'totalSz': '0.0055', 'avgPx': '2684.8', 'oid': 61402157574}}]
 print(info.user_state(ACCOUNT, DEX)["assetPositions"])
 
 # 5. Close: reduce-only IOC
@@ -342,7 +342,7 @@ If step 4 prints *"could not immediately match"*, nobody is selling within 1% of
 {
   "action": {
     "type": "order",
-    "orders": [{"a": {{ v.dex_index | times: 10000 | plus: 100001 }}, "b": true, "p": "2587.3", "s": "0.0057", "r": false,
+    "orders": [{"a": {{ v.dex_index | times: 10000 | plus: 100001 }}, "b": true, "p": "2628.5", "s": "0.0055", "r": false,
                 "t": {"limit": {"tif": "Alo"}}}],
     "grouping": "na"
   },
@@ -376,6 +376,8 @@ while True:
     time.sleep(60)
 ```
 
+The first `userFills` and `trades` messages after subscribing are **snapshots** of recent history (`"isSnapshot": true` on fills). Skip them, or de-duplicate by `tid`, so you don't count a fill twice.
+
 The raw protocol:
 
 - **Subscribe:** send `{"method": "subscribe", "subscription": {"type": "l2Book", "coin": "{{ v.dex }}:BTC"}}`.
@@ -391,7 +393,8 @@ You have every building block. A bot that survives three weeks also needs the fo
 - **Start from reality.** On startup, read positions and open orders. Never assume you are flat.
 - **Tag your orders.** Set a `cloid` on each order so you can match fills and updates to your own bookkeeping.
 - **Check every response** with `check()` or equivalent. A rejected order doesn't raise by itself.
-- **Set a dead man's switch.** `exchange.schedule_cancel(now_ms + 60_000)` cancels all your orders in 60 seconds unless you push the deadline forward. Refresh it on every loop. At most 10 triggered cancels per day.
+- **Clean up when your bot dies.** Cancel everything in your shutdown and exception handlers. Also run a separate watchdog that runs `kill.py` (below) if the bot stops sending heartbeats.
+  - Hyperliquid's built-in dead man's switch, `schedule_cancel`, only unlocks once your account has traded **$1,000,000** in volume. Until then it is rejected, so don't rely on it.
 - **Budget your requests.** Every order, cancel and modify spends from a per-account allowance that only grows as you trade. A bot that cancels and replaces quotes every second can drain it in minutes, then gets one request every 10 seconds. To avoid that:
   - prefer `modify` over cancel-and-replace;
   - batch orders;

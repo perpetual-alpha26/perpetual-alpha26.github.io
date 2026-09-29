@@ -63,6 +63,7 @@ On the scored venue, BTC's lot will be 0.00001, matching mainnet. The practice l
 | Size | A multiple of the lot, `10^-szDecimals`. Round **down**. |
 | Price | At most 5 significant figures, **and** at most `6 − szDecimals` decimals. Integer prices are always valid. |
 | Minimum value | $10 per order (price × size) |
+| Price band | No more than 80% away from the reference price |
 | Wire format | Prices and sizes are sent as strings with no trailing zeros: `"2587.3"`, not `"2587.30"` |
 
 Examples with `{{ v.dex }}:ETH` (szDecimals 4, so at most 2 price decimals):
@@ -83,7 +84,7 @@ Examples with `{{ v.dex }}:ETH` (szDecimals 4, so at most 2 price decimals):
 | Client order id | `cloid=Cloid.from_str("0x…32 hex chars…")`. Cancel with `cancel_by_cloid`. |
 | Modify | `exchange.modify_order(oid, coin, is_buy, sz, px, order_type)`. Cheaper on rate limits than cancel + new. |
 | Batch | `exchange.bulk_orders([...])`, `bulk_cancel([...])`. One HTTP request, but each order counts toward the account budget. |
-| Dead man's switch | `exchange.schedule_cancel(ms)` cancels all orders at `ms` (at least 5 s ahead). `None` clears it. At most 10 triggers per day (reset at 00:00 UTC). |
+| Dead man's switch | `exchange.schedule_cancel(ms)` cancels all orders at `ms` (at least 5 s ahead). `None` clears it. At most 10 triggers per day (reset at 00:00 UTC). **Only available once your account has traded $1,000,000.** |
 
 ### Responses
 
@@ -128,7 +129,7 @@ A request that fails as a whole returns `{"status": "err", "response": "<reason>
 
 - Current rate: `funding` in `metaAndAssetCtxs`. Parameters: `perpDexs`. History: `fundingHistory`. Your own payments: `userFunding`.
 
-**Fees.** Charged in `{{ v.collateral }}` on every fill, at Hyperliquid's default rates for a builder dex: twice the base tier, so 0.09% taker and 0.03% maker. Check yours with `{"type": "userFees", "user": "0x…"}`.
+**Fees.** Charged in `{{ v.collateral }}` on every fill, at Hyperliquid's default rates for a builder dex: twice the base tier, so **0.09% taker and 0.03% maker**. `userFees` reports the base tier (0.045% / 0.015%); the fee actually charged is in the `fee` field of each fill.
 
 ## Oracle and mark price
 
@@ -169,7 +170,7 @@ mark = median( oracle,
 **Per account: an action budget.** This one catches people out.
 
 - Every order, cancel and modify spends one request from a budget that starts at **10,000**.
-- The budget grows by **1 per 1 USDC of volume you trade**, cumulatively.
+- The budget grows by **1 per dollar of volume you trade**, cumulatively. Volume in `{{ v.collateral }}` on this dex counts.
 - When it's spent, you get **one request every 10 seconds**.
 - Cancels have extra headroom: `min(budget + 100,000, 2 × budget)`.
 - Check where you stand with `{"type": "userRateLimit", "user": "0x…"}`, which returns `nRequestsUsed` and `nRequestsCap`.
@@ -213,7 +214,7 @@ Quoting 10 markets on both sides and replacing every second uses about 20 reques
 | `userFills` / `userFillsByTime` | `user` (`startTime`, `endTime`) | Your fills |
 | `userFunding` | `user, startTime, endTime?` | Your funding payments |
 | `activeAssetData` | `user, coin` | Your leverage and margin mode on that market, max order sizes |
-| `userFees` | `user` | Your fee rates |
+| `userFees` | `user` | Your base-tier fee rates (this dex charges twice these) |
 | `userRateLimit` | `user` | Your action budget |
 | `extraAgents` | `user` | Your approved API wallets |
 
@@ -237,21 +238,28 @@ Send `{"method": "subscribe", "subscription": {...}}` to `{{ v.ws_url }}`, and `
 `coin` is always prefixed (`{{ v.dex }}:BTC`) and `user` is always the team wallet. Two notes:
 
 - `webData2`, which appears in some examples, isn't available on testnet.
-- The Python SDK's WebSocket client only delivers some channels. If a subscription stays silent there, use a raw WebSocket client.
+- Tested through the Python SDK: `l2Book`, `bbo`, `trades`, `userFills`, `orderUpdates`. The SDK doesn't deliver every channel; if another subscription stays silent there, use a raw WebSocket client.
+- The first `userFills` and `trades` messages are snapshots of recent history. De-duplicate by `tid`.
 
 ## Errors
 
+These are the exact messages, captured on `{{ v.dex }}`. Order errors end with `asset=<asset id>`, which tells you which market.
+
 | You see | Cause | Fix |
 |---|---|---|
-| `User or API Wallet 0x… does not exist` | API wallet not approved, expired, replaced or removed; or you're signing for mainnet | Re-run `approve_api_wallet.py`; check you use the testnet URL |
+| `User or API Wallet 0x… does not exist.` | API wallet not approved, expired, replaced or removed; or you're signing for mainnet | Re-run `approve_api_wallet.py`; check you use the testnet URL |
 | `KeyError: 'BTC'` (Python SDK) | Plain coin name | Use `{{ v.dex }}:BTC` |
-| `Order must have minimum value of $10` | price × size < 10 | Increase size |
-| `Price must be divisible by tick size` | Too many decimals or significant figures | Round the price (see [rules](#price-and-size-rules)) |
-| `Order has invalid size` | Size not a multiple of the lot | Round the size down to `szDecimals` |
-| `Post only order would have immediately matched` | Your `Alo` price crosses the book | Move the price away from the other side |
-| `Order could not immediately match against any resting orders` | `Ioc` with nothing to fill at your price | Check the book, widen your cap |
-| `Insufficient margin to place order` | Not enough free balance for size ÷ leverage | Smaller size, higher leverage, or add margin |
-| `Reduce only order would increase position` | Reduce-only on the wrong side or bigger than the position | Check side and size |
+| `Order must have minimum value of $10.` | price × size < 10 | Increase size |
+| `Order has invalid price.` | Too many decimals in the price | Round the price (see [rules](#price-and-size-rules)) |
+| `Price must be divisible by tick size.` | More than 5 significant figures | Round the price to 5 significant figures |
+| `Order has invalid size.` | Size not a multiple of the lot | Round the size down to `szDecimals` |
+| `Order price cannot be more than 80% away from the reference price` | Price far from the market | Price closer to the oracle |
+| `Post only order would have immediately matched, bbo was <bid>@<ask>.` | Your `Alo` price crosses the book | Move the price away from the other side |
+| `Order could not immediately match against any resting orders.` | `Ioc` with nothing to fill at your price | Check the book, widen your cap |
+| `Insufficient margin to place order.` | Not enough free balance for size ÷ leverage | Smaller size, higher leverage, or add margin |
+| `Reduce only order would increase position.` | Reduce-only with no position, on the wrong side, or bigger than the position | Check side and size |
+| `Invalid leverage value` | Leverage above the market's max | See max leverage in the [markets](#markets) table |
+| `Cannot set scheduled cancel time until enough volume traded. Required: $1000000.` | `schedule_cancel` before $1M of volume | Handle cleanup in your own code (see the guide, step 9) |
 | `Too many cumulative requests sent` | Account action budget spent | Slow down; see [rate limits](#rate-limits) |
 | Error mentioning `nonce` | Two processes share an API wallet, or your clock is off | One API wallet per process; sync your clock |
 | Queries return empty / zero | Querying the API wallet's address, or forgot `dex` | Use the team wallet address and `dex: "{{ v.dex }}"` |
