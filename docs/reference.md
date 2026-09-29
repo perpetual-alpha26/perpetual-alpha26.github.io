@@ -1,11 +1,11 @@
 ---
 layout: default
 title: Participant Reference
-permalink: /guide/reference/
+permalink: /docs/reference/
 ---
 {% assign v = site.data.venue %}
 {% assign base_id = v.dex_index | times: 10000 | plus: 100000 %}
-<div class="page-content guide" markdown="1">
+<div class="page-content docs" markdown="1">
 
 # Reference
 {: .no_toc}

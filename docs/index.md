@@ -1,10 +1,10 @@
 ---
 layout: default
 title: Participant Guide
-permalink: /guide/
+permalink: /docs/
 ---
 {% assign v = site.data.venue %}
-<div class="page-content guide" markdown="1">
+<div class="page-content docs" markdown="1">
 
 # Participant Guide
 {: .no_toc}
