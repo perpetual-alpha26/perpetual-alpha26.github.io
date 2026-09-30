@@ -38,6 +38,8 @@ The competition runs on the **Hyperliquid testnet**. It uses the same software a
 
 On that testnet we run our own venue, a **dex** called `{{ v.dex }}`. It shares Hyperliquid's matching engine but has its own markets, its own collateral token (`{{ v.collateral }}`) and its own margin accounts.
 
+The books are quoted by our market-making partner and traded by all the teams.
+
 Hyperliquid's own markets (plain `BTC`, `ETH`, …) sit next to it on the same API. Ignore them: they don't count, and your funds can't reach them.
 
 ```
@@ -55,10 +57,10 @@ If you have run bots on a centralized exchange, this is what the familiar pieces
 |---|---|
 | Account, login | Your **team wallet** address. No sign-up; it exists once it has received funds. |
 | API key + secret | An **API wallet**: a second key pair that your team wallet authorizes once. Every request is signed with its private key. Nothing secret is sent to the exchange. |
-| API key permissions | An API wallet can place, modify and cancel orders and set leverage. It **cannot** withdraw or transfer funds. |
+| API key permissions | An API wallet can place, modify and cancel orders and set leverage. It **cannot** withdraw or send funds to another address. |
 | Exchange / venue | The dex `{{ v.dex }}` |
 | Symbol `BTCUSDT` | `{{ v.dex }}:BTC` by name. Orders carry a numeric **asset id** that the SDK looks up for you. |
-| Margin currency | `{{ v.collateral }}`, a test token |
+| Margin currency | `{{ v.collateral }}`, a test token. 1 `{{ v.collateral }}` counts as $1. |
 | Spot wallet / futures wallet | **Spot balance** and **dex balance**. Only the dex balance can be traded. |
 | `timestamp` / `recvWindow` | `nonce`: the current time in milliseconds, unique per API wallet |
 | Funding every 8 hours | Funding **every hour** |
@@ -81,13 +83,13 @@ We fund your wallet directly. If anyone asks you to do any of the above, it isn'
 
 You need:
 
-1. **The wallet address you registered, and its private key.** You use the private key **once**, in step 4, on your own machine, to authorize a separate key for your bot.
-   - In MetaMask: *Account details → Show private key*.
-   - Other wallets have an equivalent *Export private key* option.
+1. **The wallet address you registered, and its private key.** You use the private key only on your own machine: in step 4 to authorize a separate key for your bot, and in step 3 if your funds need moving.
+   - In MetaMask: open the account menu, then *Account details → Show private key*. The wording varies a little between versions; other wallets have an equivalent *Export private key* option.
+   - Keep a backup. Without this key you can't create a new API wallet or move funds, and nobody can recover it for you.
    - Never paste it into a website, a chat or a support request.
-2. **Python 3.10 or newer**, and a terminal.
+2. **Python 3.10 or newer**, and a terminal: macOS or Linux, or WSL on Windows. The `curl` commands below use bash quoting.
 
-Set up a project folder with the official Hyperliquid Python SDK:
+Set up a project folder with the official Hyperliquid Python SDK. Save every script in this guide in that folder and run it with `python <name>.py`:
 
 ```bash
 mkdir pa-bot && cd pa-bot
@@ -117,15 +119,15 @@ curl -s {{ v.api_url }}/info -H 'Content-Type: application/json' \
 
 Read the result:
 
-- **`marginSummary.accountValue` is above 0.** You're ready. Go to [step 4](#4-create-your-api-wallet).
+- **`marginSummary.accountValue` is above 0.** You're ready. Go to [step 4](#create-your-api-wallet).
 - **`balances` lists `{{ v.collateral }}` but `accountValue` is `"0.0"`.** Your funds are on spot. Move them into the dex (below).
 - **Both are empty.** You haven't been funded yet, or this isn't the address you registered. Ask in your team's Discord channel.
 
-To look instead of query: {{ v.explorer }}0xYourRegisteredAddress
+Prefer a browser? The explorer shows the same balances: {{ v.explorer }}0xYourRegisteredAddress
 
 ### Move funds from spot into the dex (only if needed)
 
-Transfers must be signed by the team wallet itself. This script asks for the key, doesn't store it, and moves your whole `{{ v.collateral }}` spot balance into `{{ v.dex }}`:
+Transfers must be signed by the team wallet itself. This script asks for the key, doesn't store it, and moves your whole `{{ v.collateral }}` spot balance into `{{ v.dex }}`. At the prompt, paste the key and press Enter. Nothing shows while you paste, and it works with or without the `0x` prefix.
 
 ```python
 # move_to_dex.py
@@ -139,7 +141,7 @@ from hyperliquid.utils import constants
 DEX = "{{ v.dex }}"
 TOKEN = "{{ v.collateral_wire }}"  # name:tokenId; token names are not unique, the id is
 
-team = eth_account.Account.from_key(getpass.getpass("Team wallet private key (not stored): "))
+team = eth_account.Account.from_key(getpass.getpass("Team wallet private key (not stored): ").strip())
 info = Info(constants.TESTNET_API_URL, skip_ws=True)
 spot = info.spot_user_state(team.address)["balances"]
 amount = next((float(b["total"]) for b in spot if b["coin"] == TOKEN.split(":")[0]), 0.0)
@@ -150,7 +152,7 @@ res = Exchange(team, constants.TESTNET_API_URL).send_asset(team.address, "spot",
 print(res)  # {'status': 'ok', 'response': {'type': 'default'}}
 ```
 
-Run the first `curl` again. `accountValue` should now show the amount.
+Run the dex-balance `curl` again. `accountValue` should now show the amount.
 
 ## 4. Create your API wallet
 
@@ -162,7 +164,7 @@ This script:
 
 1. generates the API wallet;
 2. has your team wallet approve it, named and valid until after the competition;
-3. writes your team wallet address and the API wallet key to `.env`, readable only by you.
+3. writes your team wallet address and the API wallet key to `.env`, readable only by you. If you use git, add `.env` to `.gitignore`.
 
 ```python
 # approve_api_wallet.py
@@ -176,7 +178,7 @@ from hyperliquid.utils import constants
 NAME = "bot1"                    # up to 3 named API wallets per account
 VALID_UNTIL = 1_796_083_200_000  # 2026-12-01 00:00 UTC in ms, after the competition ends
 
-team = eth_account.Account.from_key(getpass.getpass("Team wallet private key (not stored): "))
+team = eth_account.Account.from_key(getpass.getpass("Team wallet private key (not stored): ").strip())
 exchange = Exchange(team, constants.TESTNET_API_URL)
 result, api_key = exchange.approve_agent(f"{NAME} valid_until {VALID_UNTIL}")
 if result.get("status") != "ok":
@@ -202,7 +204,7 @@ curl -s {{ v.api_url }}/info -H 'Content-Type: application/json' \
 
 Rules for API wallets:
 
-- **One API wallet per running process.** Nonces are tracked per signing key, so two processes sharing one key will reject each other's requests. For a second bot, run the script again with `NAME = "bot2"`.
+- **One API wallet per running process.** Nonces are tracked per signing key, so two processes sharing one key will reject each other's requests. For a second bot, run the script again with `NAME = "bot2"` from that bot's own folder: the script overwrites `.env`.
 - **Replacing one:** run the script again with the same name. The old key stops working immediately. Never reuse an old key.
 - **Query with the team wallet address, never the API wallet's.** The API wallet has no balance, positions or orders of its own, so queries with its address come back empty.
 - **An API wallet is removed if your account balance ever reaches zero,** or when it expires.
@@ -252,7 +254,7 @@ Test it:
 
 ```bash
 python -c "from client import *; print(info.user_state(ACCOUNT, DEX)['marginSummary'])"
-# {'accountValue': '10000.0', 'totalNtlPos': '0.0', 'totalRawUsd': '10000.0', 'totalMarginUsed': '0.0'}
+# {'accountValue': '10000.0', 'totalNtlPos': '0.0', 'totalRawUsd': '10000.0', 'totalMarginUsed': '0.0'}   (your balance)
 ```
 
 ## 6. Read the market
@@ -276,10 +278,10 @@ print(info.all_mids(DEX))                  # {'{{ v.dex }}:BTC': '83369.0', ...}
 print(info.l2_snapshot("{{ v.dex }}:BTC"))           # {'levels': [[bids...], [asks...]]}, level = {'px', 'sz', 'n'}
 
 now = int(time.time() * 1000)
-print(info.candles_snapshot("{{ v.dex }}:BTC", "1m", now - 3_600_000, now))
+print(info.candles_snapshot("{{ v.dex }}:BTC", "1m", now - 3_600_000, now))  # [] if nothing traded in that hour
 ```
 
-For backtesting: each market copies a live Hyperliquid mainnet market (`BTC`, `xyz:SP500`, …), so that market's history is a close proxy. The mapping is in the [reference](reference/#markets).
+For backtesting: each market copies a live Hyperliquid mainnet market (`BTC`, `xyz:SP500`, …), so that market's history is a close proxy. The mapping is in the [reference](reference/#markets). For the organizers' own dataset, see the [FAQ](/faq/).
 
 <div class="callout warn" markdown="1">
 **Always name our dex.** Pass `"dex": "{{ v.dex }}"` to account and market-wide queries, and use the prefixed coin (`{{ v.dex }}:BTC`) everywhere else. With plain `BTC`, or without `dex`, the API returns Hyperliquid's native markets **with no error**. A strategy built on those prices is trading the wrong thing.
@@ -333,7 +335,7 @@ print(info.user_state(ACCOUNT, DEX)["assetPositions"])
 print(check(exchange.market_close(COIN)))
 ```
 
-If step 4 prints *"could not immediately match"*, nobody is selling within 1% of mid right now. Look at the order book and try again.
+If step 4 stops with `Order could not immediately match against any resting orders`, nobody is selling within 1% of mid right now. Look at the order book (step 6) and run it again.
 
 <div class="callout" markdown="1">
 **What the SDK sends.** If you write your own client, step 2 goes to `POST {{ v.api_url }}/exchange` as:
@@ -393,12 +395,12 @@ You have every building block. A bot that survives three weeks also needs the fo
 - **Start from reality.** On startup, read positions and open orders. Never assume you are flat.
 - **Tag your orders.** Set a `cloid` on each order so you can match fills and updates to your own bookkeeping.
 - **Check every response** with `check()` or equivalent. A rejected order doesn't raise by itself.
-- **Clean up when your bot dies.** Cancel everything in your shutdown and exception handlers. Also run a separate watchdog that runs `kill.py` (below) if the bot stops sending heartbeats.
+- **Clean up when your bot dies.** Cancel everything in your shutdown and exception handlers. Also run a separate watchdog, such as a cron job, that runs `kill.py` (below) when your bot stops updating a heartbeat file.
   - Hyperliquid's built-in dead man's switch, `schedule_cancel`, only unlocks once your account has traded **$1,000,000** in volume. Until then it is rejected, so don't rely on it.
 - **Budget your requests.** Every order, cancel and modify spends from a per-account allowance that only grows as you trade. A bot that cancels and replaces quotes every second can drain it in minutes, then gets one request every 10 seconds. To avoid that:
   - prefer `modify` over cancel-and-replace;
   - batch orders;
-  - watch `{"type": "userRateLimit"}`.
+  - watch `{"type": "userRateLimit", "user": "0x…"}`.
 
   See the [rate limits](reference/#rate-limits).
 - **Keep the clock synced** (NTP). Nonces are millisecond timestamps, and requests too far from server time are rejected.
@@ -426,7 +428,7 @@ Whatever you use, point it at **testnet** and at the dex `{{ v.dex }}`.
 
 ## 10. Rules your code must respect
 
-The full rules are on the [About](/about/) page. These are the ones that shape code:
+The full rules are on the [About](/about) page. These are the ones that shape code:
 
 - **Trading must be algorithmic.** Your report and a code walkthrough with the jury will check this.
 - **One account per team:** the wallet you registered. All trading goes through it, including via API wallets.

@@ -48,7 +48,7 @@ Each market copies a live Hyperliquid **mainnet** market: its lot size, max leve
 
 Frontends show a few of these under display names: `S&P500`, `BRENTOIL`, `EURUSD`. The API always uses the coin names above.
 
-On the scored venue, BTC's lot will be 0.00001, matching mainnet. The practice lot can't be changed after registration.
+On the scored venue, BTC's lot will be 0.00001, matching mainnet. The practice market was created with 0.0001, and a market's lot can't change once it exists.
 
 <div class="callout warn" markdown="1">
 **The two FX markets are quoted in opposite directions.** Despite its name, `USDEUR` is priced as EUR/USD, in dollars per euro. `USDJPY` is priced in yen per dollar. Check the price, not the name, before you build a cross-asset signal.
@@ -81,7 +81,7 @@ Examples with `{{ v.dex }}:ETH` (szDecimals 4, so at most 2 price decimals):
 | Post-only | `{"limit": {"tif": "Alo"}}`. Rejected if it would cross the book. |
 | Stop / take-profit | `{"trigger": {"triggerPx": 2500, "isMarket": true, "tpsl": "sl"}}` (or `"tp"`) |
 | Reduce-only | `reduce_only=True`. Rejected if it would increase your position. |
-| Client order id | `cloid=Cloid.from_str("0x…32 hex chars…")`. Cancel with `cancel_by_cloid`. |
+| Client order id | `cloid=Cloid.from_str("0x…32 hex chars…")` (`from hyperliquid.utils.types import Cloid`). Cancel with `cancel_by_cloid`. |
 | Modify | `exchange.modify_order(oid, coin, is_buy, sz, px, order_type)`. Cheaper on rate limits than cancel + new. |
 | Batch | `exchange.bulk_orders([...])`, `bulk_cancel([...])`. One HTTP request, but each order counts toward the account budget. |
 | Dead man's switch | `exchange.schedule_cancel(ms)` cancels all orders at `ms` (at least 5 s ahead). `None` clears it. At most 10 triggers per day (reset at 00:00 UTC). **Only available once your account has traded $1,000,000.** |
@@ -92,9 +92,9 @@ Examples with `{{ v.dex }}:ETH` (szDecimals 4, so at most 2 price decimals):
 
 ```json
 {"status": "ok", "response": {"type": "order", "data": {"statuses": [
-  {"resting": {"oid": 123456}},
-  {"filled": {"totalSz": "0.0057", "avgPx": "2640.1", "oid": 123457}},
-  {"error": "Order must have minimum value of $10."}
+  {"resting": {"oid": 61402155540}},
+  {"filled": {"totalSz": "0.0055", "avgPx": "2684.8", "oid": 61402157574}},
+  {"error": "Order must have minimum value of $10. asset={{ base_id | plus: 1 }}"}
 ]}}}
 ```
 
@@ -175,7 +175,7 @@ mark = median( oracle,
 - Cancels have extra headroom: `min(budget + 100,000, 2 × budget)`.
 - Check where you stand with `{"type": "userRateLimit", "user": "0x…"}`, which returns `nRequestsUsed` and `nRequestsCap`.
 
-Quoting 10 markets on both sides and replacing every second uses about 20 requests per second, which spends 10,000 in under 10 minutes if nothing fills. To stay inside the budget:
+Requoting 10 markets on both sides every second is 20 modifies per second, or 40 with cancel + new. At 20 per second, 10,000 lasts under 10 minutes if nothing fills. To stay inside the budget:
 
 - modify instead of cancel-and-replace;
 - requote only when your price actually changes;
@@ -235,7 +235,7 @@ Send `{"method": "subscribe", "subscription": {...}}` to `{{ v.ws_url }}`, and `
 | `userEvents` | `user` | Fills, funding, liquidations |
 | `userFundings` | `user` | Your funding payments |
 
-`coin` is always prefixed (`{{ v.dex }}:BTC`) and `user` is always the team wallet. Two notes:
+`coin` is always prefixed (`{{ v.dex }}:BTC`) and `user` is always the team wallet. Notes:
 
 - `webData2`, which appears in some examples, isn't available on testnet.
 - Tested through the Python SDK: `l2Book`, `bbo`, `trades`, `userFills`, `orderUpdates`. The SDK doesn't deliver every channel; if another subscription stays silent there, use a raw WebSocket client.
@@ -243,7 +243,7 @@ Send `{"method": "subscribe", "subscription": {...}}` to `{{ v.ws_url }}`, and `
 
 ## Errors
 
-These are the exact messages, captured on `{{ v.dex }}`. Order errors end with `asset=<asset id>`, which tells you which market.
+The quoted messages were captured on `{{ v.dex }}`; the rate-limit and nonce rows use Hyperliquid's documented wording. Order errors end with `asset=<asset id>`, which tells you which market.
 
 | You see | Cause | Fix |
 |---|---|---|
@@ -253,7 +253,7 @@ These are the exact messages, captured on `{{ v.dex }}`. Order errors end with `
 | `Order has invalid price.` | Too many decimals in the price | Round the price (see [rules](#price-and-size-rules)) |
 | `Price must be divisible by tick size.` | More than 5 significant figures | Round the price to 5 significant figures |
 | `Order has invalid size.` | Size not a multiple of the lot | Round the size down to `szDecimals` |
-| `Order price cannot be more than 80% away from the reference price` | Price far from the market | Price closer to the oracle |
+| `Order price cannot be more than 80% away from the reference price` | Price far from the market | Move the price closer to the market |
 | `Post only order would have immediately matched, bbo was <bid>@<ask>.` | Your `Alo` price crosses the book | Move the price away from the other side |
 | `Order could not immediately match against any resting orders.` | `Ioc` with nothing to fill at your price | Check the book, widen your cap |
 | `Insufficient margin to place order.` | Not enough free balance for size ÷ leverage | Smaller size, higher leverage, or add margin |
@@ -275,12 +275,12 @@ These are the exact messages, captured on `{{ v.dex }}`. Order errors end with `
 | Counts toward ranking | No | Yes |
 | Team wallet | Same | Same |
 | API wallets | Same (they belong to your account, not to a dex) | Same |
-| What to change in your code | | `DEX`, and the token id if you move funds |
+| What changes in your code | — | `DEX`, and the token id if you move funds |
 
 ## Glossary
 
 **API wallet** (also *agent*)
-: A key pair your team wallet authorizes to trade on its behalf. It can't withdraw or transfer.
+: A key pair your team wallet authorizes to trade on its behalf. It can't withdraw or send funds to another address.
 
 **Builder dex / HIP-3**
 : An independent perpetuals exchange deployed on Hyperliquid's engine, with its own markets, collateral and oracle. `{{ v.dex }}` is one.
