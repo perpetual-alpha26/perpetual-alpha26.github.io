@@ -10,315 +10,230 @@ permalink: /docs/reference/
 # Reference
 {: .no_toc}
 
-Lookup material for the [Participant Guide](../). Values below are for the **{{ v.phase }}** venue.
+This page is the API reference for the [Participant Guide](../).
 
 * TOC
 {:toc}
 
 ## Venue
 
-| Setting | Value |
+| Item | Value |
 |---|---|
 | Network | Hyperliquid **testnet** |
-| REST | `{{ v.api_url }}/info` (queries), `{{ v.api_url }}/exchange` (signed actions) |
+| REST | `{{ v.api_url }}/info` for queries. `{{ v.api_url }}/exchange` for signed actions. |
 | WebSocket | `{{ v.ws_url }}` |
 | Dex | `{{ v.dex }}` (dex index {{ v.dex_index }}) |
-| Collateral | `{{ v.collateral }}`. Full id for transfers: `{{ v.collateral_wire }}`. Token names aren't unique; the id is. |
-| Margin | Cross or isolated, your choice per market |
-| Explorer | `{{ v.explorer }}<address>` |
+| Collateral | `{{ v.collateral }}` |
+| Account mode | Unified (`unifiedAccount`). One `{{ v.collateral }}` balance is the margin for all positions. |
 
 ## Markets
 
-Specs come from the chain. Read them at runtime with `{"type": "meta", "dex": "{{ v.dex }}"}` rather than hard-coding them.
+Use the `meta` info query with the `dex` parameter set to `{{ v.dex }}`. Read `szDecimals` and `maxLeverage` at runtime; the table describes the current `{{ v.dex }}` markets.
 
-Each market copies a live Hyperliquid **mainnet** market: its lot size, max leverage and funding parameters. That mainnet market's history (candles, funding, trades) is a close proxy for backtesting.
+| Coin | Price units | Lot | Max leverage | Asset ID |
+|---|---|---|---|---|
+| `{{ v.dex }}:BTC` | USD per BTC | 0.0001 | 40x | {{ base_id }} |
+| `{{ v.dex }}:ETH` | USD per ETH | 0.0001 | 25x | {{ base_id | plus: 1 }} |
+| `{{ v.dex }}:HYPE` | USD per HYPE | 0.01 | 10x | {{ base_id | plus: 2 }} |
+| `{{ v.dex }}:SP500` | S&P 500 index points | 0.001 | 50x | {{ base_id | plus: 3 }} |
+| `{{ v.dex }}:EWY` | USD per share of the iShares MSCI South Korea ETF | 0.001 | 20x | {{ base_id | plus: 4 }} |
+| `{{ v.dex }}:EWJ` | USD per share of the iShares MSCI Japan ETF | 0.001 | 20x | {{ base_id | plus: 5 }} |
+| `{{ v.dex }}:BRENT` | USD per barrel of Brent crude | 0.01 | 20x | {{ base_id | plus: 6 }} |
+| `{{ v.dex }}:GOLD` | USD per troy ounce of gold | 0.0001 | 25x | {{ base_id | plus: 7 }} |
+| `{{ v.dex }}:USDEUR` | **USD per EUR (EUR/USD)** | 0.1 | 50x | {{ base_id | plus: 8 }} |
+| `{{ v.dex }}:USDJPY` | **JPY per USD (USD/JPY)** | 0.01 | 50x | {{ base_id | plus: 9 }} |
 
-| Coin | Underlying | Price is quoted as | Lot | Max leverage | Copies (mainnet) | Asset id |
-|---|---|---|---|---|---|---|
-| `{{ v.dex }}:BTC` | Bitcoin | USD per BTC | 0.0001 | 40x | `BTC` | {{ base_id }} |
-| `{{ v.dex }}:ETH` | Ether | USD per ETH | 0.0001 | 25x | `ETH` | {{ base_id | plus: 1 }} |
-| `{{ v.dex }}:HYPE` | Hyperliquid token | USD per HYPE | 0.01 | 10x | `HYPE` | {{ base_id | plus: 2 }} |
-| `{{ v.dex }}:SP500` | S&P 500 index | index points | 0.001 | 50x | `xyz:SP500` | {{ base_id | plus: 3 }} |
-| `{{ v.dex }}:EWY` | iShares MSCI South Korea ETF | USD per share | 0.001 | 20x | `xyz:EWY` | {{ base_id | plus: 4 }} |
-| `{{ v.dex }}:EWJ` | iShares MSCI Japan ETF | USD per share | 0.001 | 20x | `xyz:EWJ` | {{ base_id | plus: 5 }} |
-| `{{ v.dex }}:BRENT` | Brent crude oil | USD per barrel | 0.01 | 20x | `xyz:BRENTOIL` | {{ base_id | plus: 6 }} |
-| `{{ v.dex }}:GOLD` | Gold | USD per troy ounce | 0.0001 | 25x | `xyz:GOLD` | {{ base_id | plus: 7 }} |
-| `{{ v.dex }}:USDEUR` | Euro vs US dollar | **USD per 1 EUR** (≈ 1.1, the EUR/USD rate) | 0.1 | 50x | `xyz:EUR` | {{ base_id | plus: 8 }} |
-| `{{ v.dex }}:USDJPY` | US dollar vs yen | **JPY per 1 USD** (≈ 150) | 0.01 | 50x | `xyz:JPY` | {{ base_id | plus: 9 }} |
+Despite its ticker, `USDEUR` tracks EUR/USD. All markets trade 24/7 and settle in `{{ v.collateral }}`, including the FX contracts.
 
-Frontends show a few of these under display names: `S&P500`, `BRENTOIL`, `EURUSD`. The API always uses the coin names above.
+## Asset references and pricing
 
-On the scored venue, BTC's lot will be 0.00001, matching mainnet. The practice market was created with 0.0001, and a market's lot can't change once it exists.
+The table combines the venue's oracle and mark specification with live `{{ v.dex }}` asset annotations (`perpAnnotation`) and market metadata, checked on 30 September 2026. Market specifications come from `meta`; oracle and mark prices come from `metaAndAssetCtxs`.
 
-<div class="callout warn" markdown="1">
-**The two FX markets are quoted in opposite directions.** Despite its name, `USDEUR` is priced as EUR/USD, in dollars per euro. `USDJPY` is priced in yen per dollar. Check the price, not the name, before you build a cross-asset signal.
-</div>
+All ten assets use **SEDA Signal**, delivered through SEDA Fast. The oracle is the median of quotes returned by the configured sources: Binance, Binance Futures, Lighter and Hydromancer. **EWJ excludes Lighter.** Only sources returning a quote participate; the feed requires at least one source.
 
-**Trading hours.** Every market trades 24/7, and so does every oracle, including the stock, index, FX and commodity markets. There is no closed-market session. See [oracle and mark price](#oracle-and-mark-price).
+| Asset | Reference instrument and mainnet counterpart | Oracle computation | Mark methodology |
+|---|---|---|---|
+| `{{ v.dex }}:BTC` | Bitcoin; Hyperliquid `BTC` | `BTC/USD` feed, venue median | Median method below; EMA basis bound ±2.5% of oracle |
+| `{{ v.dex }}:ETH` | Ethereum; Hyperliquid `ETH` | `ETH/USD` feed, venue median | Median method below; EMA basis bound ±4% of oracle |
+| `{{ v.dex }}:HYPE` | Hyperliquid's HYPE token; Hyperliquid `HYPE` | `HYPE/USD` feed, venue median | Median method below; EMA basis bound ±10% of oracle |
+| `{{ v.dex }}:SP500` | S&P 500 index; `xyz:SP500` | `SP500/USD` feed, venue median | Median method below; EMA basis bound ±2% of oracle |
+| `{{ v.dex }}:EWY` | iShares MSCI South Korea ETF; `xyz:EWY` | `EWY/USD` feed, venue median | Median method below; EMA basis bound ±5% of oracle |
+| `{{ v.dex }}:EWJ` | iShares MSCI Japan ETF; `xyz:EWJ` | `EWJ/USD` feed, venue median excluding Lighter | Median method below; EMA basis bound ±5% of oracle |
+| `{{ v.dex }}:BRENT` | Brent crude; `xyz:BRENTOIL` | `BRENT/USD` feed, venue median | Median method below; EMA basis bound ±5% of oracle |
+| `{{ v.dex }}:GOLD` | Gold (XAU); `xyz:GOLD` | `XAU/USD` feed, venue median | Median method below; EMA basis bound ±4% of oracle |
+| `{{ v.dex }}:USDEUR` | EUR/USD: USD per EUR; `xyz:EUR` | `EUR/USD` feed, venue median | Median method below; EMA basis bound ±2% of oracle |
+| `{{ v.dex }}:USDJPY` | USD/JPY: JPY per USD; `xyz:JPY` | `USD/JPY` feed, venue median | Median method below; EMA basis bound ±2% of oracle |
+
+### Oracle and mark prices
+
+The **oracle** is the SEDA composite submitted by the venue's authorized oracle relayers, rounded to the market's price precision. The upstream feed computation is part of the venue's operator specification. The public API returns the resulting `oraclePx`; it does not return the individual upstream quotes.
+
+The **mark** is the price used for unrealized PnL, margin and liquidations. The venue computes it as follows:
+
+1. The relayer maintains a **150-second exponential moving average (EMA)** of the local book mid price minus the oracle price, using the mid and oracle from the same on-chain snapshot. This is the book basis. The EMA starts at zero and decays toward zero when there is no two-sided book.
+2. The basis adjustment is capped at **±oracle price / maximum leverage**. The table expresses this bound as a percentage of the oracle.
+3. The relayer prepares two mark inputs: the oracle, and the oracle plus the capped basis. Each input is limited to a **±0.5% move from the previous on-chain mark** and rounded to the market's price precision.
+4. HyperCore takes the **median of those two submitted inputs and the local book mark**. The local book mark is the median of the best bid, best ask and last trade price. Accepted live `{{ v.dex }}` oracle-update transactions confirm the two submitted input lists.
+
+HyperCore also applies its own price clamps, including a 1% limit on each mark update. After 10 seconds without a mark update, the protocol falls back to the local book mark. See the [HIP-3 mark calculation](https://hyperliquid.gitbook.io/hyperliquid-docs/for-developers/api/hip-3-deployer-actions).
+
+Read `oraclePx` and `markPx` separately from `metaAndAssetCtxs`. A reference instrument identifies what the contract tracks; the published oracle, the local execution price and the mark can differ.
+
+## Venue mechanics
+
+| Item | Detail |
+|---|---|
+| Fees | At the undiscounted base tier, **0.09% taker and 0.03% maker**, charged in `{{ v.collateral }}` on each fill. This venue has `deployerFeeScale=1` and no growth mode, so positive base rates from `userFees` are doubled. The actual charge is in each fill's `fee` and `feeToken` fields. See the [fee formula](https://hyperliquid.gitbook.io/hyperliquid-docs/trading/fees#fee-formula-for-developers) for tiers and discounts. |
+| Funding | Paid every hour. A positive rate means longs pay shorts; a negative rate means shorts pay longs. `funding` in `metaAndAssetCtxs` is the hourly rate as a decimal. Payment magnitude is `abs(position size) × oracle price × abs(hourly rate)`. Get rates from `fundingHistory` and account payments from `userFunding`. |
+| Oracle price | The SEDA Signal venue median described in [Asset references and pricing](#asset-references-and-pricing). Available as `oraclePx` in `metaAndAssetCtxs`. |
+| Mark price | The median calculation and basis limits described in [Asset references and pricing](#asset-references-and-pricing). It can differ from the oracle. Available as `markPx` in `metaAndAssetCtxs`. |
+| Margin | Cross positions share the unified collateral balance. Losses on one position reduce the margin available to others. Set leverage with `update_leverage`; check leverage and available buying power with `activeAssetData`. The spot balance's `total` is not free margin. |
+| Liquidation | Triggered when collateral no longer covers maintenance margin. Check `liquidationPx` in each position and the account's margin state. See [unified account risk](https://hyperliquid.gitbook.io/hyperliquid-docs/trading/account-abstraction-modes#unified-account-ratio) for the maintenance-margin ratio. |
 
 ## Price and size rules
 
 | Rule | Detail |
 |---|---|
-| Size | A multiple of the lot, `10^-szDecimals`. Round **down**. |
-| Price | At most 5 significant figures, **and** at most `6 − szDecimals` decimals. Integer prices are always valid. |
-| Minimum value | $10 per order (price × size) |
-| Price band | No more than 80% away from the reference price |
-| Wire format | Prices and sizes are sent as strings with no trailing zeros: `"2587.3"`, not `"2587.30"` |
+| Size | A multiple of the lot (`10^-szDecimals`). If necessary, decrease the size to a multiple of the lot. |
+| Price | A maximum of 5 significant figures **and** a maximum of `6 − szDecimals` decimals. Integer prices are always correct. |
+| Minimum value | $10 for each order (price × size) |
+| Price band | Not more than 80% from the reference price |
+| Format | Decimal strings. Remove trailing zeros from the fractional part and an empty decimal point; preserve integer zeros. The SDK handles conversion. |
+| Open interest limit | $100,000 notional for each market, for all participants together. The API rejects orders that increase open interest above this limit. Get the values with `perpDexLimits`. |
 
-Examples with `{{ v.dex }}:ETH` (szDecimals 4, so at most 2 price decimals):
+## Orders and leverage
 
-- `2587.3` ✓
-- `2587.35` ✗ (6 significant figures)
-- `2587` ✓
-
-## Orders
-
-| Feature | How |
+| Function | How to use |
 |---|---|
-| Limit, good-till-cancel | `{"limit": {"tif": "Gtc"}}` |
-| Immediate-or-cancel | `{"limit": {"tif": "Ioc"}}`. This is also how you send a "market" order: IOC with a price cap. `exchange.market_open` / `market_close` do it for you with 5% slippage. |
-| Post-only | `{"limit": {"tif": "Alo"}}`. Rejected if it would cross the book. |
-| Stop / take-profit | `{"trigger": {"triggerPx": 2500, "isMarket": true, "tpsl": "sl"}}` (or `"tp"`) |
-| Reduce-only | `reduce_only=True`. Rejected if it would increase your position. |
-| Client order id | `cloid=Cloid.from_str("0x…32 hex chars…")` (`from hyperliquid.utils.types import Cloid`). Cancel with `cancel_by_cloid`. |
-| Modify | `exchange.modify_order(oid, coin, is_buy, sz, px, order_type)`. Cheaper on rate limits than cancel + new. |
-| Batch | `exchange.bulk_orders([...])`, `bulk_cancel([...])`. One HTTP request, but each order counts toward the account budget. |
-| Dead man's switch | `exchange.schedule_cancel(ms)` cancels all orders at `ms` (at least 5 s ahead). `None` clears it. At most 10 triggers per day (reset at 00:00 UTC). **Only available once your account has traded $1,000,000.** |
+| Good-till-cancel | Limit order with time in force `Gtc`; the unfilled remainder stays on the book. |
+| Immediate-or-cancel | Limit order with time in force `Ioc`; available liquidity fills within the price limit and the remainder is cancelled. `market_open` and `market_close` use a default slippage limit of 5%. |
+| Post-only | Limit order with time in force `Alo`. The API rejects it if it would immediately cross the book. |
+| Stop or take-profit | Trigger order with a trigger price (`triggerPx`), market-or-limit execution (`isMarket`) and stop-loss or take-profit designation (`tpsl`: `sl` or `tp`). TP/SL orders must be reduce-only. Raw JSON prices are decimal strings; the SDK accepts numeric prices and serializes them. |
+| Reduce-only | Set the reduce-only flag. The order may reduce an existing position but must not increase exposure. |
+| Client order ID | A user-assigned 16-byte hexadecimal ID (`cloid`). The SDK represents it with `Cloid` from `hyperliquid.utils.types`; cancellation by this ID uses `cancel_by_cloid`. |
+| Change an order | `modify_order` replaces an order's parameters, identifying it by order ID or client order ID. |
+| Batch | `bulk_orders` and `bulk_cancel` submit several operations together. Each operation counts against the account budget. |
+| Leverage | `update_leverage` selects leverage and cross or isolated margin for a coin. Leverage must not exceed the market's maximum. |
+| Dead man's switch | `schedule_cancel` schedules cancellation of all open orders at a future timestamp, at least 5 seconds ahead. Up to 10 triggers per day, resetting at 00:00 UTC. Requires $1,000,000 of account trade volume. |
 
-### Responses
+The request-level `status` can be `ok` even when an order is rejected. Inspect each result in `response.data.statuses`:
 
-`POST /exchange` replies `{"status": "ok", ...}` even when an individual order is rejected. Always inspect `statuses`:
+- `resting.oid`: the order ID of the remaining order on the book.
+- `filled.totalSz`, `filled.avgPx`, `filled.oid`: the executed size, average fill price and order ID. An IOC can fill partially; `totalSz` may be smaller than the requested size. Its unfilled remainder is cancelled.
+- `error`: the reason the API rejected the order.
 
-```json
-{"status": "ok", "response": {"type": "order", "data": {"statuses": [
-  {"resting": {"oid": 61402155540}},
-  {"filled": {"totalSz": "0.0055", "avgPx": "2684.8", "oid": 61402157574}},
-  {"error": "Order must have minimum value of $10. asset={{ base_id | plus: 1 }}"}
-]}}}
-```
+If the full request fails, `status` is `err` and `response` contains the reason.
 
-A request that fails as a whole returns `{"status": "err", "response": "<reason>"}`.
-
-## Margin, funding, fees
-
-**Margin.**
-
-- Cross or isolated, chosen per market with `update_leverage(n, coin, is_cross=True|False)`, up to that market's max leverage. The SDK defaults to cross.
-- Until you set it, each market starts at **cross, 20x**, or the market's max leverage if that is lower (10x on HYPE). Set leverage explicitly before you trade. Check the current setting with `{"type": "activeAssetData", "user": "0x…", "coin": "{{ v.dex }}:BTC"}`.
-- **Cross:** your positions on `{{ v.dex }}` share your dex balance as margin. A loss on one eats into the margin of the others.
-- **Isolated:** each position has its own margin, which you can add to or remove with `update_isolated_margin`.
-- A position is liquidated when its margin falls below maintenance margin, which is half the initial margin at max leverage. For BTC at 40x that is 1.25% of notional.
-- `liquidationPx` is in `clearinghouseState.assetPositions`.
-
-**Open interest caps.** Each market's total open interest, across all participants, is capped at **$100,000** notional. Orders that would increase open interest past the cap are rejected. Live values: `{"type": "perpDexLimits", "dex": "{{ v.dex }}"}`.
-
-**Funding.**
-
-- Paid **every hour**, between longs and shorts. A positive rate means longs pay shorts.
-- Hyperliquid's builder-dex formula, per 8 hours: `multiplier × (P + clamp(interest − P, ±clamp))`. Each hour pays one eighth.
-- `P` is the premium: the mid of the book's impact prices against the oracle. It is measured against the oracle, not the mark.
-- Payment = position size × oracle price × hourly rate.
-- Parameters copy each market's mainnet counterpart:
-
-| Markets | Multiplier | Interest (per 8 h) | Clamp (per 8 h) |
-|---|---|---|---|
-| BTC, ETH, HYPE | 1 | 0.01% | ±0.05% |
-| SP500, EWY, EWJ, BRENT, GOLD | 0.5 | 0.01% | ±0.03% |
-| USDEUR, USDJPY | 0.5 | 0 | ±0.03% |
-
-- Current rate: `funding` in `metaAndAssetCtxs`. Parameters: `perpDexs`. History: `fundingHistory`. Your own payments: `userFunding`.
-
-**Fees.** Charged in `{{ v.collateral }}` on every fill, at Hyperliquid's default rates for a builder dex: twice the base tier, so **0.09% taker and 0.03% maker**. `userFees` reports the base tier (0.045% / 0.015%); the fee actually charged is in the `fee` field of each fill.
-
-## Oracle and mark price
-
-**Oracle price: 24/7, never from our book.**
-
-- Every market's oracle is a [SEDA](https://seda.xyz) composite: a median across external venues.
-- Those venues trade around the clock, for stocks, indexes, FX and commodities as well as crypto. There is no closed-market session.
-- Our own order book never sets the oracle: it is thin and driven by the competition.
-- It is pushed on-chain about every 3.5 seconds.
-
-**Mark price: used for PnL, margin and liquidations.** It is the median of three inputs:
-
-```
-mark = median( oracle,
-               oracle + 150-second average of (book mid − oracle),   capped at oracle ± 1/maxLeverage
-               median(best bid, best ask, last trade) )
-```
-
-- Each input moves at most 0.5% per update.
-- The mark only follows the book when both the live book and its last 150 seconds agree. A single order can't move it.
-- It never leaves oracle ± 1/maxLeverage: ±2% on a 50x market, ±5% on a 20x one.
-- With no two-sided book, the average decays to zero and the mark equals the oracle.
-- If oracle updates ever stop for more than 10 seconds, the mark falls back to the order book.
-
-**Final scoring** marks positions to the **oracle** price at the end of the Live Trading phase.
+The SDK's `market_close` submits a reduce-only IOC. It can partially fill or be rejected; read the position again to confirm the remaining size. It returns no result if it finds no position for the coin.
 
 ## Rate limits
 
-**Per IP: 1200 weight per minute**, shared by everyone behind the same IP, such as a university network.
+**Each IP address:** a maximum weight of 1200 each minute, shared by all clients using that IP.
 
 | Request | Weight |
 |---|---|
-| Any exchange action | 1 + floor(orders in batch / 40) |
-| `l2Book`, `allMids`, `clearinghouseState`, `orderStatus`, `spotClearinghouseState` | 2 |
+| Exchange action | 1 + floor(orders in the batch / 40) |
+| `l2Book`, `allMids`, `clearinghouseState`, `orderStatus`, `spotClearinghouseState`, `exchangeStatus` | 2 |
 | `userRole` | 60 |
-| Most other info requests | 20 |
+| Other info requests | 20 |
 
-**Per account: an action budget.** This one catches people out.
+History queries also have response-size charges: `recentTrades`, `userFills`, `userFillsByTime`, `fundingHistory` and `userFunding` add weight per 20 returned items; `candleSnapshot` adds weight per 60 returned items. See the [full rate-limit specification](https://hyperliquid.gitbook.io/hyperliquid-docs/for-developers/api/rate-limits-and-user-limits) for all endpoints.
 
-- Every order, cancel and modify spends one request from a budget that starts at **10,000**.
-- The budget grows by **1 per dollar of volume you trade**, cumulatively. Volume in `{{ v.collateral }}` on this dex counts.
-- When it's spent, you get **one request every 10 seconds**.
-- Cancels have extra headroom: `min(budget + 100,000, 2 × budget)`.
-- Check where you stand with `{"type": "userRateLimit", "user": "0x…"}`, which returns `nRequestsUsed` and `nRequestsCap`.
+**Each account:**
 
-Requoting 10 markets on both sides every second is 20 modifies per second, or 40 with cancel + new. At 20 per second, 10,000 lasts under 10 minutes if nothing fills. To stay inside the budget:
-
-- modify instead of cancel-and-replace;
-- requote only when your price actually changes;
-- trade.
+- Each order, cancel and change uses one request from the account budget.
+- The budget starts at **10,000**. It increases by **1 for each $1 that you trade**.
+- When the budget is empty, you can send one request each 10 seconds.
+- The cancel limit is `min(budget + 100,000, 2 × budget)`.
+- Get the status with `userRateLimit` (`nRequestsUsed`, `nRequestsCap`).
+- In unified mode, the account can send a maximum of 50,000 actions each day.
 
 **Other limits:**
 
-- 1000 open orders;
-- WebSocket: 10 connections per IP, 1000 subscriptions, 2000 messages per minute sent.
+- 1000 open orders.
+- WebSocket: 10 connections for each IP address, 1000 subscriptions and 2000 sent messages each minute.
 
-**Nonces.**
+**Nonces:**
 
-- Each action carries a millisecond timestamp nonce, unique per signing key.
-- It must be within 2 days behind to 1 day ahead of server time.
-- Hyperliquid keeps each key's 100 highest nonces. A new nonce must beat the lowest of them and never repeat.
-- In practice: **one API wallet per process** and a synced clock.
+- Use the current time in ms.
+- Do not use the same nonce two times with one key.
+- The nonce must be between 2 days before and 1 day after the server time.
+- Hyperliquid keeps the 100 highest nonces for each key. A new nonce must be higher than the lowest of these.
+- Use one API wallet for each process.
+- Keep your clock correct (NTP).
 
 ## Info queries
 
-`POST {{ v.api_url }}/info` with a JSON body. Every `user` must be the **team wallet** address.
+Send `POST {{ v.api_url }}/info` with a JSON body. The `user` is always the **team wallet** address.
 
-| `type` | Parameters | Returns |
+| `type` | Parameters | Result |
 |---|---|---|
 | `meta` | `dex` | Markets: name, szDecimals, maxLeverage |
-| `metaAndAssetCtxs` | `dex` | The above, plus mark, oracle, mid, funding, open interest, 24h volume |
-| `allMids` | `dex` | Mid price per coin |
-| `l2Book` | `coin` | Order book, up to 20 levels per side |
+| `metaAndAssetCtxs` | `dex` | Markets, mark, oracle, mid, funding, open interest, 24h volume |
+| `allMids` | `dex` | Mid price for each coin |
+| `l2Book` | `coin` | Order book, maximum 20 levels on each side |
 | `recentTrades` | `coin` | Latest public trades |
-| `candleSnapshot` | `req: {coin, interval, startTime, endTime}` | OHLCV, up to 5000 candles. Intervals `1m` … `1M`. |
-| `fundingHistory` | `coin, startTime, endTime?` | Hourly funding rates |
-| `perpDexLimits` | `dex` | Open interest caps |
-| `clearinghouseState` | `user, dex` | Account value, margin, positions |
-| `spotClearinghouseState` | `user` | Spot balances |
-| `openOrders` | `user, dex` | Your resting orders |
-| `orderStatus` | `user, oid` (or cloid) | One order's status |
-| `userFills` / `userFillsByTime` | `user` (`startTime`, `endTime`) | Your fills |
-| `userFunding` | `user, startTime, endTime?` | Your funding payments |
-| `activeAssetData` | `user, coin` | Your leverage and margin mode on that market, max order sizes |
-| `userFees` | `user` | Your base-tier fee rates (this dex charges twice these) |
-| `userRateLimit` | `user` | Your action budget |
-| `extraAgents` | `user` | Your approved API wallets |
+| `candleSnapshot` | `req` object containing `coin`, `interval`, `startTime`, `endTime` | OHLCV, maximum 5000 candles, `1m` to `1M` |
+| `fundingHistory` | `coin, startTime, endTime?` | Funding rates for each hour |
+| `perpDexs` | | Dex list and funding parameters |
+| `perpDexLimits` | `dex` | Open interest limits |
+| `spotClearinghouseState` | `user` | Balance. In unified mode, this is the balance for all positions. |
+| `clearinghouseState` | `user, dex` | Positions on the dex |
+| `openOrders` | `user, dex` | Open orders |
+| `orderStatus` | `user, oid` (or cloid) | Status of one order |
+| `userFills` / `userFillsByTime` | `user` (`startTime`, `endTime`) | Fills |
+| `userFunding` | `user, startTime, endTime?` | Funding payments |
+| `activeAssetData` | `user, coin` | Leverage, margin mode, maximum order sizes |
+| `userFees` | `user` | Base fee rates |
+| `userRateLimit` | `user` | Account budget |
+| `userAbstraction` | `user` | Account mode |
+| `extraAgents` | `user` | Approved API wallets |
 
 ## WebSocket
 
-Send `{"method": "subscribe", "subscription": {...}}` to `{{ v.ws_url }}`, and `{"method": "ping"}` at least every 60 s.
+Connect to `{{ v.ws_url }}`. Use the `subscribe` method with a `subscription` object identifying the channel type and its parameters. Send the `ping` method at intervals of 60 seconds or less.
 
-| `type` | Parameters | Streams |
+| `type` | Parameters | Data |
 |---|---|---|
-| `l2Book` | `coin` | Order book snapshots |
+| `l2Book` | `coin` | Order book |
 | `bbo` | `coin` | Best bid and offer |
 | `trades` | `coin` | Public trades |
 | `candle` | `coin, interval` | Candles |
 | `activeAssetCtx` | `coin` | Mark, oracle, funding, open interest |
-| `allMids` | `dex` | Mids for all our markets |
+| `allMids` | `dex` | Mid prices |
 | `userFills` | `user` | Your fills |
-| `orderUpdates` | `user` | Your order status changes |
+| `orderUpdates` | `user` | Changes to the status of your orders |
 | `userEvents` | `user` | Fills, funding, liquidations |
 | `userFundings` | `user` | Your funding payments |
 
-`coin` is always prefixed (`{{ v.dex }}:BTC`) and `user` is always the team wallet. Notes:
-
-- `webData2`, which appears in some examples, isn't available on testnet.
-- Tested through the Python SDK: `l2Book`, `bbo`, `trades`, `userFills`, `orderUpdates`. The SDK doesn't deliver every channel; if another subscription stays silent there, use a raw WebSocket client.
-- The first `userFills` and `trades` messages are snapshots of recent history. De-duplicate by `tid`.
+- The `coin` has the dex prefix (`{{ v.dex }}:BTC`). The `user` is the team wallet address.
+- The first `userFills` and `trades` messages contain recent history. Reconcile that history with events already processed. For public trades, identify duplicates by block time (`time`), `coin` and `tid` together; `tid` alone is not globally unique.
+- The Python SDK does not send data for all channels. If a channel sends no data, use a raw WebSocket client.
 
 ## Errors
 
-The quoted messages were captured on `{{ v.dex }}`; the rate-limit and nonce rows use Hyperliquid's documented wording. Order errors end with `asset=<asset id>`, which tells you which market.
+Order errors may end with `asset=<asset ID>`. This ID shows the market.
 
-| You see | Cause | Fix |
-|---|---|---|
-| `User or API Wallet 0x… does not exist.` | API wallet not approved, expired, replaced or removed; or you're signing for mainnet | Re-run `approve_api_wallet.py`; check you use the testnet URL |
-| `KeyError: 'BTC'` (Python SDK) | Plain coin name | Use `{{ v.dex }}:BTC` |
-| `Order must have minimum value of $10.` | price × size < 10 | Increase size |
-| `Order has invalid price.` | Too many decimals in the price | Round the price (see [rules](#price-and-size-rules)) |
-| `Price must be divisible by tick size.` | More than 5 significant figures | Round the price to 5 significant figures |
-| `Order has invalid size.` | Size not a multiple of the lot | Round the size down to `szDecimals` |
-| `Order price cannot be more than 80% away from the reference price` | Price far from the market | Move the price closer to the market |
-| `Post only order would have immediately matched, bbo was <bid>@<ask>.` | Your `Alo` price crosses the book | Move the price away from the other side |
-| `Order could not immediately match against any resting orders.` | `Ioc` with nothing to fill at your price | Check the book, widen your cap |
-| `Insufficient margin to place order.` | Not enough free balance for size ÷ leverage | Smaller size, higher leverage, or add margin |
-| `Reduce only order would increase position.` | Reduce-only with no position, on the wrong side, or bigger than the position | Check side and size |
-| `Invalid leverage value` | Leverage above the market's max | See max leverage in the [markets](#markets) table |
-| `Cannot set scheduled cancel time until enough volume traded. Required: $1000000.` | `schedule_cancel` before $1M of volume | Handle cleanup in your own code (see the guide, step 9) |
-| `Too many cumulative requests sent` | Account action budget spent | Slow down; see [rate limits](#rate-limits) |
-| Error mentioning `nonce` | Two processes share an API wallet, or your clock is off | One API wallet per process; sync your clock |
-| Queries return empty / zero | Querying the API wallet's address, or forgot `dex` | Use the team wallet address and `dex: "{{ v.dex }}"` |
-| Prices look nothing like expected | Reading Hyperliquid's native market | Prefix the coin, pass `dex` |
-
-## Practice vs scored
-
-| | Practice | Scored |
-|---|---|---|
-| Dates | 5–18 October | 19 October – 6 November |
-| Dex | `par` | To be announced |
-| Collateral | `USDPR` | To be announced |
-| Counts toward ranking | No | Yes |
-| Team wallet | Same | Same |
-| API wallets | Same (they belong to your account, not to a dex) | Same |
-| What changes in your code | — | `DEX`, and the token id if you move funds |
-
-## Glossary
-
-**API wallet** (also *agent*)
-: A key pair your team wallet authorizes to trade on its behalf. It can't withdraw or send funds to another address.
-
-**Builder dex / HIP-3**
-: An independent perpetuals exchange deployed on Hyperliquid's engine, with its own markets, collateral and oracle. `{{ v.dex }}` is one.
-
-**cloid**
-: Client order id, 16 bytes of hex that you choose.
-
-**Cross margin**
-: All your positions on the dex share your dex balance as margin.
-
-**Funding**
-: Hourly payment between longs and shorts that keeps the perp price close to the oracle.
-
-**HyperCore**
-: Hyperliquid's on-chain exchange engine: order books, margin, the API you trade on.
-
-**Isolated margin**
-: Each position has its own margin; a loss on one can't eat another's.
-
-**Mark price**
-: The price used for PnL, margin and liquidations.
-
-**Nonce**
-: Millisecond timestamp on every signed action, unique per signing key.
-
-**Open interest (OI)**
-: Total size of open positions in a market.
-
-**Oracle price**
-: The external reference price (from SEDA) that the market is anchored to.
-
-**szDecimals**
-: Number of decimals allowed in an order size; the lot is `10^-szDecimals`.
-
-**Team wallet**
-: The address you registered: your account, your balance, your score.
-
-**TIF**
-: Time in force: `Gtc`, `Ioc` or `Alo` (post-only).
+| Error | Action |
+|---|---|
+| `Must deposit before performing actions.` | The team wallet has no funds. Ask in `#general` on Discord. |
+| `User or API Wallet 0x… does not exist.` | Check the approval with `extraAgents` and use the testnet URL. If the approval expired or was removed, authorize a fresh API wallet through the team wallet. |
+| `KeyError: 'BTC'` (Python SDK) | Use `{{ v.dex }}:BTC`. |
+| `Order must have minimum value of $10.` | Increase the size. |
+| `Order has invalid price.` | Decrease the number of decimals. Refer to the [rules](#price-and-size-rules). |
+| `Price must be divisible by tick size.` | Use a maximum of 5 significant figures. |
+| `Order has invalid size.` | Decrease the size to a multiple of the lot. |
+| `Order price cannot be more than 80% away from the reference price` | Move the price nearer to the market price. |
+| `Post only order would have immediately matched, bbo was <bid>@<ask>.` | The `Alo` price crosses the book. Move the price away from the other side. |
+| `Order could not immediately match against any resting orders.` | No order is available at your `Ioc` price. Move the price limit further into the book. |
+| `Insufficient margin to place order.` | Decrease the size, or increase the leverage. |
+| `Reduce only order would increase position.` | Make sure that the side and the size are correct. |
+| `Invalid leverage value` | Use a leverage that is not more than the [max leverage](#markets). |
+| `Cannot set scheduled cancel time until enough volume traded. Required: $1000000.` | `schedule_cancel` is available after a trade volume of $1,000,000. |
+| `Too many cumulative requests sent` | The account budget is empty. Refer to [Rate limits](#rate-limits). |
+| An error about the `nonce` | Use one API wallet for each process. Make sure that your clock is correct. |
+| The balance is zero | Get the balance with `spotClearinghouseState`. Use the team wallet address. |
+| No positions or orders | Use the team wallet address and set the `dex` parameter to `{{ v.dex }}`. |
+| The prices are not correct | You read a native market. Add the dex prefix to the coin, and add `dex`. |
 
 </div>

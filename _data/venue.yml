@@ -1,13 +1,8 @@
 # Venue values used by /docs/ and /docs/reference/.
-# Switching phases (practice -> scored) should only need edits here.
-phase: practice
-phase_dates: 5–18 October
+# Switching phases (practice -> Live Trading) should only need edits here.
 dex: par
 dex_index: 257
 collateral: USDPR
-collateral_wire: "USDPR:0x8b36c9269f2331c61c83e15884b5835a"
-collateral_index: 3032
 api_url: https://api.hyperliquid-testnet.xyz
 ws_url: wss://api.hyperliquid-testnet.xyz/ws
-explorer: https://app.hyperliquid-testnet.xyz/explorer/address/
 sdk_version: 0.24.0
