@@ -1,4 +1,4 @@
-# Venue values used by /docs/ and /docs/reference/.
+# Venue values used by /docs/.
 # Switching phases (practice -> Live Trading) should only need edits here.
 dex: par
 dex_index: 257
