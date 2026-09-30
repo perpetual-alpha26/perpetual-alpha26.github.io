@@ -524,3 +524,75 @@ td {
         font-size: 0.95rem;
     }
 }
+
+/* Participant docs: long-form pages with code */
+.docs { max-width: 860px; margin-left: auto; margin-right: auto; padding-bottom: 4rem; }
+.docs h2 { scroll-margin-top: 5rem; }
+.docs h3 { font-size: 1.35rem; margin-top: 2.25rem; color: var(--text-primary); scroll-margin-top: 5rem; }
+.docs p, .docs li { font-size: 1.02rem; }
+.docs p, .docs li, .docs td, .docs dd { overflow-wrap: anywhere; }
+.docs ol { margin-bottom: 1.5rem; padding-left: 2rem; color: var(--text-secondary); }
+.docs em { color: var(--text-primary); }
+
+.docs code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.88em;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid var(--surface-border);
+    border-radius: 4px;
+    padding: 0.1em 0.35em;
+    color: var(--text-primary);
+}
+.docs pre {
+    background: rgba(11, 17, 30, 0.9);
+    border: 1px solid var(--surface-border);
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    margin: 0 0 1.5rem;
+    overflow-x: auto;
+    line-height: 1.5;
+}
+.docs pre code { background: none; border: 0; padding: 0; font-size: 0.85rem; }
+.docs div.highlighter-rouge { margin-bottom: 1.5rem; }
+.docs div.highlighter-rouge pre { margin-bottom: 0; }
+
+/* Rouge tokens, dark */
+.docs .highlight .c, .docs .highlight .c1, .docs .highlight .cm, .docs .highlight .sd { color: #64748b; font-style: italic; }
+.docs .highlight .k, .docs .highlight .kn, .docs .highlight .kd, .docs .highlight .kc, .docs .highlight .ow { color: #c792ea; }
+.docs .highlight .s, .docs .highlight .s1, .docs .highlight .s2, .docs .highlight .sa, .docs .highlight .si { color: #a5e3a0; }
+.docs .highlight .mi, .docs .highlight .mf, .docs .highlight .m { color: #f9ae58; }
+.docs .highlight .nf, .docs .highlight .fm { color: var(--accent-color); }
+.docs .highlight .nb, .docs .highlight .bp { color: #82aaff; }
+.docs .highlight .nt { color: #82aaff; }
+.docs .highlight .nv { color: #f9ae58; }
+
+.docs table { display: block; overflow-x: auto; font-size: 0.95rem; }
+.docs th, .docs td { padding: 0.6rem 0.8rem; vertical-align: top; }
+
+.docs .callout {
+    border: 1px solid var(--surface-border);
+    border-left: 3px solid var(--accent-color);
+    background: var(--surface-color);
+    border-radius: 6px;
+    padding: 1rem 1.25rem 0.1rem;
+    margin: 0 0 1.75rem;
+}
+.docs .callout.warn { border-left-color: #f9ae58; }
+.docs .callout p { font-size: 1rem; }
+
+.docs #markdown-toc {
+    border: 1px solid var(--surface-border);
+    border-radius: 8px;
+    padding: 1rem 1rem 1rem 2.5rem;
+    margin-bottom: 2.5rem;
+}
+.docs #markdown-toc ul { margin-bottom: 0; padding-left: 1.25rem; }
+.docs #markdown-toc li { margin-bottom: 0.2rem; }
+
+.docs dl { margin-bottom: 1.5rem; }
+.docs dt { color: var(--text-primary); font-weight: 600; margin-top: 1rem; }
+.docs dd { color: var(--text-secondary); margin-left: 0; }
+
+@media (max-width: 768px) {
+    .docs pre code { font-size: 0.78rem; }
+}
