@@ -344,8 +344,27 @@ Order errors may end with `asset=<asset ID>`. This ID shows the market.
 | No positions or orders | Use the team wallet address and set the `dex` parameter to `{{ v.dex }}`. |
 | The prices are not correct | You read a native market. Add the dex prefix to the coin, and add `dex`. |
 
+## Monitored behaviour
+
+The organizers record all activity on `{{ v.dex }}`: every trade with both counterparties, the order book, the oracle and mark prices, and each team wallet's equity, fills, funding and transfers. The table lists the behaviour that is **prohibited** and the data used to find it.
+
+| Behaviour | What it means | What the organizers check |
+|---|---|---|
+| **Wash trading and self-crossing** | Trading with yourself: your team on both sides of a trade, or accounts controlled by the same people | The buyer and seller of every trade |
+| **{{ v.collateral }} transfers between teams** | Sending or receiving `{{ v.collateral }}` to or from another team's wallet, directly or through an intermediate address | Every transfer in and out of each team wallet |
+| **Value transfer through trading** | One account losing on purpose to another, also when split over many trades, counterparties or days | Each team's net gain or loss against each counterparty, measured against the oracle |
+| **Coordinated or mirrored trading** | Teams trading in step: the same market at the same time, on the same side or on opposite sides | The timing and direction of fills across teams |
+| **Off-market trades** | Trades at prices far from the oracle, used to move value between accounts | The trade price against the oracle at the time of the trade |
+| **Book or price manipulation** | Moving the mark, the oracle or the book, for example with orders on a thin book | Book depth and spread over time, abnormal premium episodes, and who traded in them |
+
+Moving `{{ v.collateral }}` between the spot balance and `{{ v.dex }}` of the **same** team wallet is not a transfer between teams.
+
+<div class="callout warn" markdown="1">
+**WARNING:** A flag is not a verdict. The committee reviews the evidence and asks the team for an explanation before it decides. Confirmed violations result in **disqualification**.
+</div>
+
 ## Questions
 
-Ask in `#general` on Discord. Do not post a private key.
+Ask in `#ask-anything` on Discord. Do not post a private key.
 
 </div>
