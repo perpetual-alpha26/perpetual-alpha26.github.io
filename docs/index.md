@@ -324,7 +324,6 @@ Order errors may end with `asset=<asset ID>`. This ID shows the market.
 
 | Error | Action |
 |---|---|
-| `Must deposit before performing actions.` | The team wallet has no funds. Ask in `#general` on Discord. |
 | `User or API Wallet 0x… does not exist.` | Check the approval with `extraAgents` and use the testnet URL. If the approval expired or was removed, authorize a fresh API wallet through the team wallet. |
 | `KeyError: 'BTC'` (Python SDK) | Use `{{ v.dex }}:BTC`. |
 | `Order must have minimum value of $10.` | Increase the size. |
