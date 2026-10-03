@@ -11,8 +11,8 @@ title: Leaderboard
     
     <div class="teams-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; margin-top: 3rem; margin-bottom: 5rem;">
         {% for team in site.data.teams %}
-        <div class="glass-card team-card" data-teamname="{{ team | downcase | escape }}" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
-            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">{{ team }}</span>
+        <div class="glass-card team-card" data-teamname="{{ team.name | downcase | escape }}" data-teamemail="{{ team.email | downcase | escape }}" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">{{ team.name }}</span>
             <div class="traffic-light red" title="Onboarding Pending"></div>
         </div>
         {% endfor %}
@@ -70,23 +70,27 @@ title: Leaderboard
 
                 if (rows.length < 2) return;
                 
-                // Find "Team Name" column index
+                // Find "Team Name" and "Member 1 - Email" column indices
                 const headers = rows[0].map(h => h.trim().toLowerCase());
                 let teamColIdx = -1;
+                let emailColIdx = -1;
                 for (let i = 0; i < headers.length; i++) {
                     if (headers[i] === "team name") {
                         teamColIdx = i;
-                        break;
+                    } else if (headers[i] === "member 1 - email") {
+                        emailColIdx = i;
                     }
                 }
                 
-                if (teamColIdx === -1) return; // Column not found
-
-                // Extract onboarded team names
-                const onboardedTeams = new Set();
+                // Extract onboarded team names and emails
+                const onboardedNames = new Set();
+                const onboardedEmails = new Set();
                 for (let i = 1; i < rows.length; i++) {
-                    if (rows[i][teamColIdx]) {
-                        onboardedTeams.add(rows[i][teamColIdx].trim().toLowerCase());
+                    if (teamColIdx !== -1 && rows[i][teamColIdx]) {
+                        onboardedNames.add(rows[i][teamColIdx].trim().toLowerCase());
+                    }
+                    if (emailColIdx !== -1 && rows[i][emailColIdx]) {
+                        onboardedEmails.add(rows[i][emailColIdx].trim().toLowerCase());
                     }
                 }
 
@@ -94,7 +98,8 @@ title: Leaderboard
                 const teamCards = document.querySelectorAll('.team-card');
                 teamCards.forEach(card => {
                     const tName = card.getAttribute('data-teamname');
-                    if (onboardedTeams.has(tName)) {
+                    const tEmail = card.getAttribute('data-teamemail');
+                    if (onboardedNames.has(tName) || onboardedEmails.has(tEmail)) {
                         const light = card.querySelector('.traffic-light');
                         if (light) {
                             light.classList.remove('red');
