@@ -6,7 +6,7 @@ title: Leaderboard
 <div class="page-content">
     <div class="page-header" style="text-align: center; margin: 4rem 0 2rem 0;">
         <h1 style="font-size: 2.5rem; margin-bottom: 1rem; color: var(--accent-color);">Registered Teams</h1>
-        <p style="color: var(--text-secondary); max-width: 600px; margin: 0 auto;">The following teams are officially registered. A green light indicates that the team has successfully completed the onboarding process.</p>
+        <p style="color: var(--text-secondary); max-width: 600px; margin: 0 auto;">The following teams are officially registered. A green light indicates that the team has successfully completed the onboarding process submitting the registration form.</p>
     </div>
     
     <div class="teams-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; margin-top: 3rem; margin-bottom: 5rem;">
