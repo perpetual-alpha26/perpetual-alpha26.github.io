@@ -596,3 +596,23 @@ td {
 @media (max-width: 768px) {
     .docs pre code { font-size: 0.78rem; }
 }
+
+/* Traffic Lights */
+.traffic-light {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    display: inline-block;
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.5);
+    transition: background-color 0.5s ease, box-shadow 0.5s ease;
+}
+
+.traffic-light.red {
+    background-color: #ff3b30;
+    box-shadow: 0 0 10px rgba(255, 59, 48, 0.6), inset 0 0 5px rgba(0,0,0,0.3);
+}
+
+.traffic-light.green {
+    background-color: #34c759;
+    box-shadow: 0 0 10px rgba(52, 199, 89, 0.6), inset 0 0 5px rgba(0,0,0,0.3);
+}
