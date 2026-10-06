@@ -1,0 +1,8 @@
+# Leaderboard page settings.
+# The backend writes the data (`tracker leaderboard`) and the organizer panel
+# serves it without login. data_url: the panel's public address followed by
+# /public/leaderboard.json. Empty: the page says the leaderboard is not available yet.
+data_url: ""
+# Local preview (`jekyll serve`) reads this file from the site root instead.
+dev_data_url: /leaderboard.dev.json
+refresh_seconds: 60
