@@ -38,8 +38,8 @@ title: Important Dates
                     <td>Three weeks of continuous trading. <em>(Scored)</em></td>
                 </tr>
                 <tr>
-                    <td><strong>Nov 9</strong></td>
-                    <td><strong>Submission Deadline</strong></td>
+                    <td><strong>Nov 6</strong></td>
+                    <td><strong>Report Submission</strong></td>
                     <td>Deadline to submit technical reports (2–4 pages) and code.</td>
                 </tr>
                 <tr>

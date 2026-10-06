@@ -28,7 +28,7 @@ title: Perpetual Alpha
             <li style="margin-bottom: 0.5rem;"><strong style="color: var(--accent-color);">Oct 5:</strong> Practice tests (non-scored).</li>
             <li style="margin-bottom: 0.5rem;"><strong style="color: var(--accent-color);">Oct 19:</strong> 3, 2, 1 ... GO! Scored Phase</li>
             <li style="margin-bottom: 0.5rem;"><strong style="color: var(--accent-color);">Nov 6:</strong> End of the trading phase</li>
-            <li style="margin-bottom: 0.5rem;"><strong style="color: var(--accent-color);">Nov 9:</strong> Report submission</li>
+            <li style="margin-bottom: 0.5rem;"><strong style="color: var(--accent-color);">Nov 6:</strong> Report submission</li>
             <li style="margin-bottom: 0.5rem;"><strong style="color: var(--accent-color);">Nov 14-17:</strong> ICAIF 2026 Milan</li>
         </ul>
     </div>
