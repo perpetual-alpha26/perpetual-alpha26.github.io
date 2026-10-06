@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-site-verification" content="8SC6aDf0lhU8oSL496rmS0_QrUduoHIWdnqtErCUa1c" />
+    <title>Committee & Sponsors</title>
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Perpetual Alpha">
+    <meta property="og:description" content="The AI Trading Competition on Hyperliquid">
+    <meta property="og:image" content="https://perpetual-alpha26.github.io/assets/images/hero_image.png">
+    <meta property="og:url" content="https://perpetual-alpha26.github.io/committee.html">
+    <meta property="og:type" content="website">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Perpetual Alpha">
+    <meta name="twitter:description" content="The AI Trading Competition on Hyperliquid">
+    <meta name="twitter:image" content="https://perpetual-alpha26.github.io/assets/images/hero_image.png">
+
+    <link rel="icon" type="image/png" href="/assets/images/favicon.png">
+    <link rel="stylesheet" href="/assets/css/style.css?v=3">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header class="site-header" id="site-header">
+    <div class="container header-content">
+        <a href="/" class="mobile-brand">
+            <img src="/assets/images/logo.png" alt="Logo" class="mobile-logo">
+            <span class="mobile-title">Perpetual <span class="highlight">Alpha</span></span>
+        </a>
+        <button id="mobile-menu-btn" class="mobile-menu-btn">☰</button>
+        <nav class="main-nav" id="main-nav">
+            <a href="/" class="">Home</a>
+            <a href="/about" class="">About</a>
+            <a href="/schedule" class="">Schedule</a>
+            <a href="/docs/" class="">Docs</a>
+            <a href="/leaderboard" class="">Leaderboard</a>
+            <a href="/faq" class="">FAQ</a>
+            <a href="/committee" class="active">Committee</a>
+        </nav>
+    </div>
+</header>
+
+<script>
+    let lastScrollTop = 0;
+    const header = document.getElementById("site-header");
+    const menuBtn = document.getElementById("mobile-menu-btn");
+    const nav = document.getElementById("main-nav");
+
+    // Hamburger toggle
+    menuBtn.addEventListener("click", function() {
+        nav.classList.toggle("nav-open");
+    });
+
+    // Scroll hide
+    window.addEventListener("scroll", function() {
+        let currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+        
+        if (currentScroll > lastScrollTop && currentScroll > 80) {
+            // Scrolling down - only hide if menu isn't open
+            if (!nav.classList.contains("nav-open")) {
+                header.classList.add("header-hidden");
+            }
+        } else {
+            // Scrolling up
+            header.classList.remove("header-hidden");
+        }
+        lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
+    }, false);
+</script>
+
+    <main class="container">
+        <div class="page-content">
+    <h1>Committee &amp; Organizers</h1>
+    <p>Perpetual Alpha is organized by a dedicated team of researchers and industry professionals as part of the ICAIF 2026 conference.</p>
+
+    <div class="card-grid" style="margin-top: 2rem;">
+        <div class="glass-card">
+            <h3>Organizing Committee</h3>
+            <ul>
+                <li><strong>Federico Gatta</strong> - Scuola Normale Superiore</li>
+                <li><strong>Giorgio Guidetti</strong> - Milano Blockchain Week</li>
+                <li><strong>Manuel Naviglio</strong> - Scuola Normale Superiore</li>
+                <li><strong>Andrea Prampolini</strong> - Intesa Sanpaolo</li>
+                <li><strong>Marcello Restelli</strong> - Politecnico di Milano</li>
+                <li><strong>Francesco Tarantelli</strong> - Università di Bologna</li>
+                <li><strong>Edoardo Vittori</strong> - Intesa Sanpaolo</li>
+            </ul>
+        </div>
+    </div>
+
+    <h2 style="margin-top: 4rem;">Expert Jury</h2>
+    <p>Our panel of expert jurors will evaluate each team's technical report and the sophistication of their trading algorithm. The full list of jurors will be published after the competition concludes.</p>
+    
+    <div class="glass-card" style="margin-top: 2rem;">
+        <ul>
+            <li><em>Jury member details hidden until November 2026.</em></li>
+        </ul>
+    </div>
+
+<!--
+    <h2 style="margin-top: 4rem;">Sponsors & Partners</h2>
+    <p>We are grateful to our sponsors for supporting this competition and providing the infrastructure for the live trading phase.</p>
+
+    <div class="glass-card" style="margin-top: 2rem; text-align: center;">
+        <p><em>[Sponsor Logos and Banners will be placed here]</em></p>
+    </div>
+-->
+    <h2 style="margin-top: 4rem;">Partners</h2>
+    <p>We are grateful to our partners for providing the infrastructure for the competition.</p>
+
+    <div class="glass-card" style="margin-top: 2rem; text-align: center;">
+        <div style="margin-bottom: 1rem;">
+            <p style="color: var(--accent-color); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem; margin-bottom: 1.5rem;">Market Maker Partner</p>
+            <a href="https://keyrock.eu/" target="_blank">
+                <img src="/assets/images/keyrock.png" alt="Keyrock Logo" style="max-width: 250px; height: auto; filter: drop-shadow(0 0 8px rgba(0,255,209,0.2)); transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'" />
+            </a>
+        </div>
+    </div>
+</div>
+
+    </main>
+    <footer class="site-footer">
+    <div class="container footer-content">
+        <div class="footer-section">
+            <h4>Perpetual Alpha</h4>
+            <p>The AI Trading Competition on Hyperliquid.</p>
+        </div>
+        <div class="footer-section">
+            <h4>Contact</h4>
+            <p><a href="mailto:perpetual-alpha@googlegroups.com">perpetual-alpha@googlegroups.com</a></p>
+        </div>
+        <div class="footer-section">
+            <h4>Organized within</h4>
+            <p><a href="https://icaif2026.org/" target="_blank">ICAIF 2026</a></p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2026. Built with Jekyll and GitHub Pages.</p>
+    </div>
+</footer>
+
+</body>
+</html>

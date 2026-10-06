@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-site-verification" content="8SC6aDf0lhU8oSL496rmS0_QrUduoHIWdnqtErCUa1c" />
+    <title>Leaderboard</title>
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Perpetual Alpha">
+    <meta property="og:description" content="The AI Trading Competition on Hyperliquid">
+    <meta property="og:image" content="https://perpetual-alpha26.github.io/assets/images/hero_image.png">
+    <meta property="og:url" content="https://perpetual-alpha26.github.io/leaderboard.html">
+    <meta property="og:type" content="website">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Perpetual Alpha">
+    <meta name="twitter:description" content="The AI Trading Competition on Hyperliquid">
+    <meta name="twitter:image" content="https://perpetual-alpha26.github.io/assets/images/hero_image.png">
+
+    <link rel="icon" type="image/png" href="/assets/images/favicon.png">
+    <link rel="stylesheet" href="/assets/css/style.css?v=3">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header class="site-header" id="site-header">
+    <div class="container header-content">
+        <a href="/" class="mobile-brand">
+            <img src="/assets/images/logo.png" alt="Logo" class="mobile-logo">
+            <span class="mobile-title">Perpetual <span class="highlight">Alpha</span></span>
+        </a>
+        <button id="mobile-menu-btn" class="mobile-menu-btn">☰</button>
+        <nav class="main-nav" id="main-nav">
+            <a href="/" class="">Home</a>
+            <a href="/about" class="">About</a>
+            <a href="/schedule" class="">Schedule</a>
+            <a href="/docs/" class="">Docs</a>
+            <a href="/leaderboard" class="active">Leaderboard</a>
+            <a href="/faq" class="">FAQ</a>
+            <a href="/committee" class="">Committee</a>
+        </nav>
+    </div>
+</header>
+
+<script>
+    let lastScrollTop = 0;
+    const header = document.getElementById("site-header");
+    const menuBtn = document.getElementById("mobile-menu-btn");
+    const nav = document.getElementById("main-nav");
+
+    // Hamburger toggle
+    menuBtn.addEventListener("click", function() {
+        nav.classList.toggle("nav-open");
+    });
+
+    // Scroll hide
+    window.addEventListener("scroll", function() {
+        let currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+        
+        if (currentScroll > lastScrollTop && currentScroll > 80) {
+            // Scrolling down - only hide if menu isn't open
+            if (!nav.classList.contains("nav-open")) {
+                header.classList.add("header-hidden");
+            }
+        } else {
+            // Scrolling up
+            header.classList.remove("header-hidden");
+        }
+        lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
+    }, false);
+</script>
+
+    <main class="container">
+        <div class="page-content">
+    <div class="page-header" style="text-align: center; margin: 4rem 0 2rem 0;">
+        <h1 style="font-size: 2.5rem; margin-bottom: 1rem; color: var(--accent-color);">Registered Teams</h1>
+        <p style="color: var(--text-secondary); max-width: 600px; margin: 0 auto;">The following teams are officially registered. A green light indicates that the team has successfully completed the onboarding process submitting the registration form.</p>
+    </div>
+    
+    <div class="teams-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; margin-top: 3rem; margin-bottom: 5rem;">
+        
+        <div class="glass-card team-card" data-teamname="acla trading" data-teamemail="amedeo.girola@mail.polimi.it" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">ACLA trading</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="ag baltha" data-teamemail="contact@baltha.net" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">AG Baltha</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="amar" data-teamemail="riccardo.ravelli@studenti.unipd.it" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">AMAR</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="algo hedge" data-teamemail="jybyun@hanyang.ac.kr" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">Algo Hedge</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="alpha edge" data-teamemail="zekaiyang06@gmail.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">Alpha Edge</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="alphaboston" data-teamemail="jaehkim@bu.edu" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">AlphaBoston</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="alphagent" data-teamemail="guanghao.wu@student.uts.edu.au" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">Alphagent</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="anchorium" data-teamemail="ad.adesh22@gmail.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">Anchorium</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="annapurna" data-teamemail="tiwarilaxuu@gmail.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">Annapurna</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="annoying" data-teamemail="riccardo.caruso@studenti.unipd.it" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">Annoying</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="anonynynynynymous" data-teamemail="yunfei.zhou-2@student.manchester.ac.uk" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">Anonynynynynymous</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="appara" data-teamemail="sauveerkumar8@gmail.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">Appara</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="auror" data-teamemail="dn.kyle141@gmail.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">Auror</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="aware situationally" data-teamemail="skhaw@stevens.edu" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">Aware Situationally</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="b&amp;s" data-teamemail="matteo.grassini04@gmail.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">B&amp;S</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="bean" data-teamemail="gramonerdev@gmail.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">Bean</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="berserkerbots" data-teamemail="domenico1.barone@mail.polimi.it" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">BerserkerBots</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="bishopgambit" data-teamemail="srgradapplications@outlook.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">BishopGambit</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="blackswans" data-teamemail="giuliatala32@gmail.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">Blackswans</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="bullishonmoney" data-teamemail="anushreegoyal04@gmail.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">BullishOnMoney</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="catalystx" data-teamemail="ybuhari017@gmail.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">CatalystX</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="cavallo pazzo" data-teamemail="davide.barone@sns.it" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">Cavallo pazzo</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="clinton obi" data-teamemail="clintonobi15@gmail.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">Clinton Obi</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="cryptosaiyan" data-teamemail="taralthota@gmail.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">CryptoSaiyan</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="ctrl+alt+defi" data-teamemail="francesco@landi.work" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">Ctrl+Alt+DeFi</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="datalovers" data-teamemail="pulkitchatwal@gmail.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">DataLovers</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="dededonuts" data-teamemail="georgia.uwechue@stonybrook.edu" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">DeDeDonuts</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="deterministic replay" data-teamemail="riccardoangelo.giro@gmail.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">Deterministic Replay</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="dissensus" data-teamemail="murad@dissensus.ai" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">Dissensus</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="duck" data-teamemail="npathak1@stevens.edu" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">Duck</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="etal" data-teamemail="paulinalinwang@gmail.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">ETAL</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="ethtrm" data-teamemail="ritwik.majumdar@gmail.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">ETHtrm</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="ermocolle" data-teamemail="arber.ngjela@gmail.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">ErmoColle</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="eurus labs" data-teamemail="euruszxgeng@gmail.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">Eurus Labs</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="finx" data-teamemail="jiwonpark@hanyang.ac.kr" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">FINX</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="finsselaer" data-teamemail="andyzhu68@yahoo.ca" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">Finsselaer</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="freud" data-teamemail="xpayamtaebix@gmail.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">Freud</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="from the cantina" data-teamemail="leonardo.antoniolli@studenti.unipd.it" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">From the cantina</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="from trenches" data-teamemail="muhammadsidiahmad@gmail.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">From trenches</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="goldie" data-teamemail="mraadi923@gmail.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">Goldie</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="gradientalpha" data-teamemail="czhangfp@connect.ust.hk" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">GradientAlpha</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="hashstock" data-teamemail="kantharsh07@gmail.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">HashStock</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="hedging face" data-teamemail="gabriele.bernardi.2@studenti.unipd.it" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">Hedging Face</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="hypertrading" data-teamemail="kang5647@hotmail.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">HyperTrading</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="i sapienti" data-teamemail="dalessandro.2196838@studenti.uniroma1.it" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">I Sapienti</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="illini quants" data-teamemail="guptaavij10@gmail.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">ILLINI QUANTS</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="it works on my backtest" data-teamemail="eileenk@hufs.ac.kr" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">It Works on My Backtest</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="jordi" data-teamemail="jordiparis@outlook.fr" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">Jordi</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="kkty" data-teamemail="k.task35@gmail.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">KKTY</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="kolmogorov juniors" data-teamemail="lancellotti.matteo19@gmail.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">Kolmogorov juniors</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="ms" data-teamemail="msungkim0226@gmail.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">MS</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="marimbalpha" data-teamemail="rriccardo320@gmail.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">Marimbalpha</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="market makers" data-teamemail="kritin.devadasmadhavan@edhec.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">Market Makers</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="mercury" data-teamemail="gundapunenih@gmail.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">Mercury</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="minmaxalpha" data-teamemail="robolorzity@gmail.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">MinMaxAlpha</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="misty" data-teamemail="bitingzhu@stu.pku.edu.cn" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">Misty</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="mlq" data-teamemail="rosemarytomy382002@gmail.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">Mlq</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="moggifier" data-teamemail="carlo.cirilli12@gmail.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">Moggifier</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="nabi&#39;s team" data-teamemail="aknsut4598@gmail.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">Nabi's Team</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="need for spread" data-teamemail="riccardo.gozzo@sns.it" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">Need for spread</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="nomad" data-teamemail="telwadkardadhichi@gmail.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">Nomad</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="not cheating" data-teamemail="ziyi.gu24@imperial.ac.uk" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">Not Cheating</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="numerus" data-teamemail="vijaypadmakumar@outlook.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">Numerus</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="overfit &amp; overconfident" data-teamemail="toninidavide.quant@gmail.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">Overfit &amp; Overconfident</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="overfitting anonymous" data-teamemail="ippolitosalvatore2002@gmail.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">Overfitting Anonymous</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="pandora" data-teamemail="sergey.rossman@gmail.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">Pandora</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="polenta e osei" data-teamemail="marcofracca.29@gmail.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">Polenta e Osei</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="polimi_alphahunters" data-teamemail="michele.sicignano@mail.polimi.it" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">PoliMi_AlphaHunters</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="poseidonarb" data-teamemail="hluo1@babson.edu" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">PoseidonArb</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="prediction@illinois" data-teamemail="yy85@illinois.edu" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">Prediction@illinois</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="quant taiwan" data-teamemail="leo.weng.0516@gmail.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">QUANT TAIWAN</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="quantchester united" data-teamemail="matteo.misto02@gmail.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">Quantchester United</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="quantum traders" data-teamemail="mariacarmen.avilescardenas@studenti.unipd.it" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">Quantum traders</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="quantumcrypto" data-teamemail="fotogfreak.sandeep@gmail.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">QuantumCrypto</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="rfs class19" data-teamemail="xiaqi4426@gmail.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">RFS class19</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="raffo" data-teamemail="davide.raffaellii@gmail.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">Raffo</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="reinforcement traders" data-teamemail="marcobattiston21@gmail.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">Reinforcement Traders</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="resident evil" data-teamemail="hjcjob@outlook.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">Resident Evil</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="roboquant" data-teamemail="pellicciottiluca@gmail.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">RoboQuant</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="saps" data-teamemail="sparshgau16@gmail.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">SAPS</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="sfc" data-teamemail="briansfchan@gmail.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">SFC</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="sfinx" data-teamemail="soobeenkim@hanyang.ac.kr" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">SFINX</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="samwisesquad 2.0" data-teamemail="agata.venturi@mail.polimi.it" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">SamwiseSquad 2.0</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="secretive plotter" data-teamemail="juhwankim@hanyang.ac.kr" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">Secretive Plotter</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="signalflow" data-teamemail="2748195872@qq.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">SignalFlow</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="slipstream" data-teamemail="cwj5060@gmail.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">Slipstream</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="sniper" data-teamemail="tai-tran@live.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">Sniper</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="soloqueue capital" data-teamemail="ceskevinbettin@gmail.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">SoloQueue Capital</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="sothh" data-teamemail="ndkxuyen@gmail.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">Sothh</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="starkvision" data-teamemail="arush23136@iiitd.ac.in" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">StarkVision</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="sub_whale" data-teamemail="smeyylan@gmail.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">Sub_Whale</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="tachiai" data-teamemail="gojuggl26@gmail.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">Tachiai</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="texasthebest" data-teamemail="alanx0924@gmail.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">TexasTheBest</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="the boltzmann constant" data-teamemail="miguel.angel.venturaf@gmail.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">The Boltzmann Constant</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="thorp" data-teamemail="yv25217@bristol.ac.uk" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">Thorp</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="three of a kind" data-teamemail="knightsk@tcd.ie" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">Three Of A Kind</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="tortellini al pesto e polenta" data-teamemail="filo3202@gmail.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">Tortellini al pesto e polenta</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="trade brothers" data-teamemail="m.mancini1792@gmail.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">Trade Brothers</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="tradescaleup" data-teamemail="itoledo.montero@gmail.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">TradeScaleUP</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="turner traders" data-teamemail="a3vaishn@waterloo.ca" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">Turner Traders</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="twinkathon" data-teamemail="mmedniko@stevens.edu" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">Twinkathon</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="unit trader" data-teamemail="abdelmalek.anmili@studio.unibo.it" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">Unit Trader</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="vibe trader" data-teamemail="mrc.pace00@gmail.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">Vibe Trader</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="vulpecula" data-teamemail="litrevulpecula@foxmail.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">Vulpecula</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="white-noise-walkers" data-teamemail="nic.dalcin@gmail.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">White-Noise-Walkers</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="wonka alpha capital" data-teamemail="wheels.cs.work@gmail.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">Wonka Alpha Capital</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="xaniter" data-teamemail="xaniter16@gmail.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">Xaniter</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="aabx" data-teamemail="boxunan2029@u.northwestern.edu" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">aabx</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="asahi" data-teamemail="takase.masahiko.research@gmail.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">asahi</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="defacto" data-teamemail="iitian2005guptajee@gmail.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">defacto</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="fjd" data-teamemail="ensong.zhang@gmail.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">fjd</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="just me" data-teamemail="ziaad.negmel-din@uva.nl" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">just me</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="lifeisluck" data-teamemail="kimbumjun001027@gmail.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">lifeisluck</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="me" data-teamemail="bmensah01@icloud.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">me</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="mjj" data-teamemail="machangzhe@gmail.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">mjj</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="pivas" data-teamemail="ai_reg_net@proton.me" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">pivas</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="richagain" data-teamemail="lhzx888888@gmail.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">richagain</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="sloppy31" data-teamemail="cristiarazvan@gmail.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">sloppy31</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="tokenmaxxing" data-teamemail="ka3173@columbia.edu" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">tokenmaxxing</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="trojans" data-teamemail="trevorttcheng@gmail.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">trojans</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+        <div class="glass-card team-card" data-teamname="zc6" data-teamemail="mini153misako@gmail.com" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
+            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">zc6</span>
+            <div class="traffic-light red" title="Onboarding Pending"></div>
+        </div>
+        
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTicD-3XH4OKrikRKMxyG92AgnMFEF7kL-7u4zU12Le-k9S8EodKUvKxyOuKeDP2gi5KXXD1wDVZAI0/pub?gid=49022248&single=true&output=csv";
+        
+        fetch(csvUrl)
+            .then(response => response.text())
+            .then(csvText => {
+                // Parse CSV (Handling quotes)
+                const rows = [];
+                let row = [];
+                let inQuotes = false;
+                let val = '';
+                for (let i = 0; i < csvText.length; i++) {
+                    const char = csvText[i];
+                    if (inQuotes) {
+                        if (char === '"') {
+                            if (i + 1 < csvText.length && csvText[i+1] === '"') {
+                                val += '"';
+                                i++;
+                            } else {
+                                inQuotes = false;
+                            }
+                        } else {
+                            val += char;
+                        }
+                    } else {
+                        if (char === '"') {
+                            inQuotes = true;
+                        } else if (char === ',') {
+                            row.push(val);
+                            val = '';
+                        } else if (char === '\n' || char === '\r') {
+                            row.push(val);
+                            rows.push(row);
+                            val = '';
+                            row = [];
+                            if (char === '\r' && i + 1 < csvText.length && csvText[i+1] === '\n') {
+                                i++; // skip \n after \r
+                            }
+                        } else {
+                            val += char;
+                        }
+                    }
+                }
+                if (val !== '' || row.length > 0) {
+                    row.push(val);
+                    rows.push(row);
+                }
+
+                if (rows.length < 2) return;
+                
+                // Find "Team Name" and "Member 1 - Email" column indices
+                const headers = rows[0].map(h => h.trim().toLowerCase());
+                let teamColIdx = -1;
+                let emailColIdx = -1;
+                for (let i = 0; i < headers.length; i++) {
+                    if (headers[i] === "team name") {
+                        teamColIdx = i;
+                    } else if (headers[i] === "member 1 - email") {
+                        emailColIdx = i;
+                    }
+                }
+                
+                // Extract onboarded team names and emails
+                const onboardedNames = new Set();
+                const onboardedEmails = new Set();
+                for (let i = 1; i < rows.length; i++) {
+                    if (teamColIdx !== -1 && rows[i][teamColIdx]) {
+                        onboardedNames.add(rows[i][teamColIdx].trim().toLowerCase());
+                    }
+                    if (emailColIdx !== -1 && rows[i][emailColIdx]) {
+                        onboardedEmails.add(rows[i][emailColIdx].trim().toLowerCase());
+                    }
+                }
+
+                // Update UI
+                const teamCards = document.querySelectorAll('.team-card');
+                teamCards.forEach(card => {
+                    const tName = card.getAttribute('data-teamname');
+                    const tEmail = card.getAttribute('data-teamemail');
+                    if (onboardedNames.has(tName) || onboardedEmails.has(tEmail)) {
+                        const light = card.querySelector('.traffic-light');
+                        if (light) {
+                            light.classList.remove('red');
+                            light.classList.add('green');
+                            light.setAttribute('title', 'Onboarded');
+                        }
+                    }
+                });
+            })
+            .catch(error => console.error("Error fetching onboarding data:", error));
+    });
+</script>
+
+
+    </main>
+    <footer class="site-footer">
+    <div class="container footer-content">
+        <div class="footer-section">
+            <h4>Perpetual Alpha</h4>
+            <p>The AI Trading Competition on Hyperliquid.</p>
+        </div>
+        <div class="footer-section">
+            <h4>Contact</h4>
+            <p><a href="mailto:perpetual-alpha@googlegroups.com">perpetual-alpha@googlegroups.com</a></p>
+        </div>
+        <div class="footer-section">
+            <h4>Organized within</h4>
+            <p><a href="https://icaif2026.org/" target="_blank">ICAIF 2026</a></p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2026. Built with Jekyll and GitHub Pages.</p>
+    </div>
+</footer>
+
+</body>
+</html>

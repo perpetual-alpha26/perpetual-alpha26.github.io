@@ -22,7 +22,7 @@ title: Important Dates
                     <td><strong>Registration Deadline</strong></td>
                     <td>Team registration closes.</td>
                 </tr>
-                <tr>
+                <tr style="text-decoration: line-through; opacity: 0.5;">
                     <td><strong>Sep 21 – Oct 4</strong></td>
                     <td><strong>Onboarding</strong></td>
                     <td>Wallet whitelisting, testnet funding, and tutorial notebooks.</td>
@@ -43,7 +43,7 @@ title: Important Dates
                     <td>Deadline to submit technical reports (2–4 pages) and code.</td>
                 </tr>
                 <tr>
-                    <td><strong>Nov 9 – Nov 12</strong></td>
+                    <td><strong>Nov 6 – Nov 9</strong></td>
                     <td><strong>Jury Evaluation</strong></td>
                     <td>Code walkthroughs, final score computation, and finalist notifications.</td>
                 </tr>

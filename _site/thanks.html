@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-site-verification" content="8SC6aDf0lhU8oSL496rmS0_QrUduoHIWdnqtErCUa1c" />
+    <title>Thank You</title>
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Perpetual Alpha">
+    <meta property="og:description" content="The AI Trading Competition on Hyperliquid">
+    <meta property="og:image" content="https://perpetual-alpha26.github.io/assets/images/hero_image.png">
+    <meta property="og:url" content="https://perpetual-alpha26.github.io/thanks">
+    <meta property="og:type" content="website">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Perpetual Alpha">
+    <meta name="twitter:description" content="The AI Trading Competition on Hyperliquid">
+    <meta name="twitter:image" content="https://perpetual-alpha26.github.io/assets/images/hero_image.png">
+
+    <link rel="icon" type="image/png" href="/assets/images/favicon.png">
+    <link rel="stylesheet" href="/assets/css/style.css?v=3">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header class="site-header" id="site-header">
+    <div class="container header-content">
+        <a href="/" class="mobile-brand">
+            <img src="/assets/images/logo.png" alt="Logo" class="mobile-logo">
+            <span class="mobile-title">Perpetual <span class="highlight">Alpha</span></span>
+        </a>
+        <button id="mobile-menu-btn" class="mobile-menu-btn">☰</button>
+        <nav class="main-nav" id="main-nav">
+            <a href="/" class="">Home</a>
+            <a href="/about" class="">About</a>
+            <a href="/schedule" class="">Schedule</a>
+            <a href="/docs/" class="">Docs</a>
+            <a href="/leaderboard" class="">Leaderboard</a>
+            <a href="/faq" class="">FAQ</a>
+            <a href="/committee" class="">Committee</a>
+        </nav>
+    </div>
+</header>
+
+<script>
+    let lastScrollTop = 0;
+    const header = document.getElementById("site-header");
+    const menuBtn = document.getElementById("mobile-menu-btn");
+    const nav = document.getElementById("main-nav");
+
+    // Hamburger toggle
+    menuBtn.addEventListener("click", function() {
+        nav.classList.toggle("nav-open");
+    });
+
+    // Scroll hide
+    window.addEventListener("scroll", function() {
+        let currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+        
+        if (currentScroll > lastScrollTop && currentScroll > 80) {
+            // Scrolling down - only hide if menu isn't open
+            if (!nav.classList.contains("nav-open")) {
+                header.classList.add("header-hidden");
+            }
+        } else {
+            // Scrolling up
+            header.classList.remove("header-hidden");
+        }
+        lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
+    }, false);
+</script>
+
+    <main class="container">
+        <div class="page-content" style="text-align: center; max-width: 600px; margin: 0 auto;">
+    <h1 style="color: var(--accent-color); margin-bottom: 1rem;">Registration Received!</h1>
+    
+    <div class="glass-card" style="margin-top: 2rem; text-align: left;">
+        <p><strong>Thank you for enrolling your team in the Perpetual Alpha Hackathon!</strong></p>
+        
+        <p>We have successfully received your submission and our team will review it shortly.</p>
+        
+        <h3 style="margin-top: 1.5rem;">What happens next?</h3>
+        <ul>
+            <li style="margin-bottom: 0.5rem;">We will be in contact soon via the email address you provided with instructions for the next steps.</li>
+            <!-- <li style="margin-bottom: 0.5rem;">If you haven't already, please make sure to join our official communication channels to stay up-to-date with announcements.</li> -->
+            <li style="margin-bottom: 0.5rem;">Shine the keyboard and start preparing your trading strategies!</li>
+        </ul>
+        
+        <p style="margin-top: 2rem; text-align: center;">We are excited to welcome you onboard!</p>
+        
+        <div style="text-align: center; margin-top: 2rem;">
+            <a href="/" class="btn">Return to Homepage</a>
+        </div>
+    </div>
+</div>
+
+    </main>
+    <footer class="site-footer">
+    <div class="container footer-content">
+        <div class="footer-section">
+            <h4>Perpetual Alpha</h4>
+            <p>The AI Trading Competition on Hyperliquid.</p>
+        </div>
+        <div class="footer-section">
+            <h4>Contact</h4>
+            <p><a href="mailto:perpetual-alpha@googlegroups.com">perpetual-alpha@googlegroups.com</a></p>
+        </div>
+        <div class="footer-section">
+            <h4>Organized within</h4>
+            <p><a href="https://icaif2026.org/" target="_blank">ICAIF 2026</a></p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2026. Built with Jekyll and GitHub Pages.</p>
+    </div>
+</footer>
+
+</body>
+</html>

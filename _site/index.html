@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-site-verification" content="8SC6aDf0lhU8oSL496rmS0_QrUduoHIWdnqtErCUa1c" />
+    <title>Perpetual Alpha</title>
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Perpetual Alpha">
+    <meta property="og:description" content="The AI Trading Competition on Hyperliquid">
+    <meta property="og:image" content="https://perpetual-alpha26.github.io/assets/images/hero_image.png">
+    <meta property="og:url" content="https://perpetual-alpha26.github.io/">
+    <meta property="og:type" content="website">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Perpetual Alpha">
+    <meta name="twitter:description" content="The AI Trading Competition on Hyperliquid">
+    <meta name="twitter:image" content="https://perpetual-alpha26.github.io/assets/images/hero_image.png">
+
+    <link rel="icon" type="image/png" href="/assets/images/favicon.png">
+    <link rel="stylesheet" href="/assets/css/style.css?v=3">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header class="site-header" id="site-header">
+    <div class="container header-content">
+        <a href="/" class="mobile-brand">
+            <img src="/assets/images/logo.png" alt="Logo" class="mobile-logo">
+            <span class="mobile-title">Perpetual <span class="highlight">Alpha</span></span>
+        </a>
+        <button id="mobile-menu-btn" class="mobile-menu-btn">☰</button>
+        <nav class="main-nav" id="main-nav">
+            <a href="/" class="active">Home</a>
+            <a href="/about" class="">About</a>
+            <a href="/schedule" class="">Schedule</a>
+            <a href="/docs/" class="">Docs</a>
+            <a href="/leaderboard" class="">Leaderboard</a>
+            <a href="/faq" class="">FAQ</a>
+            <a href="/committee" class="">Committee</a>
+        </nav>
+    </div>
+</header>
+
+<script>
+    let lastScrollTop = 0;
+    const header = document.getElementById("site-header");
+    const menuBtn = document.getElementById("mobile-menu-btn");
+    const nav = document.getElementById("main-nav");
+
+    // Hamburger toggle
+    menuBtn.addEventListener("click", function() {
+        nav.classList.toggle("nav-open");
+    });
+
+    // Scroll hide
+    window.addEventListener("scroll", function() {
+        let currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+        
+        if (currentScroll > lastScrollTop && currentScroll > 80) {
+            // Scrolling down - only hide if menu isn't open
+            if (!nav.classList.contains("nav-open")) {
+                header.classList.add("header-hidden");
+            }
+        } else {
+            // Scrolling up
+            header.classList.remove("header-hidden");
+        }
+        lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
+    }, false);
+</script>
+
+    <main class="container">
+        <div class="hero">
+    <div class="hero-content">
+        <h1 class="hero-title">Perpetual <span class="highlight">Alpha</span></h1>
+        <p class="hero-subtitle">The AI Trading Competition on Hyperliquid</p>
+    </div>
+    <div class="hero-image">
+        <img src="/assets/images/hero_image.png" alt="Perpetual Alpha Hero Image - Duomo Silhouette" />
+    </div>
+</div>
+
+<div class="page-content">
+    <h2>Overview</h2>
+    <p>Perpetual Alpha is a live algorithmic trading competition in which teams design, implement, and operate autonomous trading agents on the Hyperliquid testnet, a high-performance decentralized derivatives exchange.</p>
+    <!-- <p>Using the recently introduced HIP-3 builder-deployed perpetuals standard, the organizers will deploy a dedicated set of perpetual futures markets exclusively for the competition, spanning major cryptos, stock indexes, exchange rates, and commodities.</p> -->
+    <p>Over a multi-week live trading phase, teams compete under identical starting conditions with testnet (non-monetary) capital. The hackathon runs on live, adversarial market infrastructure. Participants interact with each other and with organizer-operated market-making bots on the same order books. Final rankings combine three components: realized profit and loss, the risk profile of the strategy, and the sophistication of the algorithm as assessed by an expert jury. Top teams will be invited to present their approaches at the ICAIF 2026 Competition Track in Milan.</p>
+</div>
+
+<div class="card-grid" style="margin-top: 4rem;">
+    <div class="glass-card">
+        <h3>Important Dates</h3>
+        <ul style="list-style-type: none; padding: 0;">
+            <li style="margin-bottom: 0.5rem; text-decoration: line-through; opacity: 0.5;"><strong style="color: var(--accent-color);">Sep 20:</strong> Deadline registration</li>
+            <li style="margin-bottom: 0.5rem;"><strong style="color: var(--accent-color);">Oct 5:</strong> Practice tests (non-scored).</li>
+            <li style="margin-bottom: 0.5rem;"><strong style="color: var(--accent-color);">Oct 19:</strong> 3, 2, 1 ... GO! Scored Phase</li>
+            <li style="margin-bottom: 0.5rem;"><strong style="color: var(--accent-color);">Nov 6:</strong> End of the trading phase</li>
+            <li style="margin-bottom: 0.5rem;"><strong style="color: var(--accent-color);">Nov 9:</strong> Report submission</li>
+            <li style="margin-bottom: 0.5rem;"><strong style="color: var(--accent-color);">Nov 14-17:</strong> ICAIF 2026 Milan</li>
+        </ul>
+    </div>
+
+    <div class="glass-card">
+        <h3>Areas of Interest</h3>
+        <p>Trading strategies and asset management, AI agents and reinforcement learning, and blockchain/DeFi. You'll trade in a fully live environment with realistic, industry-level market microstructure — a rare opportunity to test strategies against real market dynamics.</p>
+    </div>
+
+    <div class="glass-card">
+        <h3>Beyond the Leaderboard</h3>
+        <p>You'll be tackling problems the financial industry actually cares about: how well a strategy holds up out-of-sample and out-of-simulation, risk-aware objectives beyond raw return, and responsible evaluation of trading algorithms.</p>
+    </div>
+    
+<!-- 
+    <div class="glass-card">
+        <h3>Originality</h3>
+        <p>This hackathon runs on live, adversarial market infrastructure. Participants interact with each other and with organizer-operated market-making bots on the same order books, so liquidity, market impact, and game-theoretic behavior emerge naturally.</p>
+    </div>
+-->
+
+    <div class="glass-card">
+        <h3>Target Audience</h3>
+        <p>Everyone is welcome — students are especially encouraged to take part. No previous experience with Hyperliquid is needed, as you'll be provided with dedicated material and several weeks to practice with the platform and run demo strategies.</p>
+    </div>
+
+    <div class="glass-card">
+        <h3>Eligible Teams</h3>
+        <p>Teams must be made up of 1 to 4 members. Should the team be selected as a winner, at least one member must be available to attend ICAIF 2026 in Milan in person to present its work.</p>
+    </div>
+</div>
+
+<div class="page-content" style="margin-top: 4rem;">
+    <!-- <h2>Sponsors & Partners</h2>
+    <p>We are grateful to our sponsors for supporting this competition and providing the infrastructure for the competition.</p> -->
+    <h2>Partners</h2>
+    <p>We are grateful to our partners for providing the infrastructure for the competition.</p>
+
+    <div class="glass-card" style="margin-top: 2rem; text-align: center;">
+        <div style="margin-bottom: 1rem;">
+            <p style="color: var(--accent-color); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem; margin-bottom: 1.5rem;">Market Maker Partner</p>
+            <a href="https://keyrock.eu/" target="_blank">
+                <img src="/assets/images/keyrock.png" alt="Keyrock Logo" style="max-width: 250px; height: auto; filter: drop-shadow(0 0 8px rgba(0,255,209,0.2)); transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'" />
+            </a>
+        </div>
+    </div>
+</div>
+
+
+    </main>
+    <footer class="site-footer">
+    <div class="container footer-content">
+        <div class="footer-section">
+            <h4>Perpetual Alpha</h4>
+            <p>The AI Trading Competition on Hyperliquid.</p>
+        </div>
+        <div class="footer-section">
+            <h4>Contact</h4>
+            <p><a href="mailto:perpetual-alpha@googlegroups.com">perpetual-alpha@googlegroups.com</a></p>
+        </div>
+        <div class="footer-section">
+            <h4>Organized within</h4>
+            <p><a href="https://icaif2026.org/" target="_blank">ICAIF 2026</a></p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2026. Built with Jekyll and GitHub Pages.</p>
+    </div>
+</footer>
+
+</body>
+</html>
