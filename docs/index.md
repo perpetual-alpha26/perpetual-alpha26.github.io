@@ -179,7 +179,7 @@ For the underlying instruments, oracles and mark calculation, refer to [Asset re
 | Minimum value | $10 for each order (price × size) |
 | Price band | Not more than 80% from the reference price |
 | Format | Decimal strings. Remove trailing zeros from the fractional part and an empty decimal point; preserve integer zeros. The SDK handles conversion. |
-| Open interest limit | $100,000 notional for each market, for all participants together. The API rejects orders that increase open interest above this limit. Get the values with `perpDexLimits`. |
+| Open interest limit | $500M notional for each market, for all participants together. The API rejects orders that increase open interest above this limit. Get the values with `perpDexLimits`. |
 
 ## Orders and leverage
 
