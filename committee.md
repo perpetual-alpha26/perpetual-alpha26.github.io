@@ -50,4 +50,13 @@ title: Committee & Sponsors
             </a>
         </div>
     </div>
+
+    <div class="glass-card" style="margin-top: 2rem; text-align: center;">
+        <div style="margin-bottom: 1rem;">
+            <p style="color: var(--accent-color); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem; margin-bottom: 1.5rem;">Oracle Partner</p>
+            <a href="https://seda.xyz/" target="_blank">
+                <img src="{{ '/assets/images/seda.png' | relative_url }}" alt="SEDA Logo" style="max-width: 250px; height: auto; filter: drop-shadow(0 0 8px rgba(0,255,209,0.2)); transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+            </a>
+        </div>
+    </div>
 </div>
