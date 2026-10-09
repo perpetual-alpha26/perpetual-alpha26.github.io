@@ -3,112 +3,142 @@ layout: default
 title: Leaderboard
 ---
 
-<div class="page-content">
-    <div class="page-header" style="text-align: center; margin: 4rem 0 2rem 0;">
-        <h1 style="font-size: 2.5rem; margin-bottom: 1rem; color: var(--accent-color);">Registered Teams</h1>
-        <p style="color: var(--text-secondary); max-width: 600px; margin: 0 auto;">The following teams are officially registered. A green light indicates that the team has successfully completed the onboarding process submitting the registration form.</p>
+{% if jekyll.environment == "development" %}{% assign lb_url = site.data.leaderboard.dev_data_url | relative_url %}{% else %}{% assign lb_url = site.data.leaderboard.data_url %}{% endif %}
+<div class="page-content lb">
+    <div class="lb-head">
+        <h1>Leaderboard</h1>
+        <p class="lb-status" id="lb-status" aria-live="polite"><span class="lb-dot"></span><span id="lb-status-text">Loading…</span></p>
     </div>
-    
-    <div class="teams-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; margin-top: 3rem; margin-bottom: 5rem;">
-        {% for team in site.data.teams %}
-        <div class="glass-card team-card" data-teamname="{{ team.name | downcase | escape }}" data-teamemail="{{ team.email | downcase | escape }}" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;">
-            <span class="team-name" style="font-weight: 600; font-size: 1.1rem;">{{ team.name }}</span>
-            <div class="traffic-light red" title="Onboarding Pending"></div>
-        </div>
-        {% endfor %}
+
+    <div class="glass-card lb-card">
+        <table class="lb-table">
+            <thead>
+                <tr>
+                    <th class="lb-rank">#</th>
+                    <th class="lb-team">Team</th>
+                    <th class="lb-num" data-sort="return"><button type="button">PnL</button></th>
+                    <th class="lb-num" data-sort="volatility"><button type="button">Volatility</button></th>
+                </tr>
+            </thead>
+            <tbody id="lb-body"></tbody>
+        </table>
+        <p class="lb-empty" id="lb-empty" hidden></p>
     </div>
+
+    <p class="lb-note" id="lb-note"></p>
 </div>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTicD-3XH4OKrikRKMxyG92AgnMFEF7kL-7u4zU12Le-k9S8EodKUvKxyOuKeDP2gi5KXXD1wDVZAI0/pub?gid=49022248&single=true&output=csv";
-        
-        fetch(csvUrl)
-            .then(response => response.text())
-            .then(csvText => {
-                // Parse CSV (Handling quotes)
-                const rows = [];
-                let row = [];
-                let inQuotes = false;
-                let val = '';
-                for (let i = 0; i < csvText.length; i++) {
-                    const char = csvText[i];
-                    if (inQuotes) {
-                        if (char === '"') {
-                            if (i + 1 < csvText.length && csvText[i+1] === '"') {
-                                val += '"';
-                                i++;
-                            } else {
-                                inQuotes = false;
-                            }
-                        } else {
-                            val += char;
-                        }
-                    } else {
-                        if (char === '"') {
-                            inQuotes = true;
-                        } else if (char === ',') {
-                            row.push(val);
-                            val = '';
-                        } else if (char === '\n' || char === '\r') {
-                            row.push(val);
-                            rows.push(row);
-                            val = '';
-                            row = [];
-                            if (char === '\r' && i + 1 < csvText.length && csvText[i+1] === '\n') {
-                                i++; // skip \n after \r
-                            }
-                        } else {
-                            val += char;
-                        }
-                    }
-                }
-                if (val !== '' || row.length > 0) {
-                    row.push(val);
-                    rows.push(row);
-                }
+(function () {
+    const DATA_URL = {{ lb_url | jsonify }};
+    const REFRESH_MS = {{ site.data.leaderboard.refresh_seconds | default: 60 }} * 1000;
 
-                if (rows.length < 2) return;
-                
-                // Find "Team Name" and "Member 1 - Email" column indices
-                const headers = rows[0].map(h => h.trim().toLowerCase());
-                let teamColIdx = -1;
-                let emailColIdx = -1;
-                for (let i = 0; i < headers.length; i++) {
-                    if (headers[i] === "team name") {
-                        teamColIdx = i;
-                    } else if (headers[i] === "member 1 - email") {
-                        emailColIdx = i;
-                    }
-                }
-                
-                // Extract onboarded team names and emails
-                const onboardedNames = new Set();
-                const onboardedEmails = new Set();
-                for (let i = 1; i < rows.length; i++) {
-                    if (teamColIdx !== -1 && rows[i][teamColIdx]) {
-                        onboardedNames.add(rows[i][teamColIdx].trim().toLowerCase());
-                    }
-                    if (emailColIdx !== -1 && rows[i][emailColIdx]) {
-                        onboardedEmails.add(rows[i][emailColIdx].trim().toLowerCase());
-                    }
-                }
+    // Sort keys: PnL best first is highest, volatility best first is lowest.
+    const SORTS = {
+        return: { get: (t) => t.return, dir: -1, fmt: (x) => (x > 0 ? "+" : x < 0 ? "−" : "") + Math.abs(x * 100).toFixed(2) + "%",
+                  empty: "No team has traded yet." },
+        volatility: { get: (t) => t.volatility, dir: 1, fmt: (x) => (x * 100).toFixed(2) + "%",
+                      empty: "Volatility appears after two full days of trading." },
+    };
+    let data = null;
+    let sortKey = "return";
 
-                // Update UI
-                const teamCards = document.querySelectorAll('.team-card');
-                teamCards.forEach(card => {
-                    const tName = card.getAttribute('data-teamname');
-                    const tEmail = card.getAttribute('data-teamemail');
-                    if (onboardedNames.has(tName) || onboardedEmails.has(tEmail)) {
-                        const light = card.querySelector('.traffic-light');
-                        if (light) {
-                            light.classList.remove('red');
-                            light.classList.add('green');
-                            light.setAttribute('title', 'Onboarded');
-                        }
-                    }
-                });
-            })
-            .catch(error => console.error("Error fetching onboarding data:", error));
-    });
+    const $ = (id) => document.getElementById(id);
+    const el = (tag, cls, text) => {
+        const n = document.createElement(tag);
+        if (cls) n.className = cls;
+        if (text != null) n.textContent = text;
+        return n;
+    };
+
+    document.querySelectorAll("th[data-sort] button").forEach((b) =>
+        b.addEventListener("click", () => { sortKey = b.parentElement.dataset.sort; render(); }));
+
+    function render() {
+        document.querySelectorAll("th[data-sort]").forEach((th) => {
+            const on = th.dataset.sort === sortKey;
+            th.classList.toggle("on", on);
+            if (on) th.setAttribute("aria-sort", SORTS[sortKey].dir < 0 ? "descending" : "ascending");
+            else th.removeAttribute("aria-sort");
+        });
+        const body = $("lb-body");
+        body.replaceChildren();
+        if (!data) return;
+        const s = SORTS[sortKey];
+        // Ranked teams with a value, best first; then the others by name.
+        const byName = (a, b) => a.name.localeCompare(b.name);
+        const top = data.teams.filter((t) => t.ranked && s.get(t) != null).sort((a, b) => s.dir * (s.get(a) - s.get(b)));
+        const rest = data.teams.filter((t) => !top.includes(t)).sort((a, b) => (b.ranked - a.ranked) || byName(a, b));
+        // A team that never traded has nothing to show; at the end, unranked teams keep their figures.
+        const shows = (t) => t.ranked || data.status === "final";
+        [...top, ...rest].forEach((t, i) => {
+            const tr = el("tr", i < top.length ? "" : "lb-unranked");
+            tr.appendChild(el("td", "lb-rank", i < top.length ? String(i + 1) : "–"));
+            tr.appendChild(el("td", "lb-team", t.name));
+            for (const key of ["return", "volatility"]) {
+                const v = shows(t) ? SORTS[key].get(t) : null;
+                let cls = "lb-num" + (key === sortKey ? " on" : "");
+                if (key === "return" && v) cls += v > 0 ? " up" : " down";
+                tr.appendChild(el("td", cls, v == null ? "–" : SORTS[key].fmt(v)));
+            }
+            body.appendChild(tr);
+        });
+        const empty = $("lb-empty");
+        empty.hidden = top.length > 0 || data.status === "upcoming";
+        empty.textContent = s.empty;
+    }
+
+    function status() {
+        const s = $("lb-status");
+        const txt = $("lb-status-text");
+        s.className = "lb-status";
+        if (!data) return;
+        const phase = data.phase ? data.phase + " · " : "";
+        const when = (iso) => new Date(iso).toLocaleString("en-GB", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit", timeZone: "UTC" }) + " UTC";
+        if (data.status === "upcoming") {
+            txt.textContent = phase + "Starts " + when(data.from);
+        } else if (data.status === "final") {
+            s.classList.add("final");
+            txt.textContent = phase + "Final standings";
+        } else {
+            s.classList.add("live");
+            const mins = Math.max(0, Math.round((Date.now() - new Date(data.generated_at)) / 60000));
+            txt.textContent = (phase || "Live · ") + "updated " + (mins < 1 ? "just now" : mins + " min ago");
+        }
+    }
+
+    function note() {
+        if (!data) return;
+        $("lb-note").textContent =
+            "PnL is the net return on initial capital, updated every 5 minutes. " +
+            "Volatility is the standard deviation of daily equity returns over completed days (00:00 UTC): lower is better. " +
+            "Select a column to rank by it. " +
+            `At the end, only teams that traded on at least ${data.min_days} days are ranked.`;
+    }
+
+    async function load() {
+        try {
+            if (!DATA_URL) throw new Error("data_url is not set in _data/leaderboard.yml");
+            const res = await fetch(DATA_URL + (DATA_URL.includes("?") ? "&" : "?") + "t=" + Date.now(), { cache: "no-store" });
+            if (!res.ok) throw new Error("HTTP " + res.status);
+            data = await res.json();
+            render();
+            note();
+        } catch (e) {
+            console.error("leaderboard:", e);
+            if (!data) {
+                $("lb-status-text").textContent = "The leaderboard is not available yet.";
+                $("lb-empty").hidden = false;
+                $("lb-empty").textContent = "Check back when the competition starts.";
+            }
+        }
+        status();
+    }
+
+    render();
+    load();
+    setInterval(() => { if (!document.hidden) load(); }, REFRESH_MS);
+    setInterval(status, 30000);
+    document.addEventListener("visibilitychange", () => { if (!document.hidden) load(); });
+})();
 </script>
