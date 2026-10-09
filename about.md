@@ -26,7 +26,7 @@ title: About the Competition
     </ul>
 
     <h2>Fairness and Anti-Gaming Rules</h2>
-    <p>One trading account per team; accounts are whitelisted and monitored on-chain. To be ranked, a team must trade on at least 10 distinct days and reach a minimum cumulative notional volume. Wash trading, self-crossing, collusion between teams, and attacks on the exchange or oracle infrastructure are prohibited. All trading activity is recorded on-chain and can be reviewed for violations, which lead to disqualification. Fully manual trading is not allowed: entries must be algorithmic, as verified through the technical report and a code walkthrough with the jury.</p>
+    <p>One trading account per team; accounts are whitelisted and monitored on-chain. To be ranked, a team must have at least one executed trade (fill) during the scored phase. Wash trading, self-crossing, coordinated collusion between teams, and attacks on the exchange or oracle infrastructure are prohibited. All trading activity is recorded on-chain and can be reviewed for violations, which lead to disqualification. Fully manual trading is not allowed: entries must be algorithmic, as verified through the technical report and a code walkthrough with the jury.</p>
 
     <h2>Live Leaderboard</h2>
     <p>A public web leaderboard, updated in near real time from on-chain data, will track team performance throughout the Live Trading phase.</p>
