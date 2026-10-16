@@ -27,8 +27,8 @@ title: Important Dates
                     <td><strong>Onboarding</strong></td>
                     <td>Wallet whitelisting, testnet funding, and tutorial notebooks.</td>
                 </tr>
-                <tr>
-                    <td><strong>Oct 5 – Oct 18</strong></td>
+                <tr style="text-decoration: line-through; opacity: 0.5;">
+                    <td><strong>Oct 5 – Oct 16</strong></td>
                     <td><strong>Practice</strong></td>
                     <td>All markets go live for teams to test connectivity and strategies. (Non-scored)</td>
                 </tr>
@@ -55,4 +55,5 @@ title: Important Dates
             </tbody>
         </table>
     </div>
+
 </div>
