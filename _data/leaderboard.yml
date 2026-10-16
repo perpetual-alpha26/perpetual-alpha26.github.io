@@ -1,0 +1,13 @@
+# Leaderboard page settings.
+# The backend writes the data (`tracker leaderboard`) and the organizer panel
+# serves it without login (LEADERBOARD_PUBLIC=1), to this site only (CORS).
+# data_url: the standings of the phase in progress (Practice, then Live Trading).
+# practice_url: the final standings of the practice phase, written once when it
+# closed; until then the panel answers 503 and the Practice tab stays hidden.
+# Empty data_url: the page says the leaderboard is not available yet.
+data_url: "https://d23m2l9bjnbgul.cloudfront.net/public/leaderboard.json"
+practice_url: "https://d23m2l9bjnbgul.cloudfront.net/public/practice.json"
+# Local preview (`jekyll serve`) reads these files from the site root instead.
+dev_data_url: /leaderboard.dev.json
+dev_practice_url: /practice.dev.json
+refresh_seconds: 60
