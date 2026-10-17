@@ -677,3 +677,28 @@ td {
     .lb-cards { display: block; }
     .lb-tabs { gap: 1.25rem; }
 }
+
+/* PnL chart: trading-terminal look, as in the organizer panel */
+.lb-chart { margin-top: 2rem; }
+.lb-chart[hidden] { display: none; }
+.lb-chart h2 { font-size: 1.1rem; margin-bottom: 0.75rem; }
+.lb-term { margin: 0; overflow: hidden; border: 1px solid #262b33; border-radius: 6px; background: #07090c; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+.lb-term-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.5rem; padding: 0.5rem 0.75rem; border-bottom: 1px solid #262b33; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; }
+.lb-term-title { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; }
+.lb-term-badge { padding: 0.1rem 0.4rem; border-radius: 2px; background: #ff9f1a; color: #000; font-weight: 700; }
+.lb-term-name { color: #ff9f1a; font-weight: 600; }
+.lb-term-sub { color: #6b7280; }
+.lb-term-svg { display: block; width: 100%; height: auto; touch-action: pan-y; user-select: none; }
+.lb-term-legend { width: 100%; margin: 0; border-top: 1px solid #262b33; font-size: 12px; font-variant-numeric: tabular-nums; }
+.lb-term-legend th, .lb-term-legend td { padding: 0.3rem 0.75rem; border: 0; border-top: 1px solid #141920; background: transparent; text-align: left; white-space: nowrap; }
+.lb-term-legend th { color: #6b7280; font-weight: 400; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; }
+.lb-term-legend .lb-num { text-align: right; }
+.lb-term-legend .lb-term-pos { color: #6b7280; width: 2rem; }
+.lb-term-legend button { display: inline-flex; align-items: center; gap: 0.5rem; color: #e5e7eb; font: inherit; white-space: normal; text-align: left; }
+.lb-term-legend button:hover { color: #fff; }
+.lb-term-legend button:focus-visible { outline: 1px solid #ff9f1a; outline-offset: 2px; }
+.lb-term-legend tr.off { opacity: 0.4; }
+.lb-term-legend td.up { color: #22c55e; }
+.lb-term-legend td.down { color: #ef4444; }
+.lb-term-swatch { display: inline-block; width: 8px; height: 8px; flex-shrink: 0; }
+.lb-chart .lb-disclaimer { margin-top: 0.75rem; }
