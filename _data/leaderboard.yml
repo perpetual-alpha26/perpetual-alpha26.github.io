@@ -7,7 +7,14 @@
 # Empty data_url: the page says the leaderboard is not available yet.
 data_url: "https://d23m2l9bjnbgul.cloudfront.net/public/leaderboard.json"
 practice_url: "https://d23m2l9bjnbgul.cloudfront.net/public/practice.json"
+# PnL chart (top 10 by PnL at the last snapshot, a point every 10 minutes),
+# rewritten every 5 minutes; the practice one is frozen. Empty: no chart.
+chart_url: "https://d23m2l9bjnbgul.cloudfront.net/public/chart.json"
+practice_chart_url: "https://d23m2l9bjnbgul.cloudfront.net/public/practice-chart.json"
 # Local preview (`jekyll serve`) reads these files from the site root instead.
 dev_data_url: /leaderboard.dev.json
 dev_practice_url: /practice.dev.json
-refresh_seconds: 60
+dev_chart_url: /chart.dev.json
+dev_practice_chart_url: /practice-chart.dev.json
+# The standings change once a day, the chart every 5 minutes.
+refresh_seconds: 300

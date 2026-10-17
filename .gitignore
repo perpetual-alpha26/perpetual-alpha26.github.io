@@ -1,4 +1,6 @@
 # Local leaderboard preview data (see _data/leaderboard.yml)
 leaderboard.dev.json
 practice.dev.json
+chart.dev.json
+practice-chart.dev.json
 .DS_Store
