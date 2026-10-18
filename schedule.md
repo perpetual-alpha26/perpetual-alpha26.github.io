@@ -33,7 +33,7 @@ title: Important Dates
                     <td>All markets go live for teams to test connectivity and strategies. (Non-scored)</td>
                 </tr>
                 <tr>
-                    <td><strong>Oct 19 – Nov 6</strong></td>
+                    <td><strong>Oct 19, 12:00 UTC – Nov 6, 12:00 UTC</strong></td>
                     <td><strong>Live Trading</strong></td>
                     <td>Three weeks of continuous trading. <em>(Scored)</em></td>
                 </tr>

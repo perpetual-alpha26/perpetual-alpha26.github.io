@@ -27,7 +27,7 @@ title: Leaderboard
                 <tr>
                     <th class="lb-rank">#</th>
                     <th class="lb-team">Team</th>
-                    <th class="lb-num" data-col="return" title="Net return on the initial capital up to the latest daily sample (12:00 UTC)">PnL</th>
+                    <th class="lb-num" data-col="return" title="Time-weighted net return up to the latest daily sample (12:00 UTC)">PnL</th>
                     <th class="lb-num" data-col="volatility" title="Volatility over the period: daily deviation × √n, the one in the score">Volatility</th>
                     <th class="lb-num" data-col="score" title="0.8 × Q + 0.2 × J (J = 0 until the jury votes)">Score</th>
                 </tr>
@@ -42,7 +42,7 @@ title: Leaderboard
     <section class="lb-chart" id="lb-chart" hidden>
         <h2>Top 10 by PnL</h2>
         <div id="lb-chart-box"></div>
-        <p class="lb-disclaimer">This chart shows the teams with the highest PnL at their latest equity snapshot (every 5 minutes), so the teams in it can change at every update. It is not the ranking: the standings and the score use only the daily sample at 12:00 UTC, so the order here can differ from the standings. Between two daily samples the lines are for information only.</p>
+        <p class="lb-disclaimer">This chart shows the 10 teams with the highest PnL at their latest equity snapshot, one point every 10 minutes; it is refreshed every 5 minutes, so the teams in it can change at every update. It is not the ranking: the standings and the score use only the daily sample at 12:00 UTC, so the order here can differ from the standings. Between two daily samples the lines are for information only.</p>
     </section>
 
     <section class="lb-formulas" id="lb-formulas" hidden>
@@ -192,8 +192,9 @@ title: Leaderboard
         const cutoff = d.from.slice(11, 16);
         const days = d.min_days + " trading day" + (d.min_days === 1 ? "" : "s");
         const items = [
-            ["PnL", " (return R): net return on the initial capital up to the latest daily sample, R = (1 + r_1) × … × (1 + r_n) − 1, " +
-                "where r_d = (E_d − transfers) / E_(d−1) − 1 and E_d is the account value at the daily sample of day d: " + sampleRule(cutoff, s.sample_after_s) + ". " +
+            ["PnL", " (return R): time-weighted net return up to the latest daily sample, R = (1 + r_1) × … × (1 + r_n) − 1, " +
+                "where r_d = (E_d − transfers) / E_(d−1) − 1 and E_d is the Hyperliquid account value (open positions at the mark price, unrealized PnL included) " +
+                "at the daily sample of day d: " + sampleRule(cutoff, s.sample_after_s) + ". " +
                 "Money moved in or out is not a gain or a loss. PnL, volatility and score change once a day, with the new sample."],
             ["Volatility", " σ: volatility over the period, the same days as the PnL. σ = s × √n, where s is the " + s.std + " standard deviation (n − 1) " +
                 "of the n daily returns of the completed days so far (from the second day) and n their number; after a missing day the return enters as r / √(days covered)."],
@@ -202,6 +203,7 @@ title: Leaderboard
             ["Score", " = " + s.w_financial + " × Q + " + s.w_jury + " × J, with J the jury score from 0 to 1: 0 until the jury votes, " +
                 "so until then the score is at most " + s.w_financial + ". The position (#) follows the score."],
             ["In the score", ": at least " + days + " (a trade on the competition markets) in the phase, a start sample and at least 2 daily returns. " +
+                "The first daily return comes with the second daily sample, so in the first two days of a phase nobody has a rank yet. " +
                 "The other teams are listed below, dimmed, with their figures."],
         ];
         const list = $("lb-formulas-list");
@@ -415,7 +417,7 @@ title: Leaderboard
         };
         svg.addEventListener("pointermove", onPointer);
         svg.addEventListener("pointerdown", onPointer);
-        svg.addEventListener("pointerleave", () => { chartState.cursor = null; drawCross(); });
+        svg.addEventListener("pointerleave", (e) => { if (e.pointerType === "touch") return; chartState.cursor = null; drawCross(); });
         fig.appendChild(svg);
 
         // Legend: a button per team hides or shows its line.
