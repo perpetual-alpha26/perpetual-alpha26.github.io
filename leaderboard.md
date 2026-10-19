@@ -42,7 +42,7 @@ title: Leaderboard
     <section class="lb-chart" id="lb-chart" hidden>
         <h2>Top 10 by PnL</h2>
         <div id="lb-chart-box"></div>
-        <p class="lb-disclaimer">This chart shows the 10 teams with the highest PnL at their latest equity snapshot, one point every 10 minutes; it is refreshed every 5 minutes, so the teams in it can change at every update. It is not the ranking: the standings and the score use only the daily sample at 12:00 UTC, so the order here can differ from the standings. Between two daily samples the lines are for information only.</p>
+        <p class="lb-disclaimer">This chart shows, among the teams that have already traded, the 10 with the highest PnL at their latest equity snapshot, one point every 10 minutes; it is refreshed every 5 minutes, so the teams in it can change at every update. It is not the ranking: the standings and the score use only the daily sample at 12:00 UTC, so the order here can differ from the standings. Between two daily samples the lines are for information only.</p>
     </section>
 
     <section class="lb-formulas" id="lb-formulas" hidden>
