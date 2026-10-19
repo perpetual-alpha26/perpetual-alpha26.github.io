@@ -319,7 +319,9 @@ title: Leaderboard
         const colour = colours(series.map((s) => s.key));
         const compact = box.clientWidth < 600;
         const width = compact ? 520 : 960, height = compact ? 340 : 380, font = compact ? 13 : 10;
-        const pad = { top: 16, right: compact ? 100 : 150, bottom: compact ? 34 : 30, left: 8 };
+        // Value axis in its own gutter on the left: inside the plot its labels hid the
+        // latest points, which are always on the right edge.
+        const pad = { top: 16, right: compact ? 100 : 150, bottom: compact ? 34 : 30, left: compact ? 92 : 70 };
         const plotW = width - pad.left - pad.right, plotH = height - pad.top - pad.bottom;
         const shown = series.filter((s) => !chartState.hidden.has(s.key) && s.points.length);
         let t0 = Infinity, t1 = -Infinity, lo = 0, hi = 0;
@@ -346,7 +348,7 @@ title: Leaderboard
         for (let i = 0; i < 5; i++) {
             const v = lo + ((hi - lo) * (i + 0.5)) / 5;
             svg.appendChild(svgEl("line", { x1: pad.left, x2: pad.left + plotW, y1: y(v), y2: y(v), stroke: "#141920" }));
-            svg.appendChild(svgEl("text", { x: pad.left + plotW - 4, y: y(v) - 3, "text-anchor": "end", fill: "#6b7280", "font-size": font }, pct5(v)));
+            svg.appendChild(svgEl("text", { x: pad.left - 6, y: y(v) + font / 3, "text-anchor": "end", fill: "#6b7280", "font-size": font }, pct5(v)));
         }
         const DAY = 86400000;
         const first = Date.parse(d.from);
@@ -379,9 +381,11 @@ title: Leaderboard
         // Last-value tags on the right axis, pushed apart.
         const tagH = font + 4;
         const tags = shown.map((s) => ({ s, v: s.points[s.points.length - 1].v })).map((r) => Object.assign(r, { y0: y(r.v), y: y(r.v) })).sort((a, b) => a.y - b.y);
-        for (let i = 1; i < tags.length; i++) tags[i].y = Math.max(tags[i].y, tags[i - 1].y + tagH);
-        const over = tags.length ? tags[tags.length - 1].y - (pad.top + plotH) : 0;
-        if (over > 0) for (const tg of tags) tg.y -= over;
+        // Pushed down from the top edge, then up from the bottom edge: every tag
+        // stays inside the plot height (shifting them all up moved the highest out).
+        const tagTop = pad.top + tagH / 2, tagBottom = pad.top + plotH - tagH / 2;
+        for (let i = 0; i < tags.length; i++) tags[i].y = Math.max(tags[i].y, tagTop, i ? tags[i - 1].y + tagH : -Infinity);
+        for (let i = tags.length - 1; i >= 0; i--) tags[i].y = Math.min(tags[i].y, tagBottom, i < tags.length - 1 ? tags[i + 1].y - tagH : Infinity);
         for (const tg of tags) {
             const g = svgEl("g", { opacity: chartState.focus !== null && chartState.focus !== tg.s.key ? 0.25 : 1 });
             g.appendChild(svgEl("line", { x1: pad.left + plotW, x2: pad.left + plotW + 4, y1: tg.y0, y2: tg.y, stroke: colour.get(tg.s.key) }));
