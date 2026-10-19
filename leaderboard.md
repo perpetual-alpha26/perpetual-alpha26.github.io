@@ -361,9 +361,14 @@ title: Leaderboard
         });
         svg.appendChild(svgEl("line", { x1: pad.left, x2: pad.left + plotW, y1: y(0), y2: y(0), stroke: "#4b5563" }));
         svg.appendChild(svgEl("line", { x1: pad.left + plotW, x2: pad.left + plotW, y1: pad.top, y2: pad.top + plotH, stroke: "#262b33" }));
-        for (const s of shown) {
+        // Last line first: the teams higher up are drawn on top of the flat ones.
+        for (const s of shown.slice().reverse()) {
+            // The spacing of the series, without its last interval: the last point can
+            // be the latest snapshot seconds after the last step, and taking it as the
+            // spacing broke every other interval into a gap.
             let step = Infinity;
-            for (let i = 1; i < s.points.length; i++) step = Math.min(step, s.points[i].t - s.points[i - 1].t);
+            const last = s.points.length > 2 ? s.points.length - 1 : s.points.length;
+            for (let i = 1; i < last; i++) step = Math.min(step, s.points[i].t - s.points[i - 1].t);
             let cur = [];
             const flush = () => {
                 if (!cur.length) return;
