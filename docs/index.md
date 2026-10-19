@@ -27,6 +27,8 @@ This guide covers the venue, its assets and pricing, account setup, and the inte
 | Collateral | `{{ v.collateral }}` |
 | Account mode | Unified (`unifiedAccount`). One `{{ v.collateral }}` balance is the margin for all positions. |
 
+The scored phase runs on `{{ v.dex }}`. The scored phase does not use the practice dex `par` or its collateral `USDPR`. Change the dex, the coin prefix and the asset IDs in your bot to the values on this page.
+
 <div class="callout warn" markdown="1">
 **WARNING:** Set the `dex` parameter to `{{ v.dex }}` in market-wide and position queries. Use the dex prefix on coin names. Without this selection, raw API queries default to the native Hyperliquid markets and may return data without an error.
 </div>
@@ -37,7 +39,7 @@ Use the `meta` info query with the `dex` parameter set to `{{ v.dex }}`. Read `s
 
 | Coin | Price units | Lot | Max leverage | Asset ID |
 |---|---|---|---|---|
-| `{{ v.dex }}:BTC` | USD per BTC | 0.0001 | 40x | {{ base_id }} |
+| `{{ v.dex }}:BTC` | USD per BTC | 0.00001 | 40x | {{ base_id }} |
 | `{{ v.dex }}:ETH` | USD per ETH | 0.0001 | 25x | {{ base_id | plus: 1 }} |
 | `{{ v.dex }}:HYPE` | USD per HYPE | 0.01 | 10x | {{ base_id | plus: 2 }} |
 | `{{ v.dex }}:SP500` | S&P 500 index points | 0.001 | 50x | {{ base_id | plus: 3 }} |
@@ -52,7 +54,7 @@ Despite its ticker, `USDEUR` tracks EUR/USD. All markets trade 24/7 and settle i
 
 ## Asset references and pricing
 
-The table combines the venue's oracle and mark specification with live `{{ v.dex }}` asset annotations (`perpAnnotation`) and market metadata, checked on 30 September 2026. Market specifications come from `meta`; oracle and mark prices come from `metaAndAssetCtxs`.
+The table combines the venue's oracle and mark specification with live `{{ v.dex }}` asset annotations (`perpAnnotation`) and market metadata, checked on 19 October 2026. Market specifications come from `meta`; oracle and mark prices come from `metaAndAssetCtxs`.
 
 All ten assets use **SEDA Signal**, delivered through SEDA Fast. The oracle is the median of quotes returned by the configured sources: Binance, Binance Futures, Lighter and Hydromancer. **EWJ excludes Lighter.** Only sources returning a quote participate; the feed requires at least one source.
 
@@ -106,6 +108,10 @@ For other languages, refer to [Other languages](#other-languages).
 The team wallet is your account. The organizers fund it. Use its address for all account queries; these queries do not require a private key.
 
 Create and manage the wallet with your own wallet tooling. Give only its public address to the organizers. Keep the team wallet's private key outside the bot and never share it with organizers or support.
+
+For the scored phase, the organizers send **100,000 `{{ v.collateral }}`** to the team wallet at **12:00 UTC on 19 October 2026**. They use a spot transfer (`spotSend`) to the spot balance, the same method as in the practice phase. In unified mode, this balance is the margin for `{{ v.dex }}`; do not transfer it to the dex. The sending address can be different from the practice phase. To confirm the funds, read the `{{ v.collateral }}` balance with `spotClearinghouseState`. Do not monitor a specific sending address.
+
+The API wallet approval and unified mode from the practice phase stay valid if the approval did not expire.
 
 ## Set up the account
 
@@ -179,7 +185,7 @@ For the underlying instruments, oracles and mark calculation, refer to [Asset re
 | Minimum value | $10 for each order (price × size) |
 | Price band | Not more than 80% from the reference price |
 | Format | Decimal strings. Remove trailing zeros from the fractional part and an empty decimal point; preserve integer zeros. The SDK handles conversion. |
-| Open interest limit | $500M notional for each market, for all participants together. The API rejects orders that increase open interest above this limit. Get the values with `perpDexLimits`. |
+| Open interest limit | $10M notional for each market, for all participants together. The API rejects orders that increase open interest above this limit. Get the values with `perpDexLimits`. |
 
 ## Orders and leverage
 
