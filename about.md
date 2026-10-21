@@ -25,6 +25,12 @@ title: About the Competition
         <li><strong>Jury score</strong> on a 2–4 page technical report: methodology and depth of AI/ML techniques, originality, rigor and reproducibility, and clarity.</li>
     </ul>
 
+    <p>
+        For more details on the evaluation methodology, scoring criteria, and team rankings,
+        please visit the
+        <a href="{{ '/leaderboard.html' | relative_url }}"><strong>Leaderboard</strong></a> page.
+    </p>
+
     <h2>Fairness and Anti-Gaming Rules</h2>
     <p>One trading account per team; accounts are whitelisted and monitored on-chain. To be ranked, a team must have at least one executed trade (fill) during the scored phase. Wash trading, self-crossing, coordinated collusion between teams, and attacks on the exchange or oracle infrastructure are prohibited. All trading activity is recorded on-chain and can be reviewed for violations, which lead to disqualification. Fully manual trading is not allowed: entries must be algorithmic, as verified through the technical report and a code walkthrough with the jury.</p>
 
