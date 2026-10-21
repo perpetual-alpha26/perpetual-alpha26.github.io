@@ -21,7 +21,7 @@ title: About the Competition
     <p>Teams are evaluated according to three criteria:</p>
     <ul>
         <li><strong>Total net return</strong> on initial capital, marked to mark prices at the end of the Live Trading phase;</li>
-        <li><strong>Negative</strong> of the <strong>standard deviation</strong> of daily equity returns, calculated using equity snapshots taken at 12:00 UTC (lower volatility results in a higher score);</li>
+        <li><strong>Standard deviation</strong> of daily equity returns, calculated using equity snapshots taken at 12:00 UTC (lower volatility results in a higher score);</li>
         <li><strong>Jury score</strong> on a 2–4 page technical report: methodology and depth of AI/ML techniques, originality, rigor and reproducibility, and clarity.</li>
     </ul>
 
