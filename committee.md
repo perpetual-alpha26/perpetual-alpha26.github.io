@@ -18,6 +18,7 @@ title: Committee & Sponsors
                 <li><strong>Marcello Restelli</strong> - Politecnico di Milano</li>
                 <li><strong>Francesco Tarantelli</strong> - Università di Bologna</li>
                 <li><strong>Edoardo Vittori</strong> - Intesa Sanpaolo</li>
+                <li><strong>Andrea Reguzzoni</strong> - BlockInvest</li>
             </ul>
         </div>
     </div>
