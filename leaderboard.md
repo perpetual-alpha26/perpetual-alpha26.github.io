@@ -52,6 +52,42 @@ title: Leaderboard
     <p class="lb-disclaimer">Standings are provisional until the organizers confirm the final results. The organizers may recompute the scores, re-apply the formula or change it where needed for a fair assessment of the competition, or to correct technical problems in the data or in the calculations.</p>
 </div>
 
+<style>
+.lb-term-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1rem; padding: 0.5rem 0.75rem; border-bottom: 1px solid #262b33; font-size: 11px; color: #9ca3af; letter-spacing: 0.04em; }
+.lb-term-presets { display: inline-flex; border: 1px solid #262b33; border-radius: 4px; overflow: hidden; }
+.lb-term-presets button, .lb-term-reset { min-width: 2.75rem; padding: 0.35rem 0.6rem; background: transparent; color: #9ca3af; font: inherit; font-weight: 600; letter-spacing: 0.06em; cursor: pointer; }
+.lb-term-presets button + button { border-left: 1px solid #262b33; }
+.lb-term-presets button[aria-pressed="true"] { background: #ff9f1a; color: #000; }
+.lb-term-presets button:hover:not([aria-pressed="true"]), .lb-term-reset:hover:not(:disabled) { color: #fff; }
+.lb-term-range { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.lb-term-range label { display: inline-flex; align-items: center; gap: 0.4rem; text-transform: uppercase; }
+.lb-term-range input { padding: 0.25rem 0.4rem; border: 1px solid #262b33; border-radius: 4px; background: #0f1319; color: #e5e7eb; font: inherit; color-scheme: dark; }
+.lb-term-opts { display: inline-flex; align-items: center; gap: 0.75rem; margin-left: auto; }
+.lb-term-reset { border: 1px solid #262b33; border-radius: 4px; }
+.lb-term-reset:disabled { opacity: 0.4; cursor: default; }
+.lb-term-presets button:focus-visible, .lb-term-reset:focus-visible, .lb-term-range input:focus-visible { outline: 1px solid #ff9f1a; outline-offset: 1px; }
+.lb-term-hint { margin: 0; padding: 0.25rem 0.75rem 0.4rem; color: #6b7280; font-size: 11px; }
+/* Phones: the toolbar stacks, buttons and fields big enough for a finger. */
+@media (max-width: 600px) {
+    .lb-term-bar { flex-direction: column; align-items: stretch; font-size: 12px; }
+    /* The preset buttons stay on one row. */
+    .lb-term-presets { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; }
+    .lb-term-presets button, .lb-term-reset { min-height: 44px; font-size: 13px; }
+    .lb-term-range { display: grid; grid-template-columns: 1fr 1fr; }
+    .lb-term-bar > *, .lb-term-range label { min-width: 0; }
+    .lb-term-range label { flex-direction: column; align-items: stretch; gap: 0.2rem; }
+    /* datetime-local has a wide intrinsic size: without these it pushed the chart past the screen. */
+    .lb-term-range input { min-height: 44px; width: 100%; min-width: 0; max-width: 100%; box-sizing: border-box; font-size: 14px; -webkit-appearance: none; appearance: none; }
+    .lb-term-opts { margin-left: 0; justify-content: space-between; }
+    .lb-term-reset { padding: 0 1.25rem; }
+    .lb-term-zoom { display: inline-grid; grid-template-columns: 1fr 1fr; }
+    .lb-term-zoom button { min-width: 3rem; font-size: 18px; }
+}
+.lb .lb-term .lb-term-hint { margin: 0; padding: 0.25rem 0.75rem 0.4rem; color: #6b7280; font-size: 11px; line-height: 1.4; }
+.lb-term-zoom button { min-width: 2.25rem; font-size: 14px; }
+.lb-term-zoom button:disabled { opacity: 0.35; cursor: default; }
+</style>
+
 <script>
 (function () {
     const URLS = { live: {{ lb_url | jsonify }}, practice: {{ lb_practice_url | jsonify }} };
@@ -253,12 +289,24 @@ title: Leaderboard
     const LINES = ["#ff9f1a", "#22d3ee", "#4ade80", "#f472b6", "#f5f5f5", "#3b82f6", "#f87171", "#a78bfa", "#bef264", "#9ca3af"];
     const MONTHS = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
     const SVG = "http://www.w3.org/2000/svg";
+    const HOUR = 3600000, DAY = 86400000;
+    // Time windows of the buttons (0: the whole phase); the first view is "1W".
+    const PRESETS = [["1D", DAY], ["3D", 3 * DAY], ["1W", 7 * DAY], ["All", 0]];
+    const DEFAULT_PRESET = "1W";
+    // Narrowest window: the chart file has a point every 10 minutes.
+    const MIN_SPAN = 2 * HOUR;
     const two = (n) => String(n).padStart(2, "0");
     const dayLabel = (t) => { const d = new Date(t); return two(d.getUTCDate()) + " " + MONTHS[d.getUTCMonth()]; };
-    const stamp = (t) => { const d = new Date(t); return dayLabel(t) + " " + two(d.getUTCHours()) + ":" + two(d.getUTCMinutes()) + " UTC"; };
+    const hhmm = (t) => { const d = new Date(t); return two(d.getUTCHours()) + ":" + two(d.getUTCMinutes()); };
+    const stamp = (t) => dayLabel(t) + " " + hhmm(t) + " UTC";
+    // datetime-local inputs hold UTC here: no time zone of the viewer's device.
+    const toInput = (t) => new Date(t).toISOString().slice(0, 16);
+    const fromInput = (s) => (s ? Date.parse(s + ":00Z") : NaN);
     // 5 decimals: the chart file keeps 1e-7 of the capital, 0.00001%.
     const pct5 = (v) => (v >= 0 ? "+" : "") + (v * 100).toFixed(5) + "%";
-    const chartState = { hidden: new Set(), focus: null, cursor: null, frame: null }; // focus: kept for the panel's look, unused here
+    // preset: the button of the window shown, which follows the latest data; null: a window
+    // zoomed or typed by hand, kept in view. gesture: a drag, pan or pinch in progress.
+    const chartState = { hidden: new Set(), focus: null, cursor: null, frame: null, preset: DEFAULT_PRESET, view: null, tab: null, gesture: null };
 
     function svgEl(tag, attrs, text) {
         const n = document.createElementNS(SVG, tag);
@@ -297,24 +345,40 @@ title: Leaderboard
         });
     }
 
-    function valueAt(points, t) {
+    // Index of the last point at or before t, -1 if none.
+    function indexAt(points, t) {
         let lo = 0, hi = points.length - 1, found = -1;
         while (lo <= hi) {
             const mid = (lo + hi) >> 1;
             if (points[mid].t <= t) { found = mid; lo = mid + 1; } else hi = mid - 1;
         }
-        return found < 0 ? null : points[found].v;
+        return found;
+    }
+
+    function valueAt(points, t) {
+        const i = indexAt(points, t);
+        return i < 0 ? null : points[i].v;
+    }
+
+    // Time axis: grid step for the window, from hours to days.
+    function timeStep(span, compact) {
+        const most = compact ? 4 : 9;
+        for (const s of [HOUR, 2 * HOUR, 3 * HOUR, 6 * HOUR, 12 * HOUR, DAY, 2 * DAY, 4 * DAY, 7 * DAY]) if (span / s <= most) return s;
+        return 7 * DAY;
     }
 
     function renderChart() {
         const box = $("lb-chart-box");
         const section = $("lb-chart");
+        // A refresh while a date is being typed or a gesture is running would throw it away: the next one redraws.
+        if (chartState.gesture || (box.contains(document.activeElement) && document.activeElement.tagName === "INPUT")) return;
         const d = boards[tab];
         const f = charts[tab];
         // Only a chart of the same window and phase as the standings shown.
         const ok = d && f && d.status !== "upcoming" && f.teams && f.teams.length && Date.parse(f.start) === Date.parse(d.from) && f.phase === d.phase;
         section.hidden = !ok;
         if (!ok) return;
+        if (chartState.tab !== tab) Object.assign(chartState, { tab, preset: DEFAULT_PRESET, view: null, cursor: null });
         const series = chartSeries(f);
         const colour = colours(series.map((s) => s.key));
         const compact = box.clientWidth < 600;
@@ -323,15 +387,25 @@ title: Leaderboard
         // latest points, which are always on the right edge.
         const pad = { top: 16, right: compact ? 100 : 150, bottom: compact ? 34 : 30, left: compact ? 92 : 70 };
         const plotW = width - pad.left - pad.right, plotH = height - pad.top - pad.bottom;
-        const shown = series.filter((s) => !chartState.hidden.has(s.key) && s.points.length);
-        let t0 = Infinity, t1 = -Infinity, lo = 0, hi = 0;
-        for (const s of series) for (const p of s.points) { if (p.t < t0) t0 = p.t; if (p.t > t1) t1 = p.t; }
-        for (const s of (shown.length ? shown : series)) for (const p of s.points) { if (p.v < lo) lo = p.v; if (p.v > hi) hi = p.v; }
-        if (!(t1 > t0)) { section.hidden = true; return; }
-        const margin = (hi - lo || Math.abs(hi) || 1e-6) * 0.06;
-        lo -= margin; hi += margin;
-        const x = (t) => pad.left + ((t - t0) / (t1 - t0)) * plotW;
-        const y = (v) => pad.top + plotH - ((v - lo) / (hi - lo)) * plotH;
+        let full0 = Infinity, full1 = -Infinity;
+        for (const s of series) for (const p of s.points) { if (p.t < full0) full0 = p.t; if (p.t > full1) full1 = p.t; }
+        if (!(full1 > full0)) { section.hidden = true; return; }
+        const minSpan = Math.min(MIN_SPAN, full1 - full0);
+        // A window inside the phase, at least minSpan wide.
+        const clampView = (a, b) => {
+            let span = Math.min(Math.max(b - a, minSpan), full1 - full0);
+            a = Math.min(Math.max(a, full0), full1 - span);
+            return { t0: a, t1: a + span };
+        };
+        const currentView = () => {
+            if (chartState.preset) {
+                const span = PRESETS.find((p) => p[0] === chartState.preset)[1];
+                return { t0: span ? Math.max(full0, full1 - span) : full0, t1: full1 };
+            }
+            return clampView(chartState.view.t0, chartState.view.t1);
+        };
+        const setView = (a, b) => { chartState.preset = null; chartState.view = clampView(a, b); draw(); };
+        const setPreset = (name) => { chartState.preset = name; chartState.view = null; draw(); };
 
         const fig = el("figure", "lb-term");
         const cap = el("figcaption", "lb-term-head");
@@ -343,91 +417,304 @@ title: Leaderboard
         cap.appendChild(el("span", "lb-term-sub", "upd " + stamp(Date.parse(f.generated_at))));
         fig.appendChild(cap);
 
-        const svg = svgEl("svg", { viewBox: "0 0 " + width + " " + height, role: "img", "aria-label": "PnL of the top " + series.length + " teams", class: "lb-term-svg" });
-        svg.appendChild(svgEl("rect", { x: 0, y: 0, width, height, fill: "#07090c" }));
-        for (let i = 0; i < 5; i++) {
-            const v = lo + ((hi - lo) * (i + 0.5)) / 5;
-            svg.appendChild(svgEl("line", { x1: pad.left, x2: pad.left + plotW, y1: y(v), y2: y(v), stroke: "#141920" }));
-            svg.appendChild(svgEl("text", { x: pad.left - 6, y: y(v) + font / 3, "text-anchor": "end", fill: "#6b7280", "font-size": font }, pct5(v)));
-        }
-        const DAY = 86400000;
-        const first = Date.parse(d.from);
-        const days = [];
-        for (let t = first + Math.ceil((t0 - first) / DAY) * DAY; t <= t1; t += DAY) days.push(t);
-        const every = Math.max(1, Math.ceil(days.length / (compact ? 4 : 10)));
-        days.forEach((t, i) => {
-            svg.appendChild(svgEl("line", { x1: x(t), x2: x(t), y1: pad.top, y2: pad.top + plotH, stroke: "#262b33", "stroke-dasharray": "2 3" }));
-            if (i % every === 0) svg.appendChild(svgEl("text", { x: x(t), y: height - 10, "text-anchor": x(t) - pad.left < 30 ? "start" : "middle", fill: "#6b7280", "font-size": font }, dayLabel(t)));
+        // Toolbar: window buttons, From / To in UTC, reset, PnL from the start of the window.
+        const bar = el("div", "lb-term-bar");
+        const presets = el("div", "lb-term-presets");
+        presets.setAttribute("role", "group");
+        presets.setAttribute("aria-label", "Time window");
+        const presetButtons = PRESETS.map(([name]) => {
+            const b = el("button", "", name);
+            b.type = "button";
+            b.addEventListener("click", () => setPreset(name));
+            presets.appendChild(b);
+            return [name, b];
         });
-        svg.appendChild(svgEl("line", { x1: pad.left, x2: pad.left + plotW, y1: y(0), y2: y(0), stroke: "#4b5563" }));
-        svg.appendChild(svgEl("line", { x1: pad.left + plotW, x2: pad.left + plotW, y1: pad.top, y2: pad.top + plotH, stroke: "#262b33" }));
-        // Last line first: the teams higher up are drawn on top of the flat ones.
-        for (const s of shown.slice().reverse()) {
-            // The spacing of the series, without its last interval: the last point can
-            // be the latest snapshot seconds after the last step, and taking it as the
-            // spacing broke every other interval into a gap.
-            let step = Infinity;
-            const last = s.points.length > 2 ? s.points.length - 1 : s.points.length;
-            for (let i = 1; i < last; i++) step = Math.min(step, s.points[i].t - s.points[i - 1].t);
-            let cur = [];
-            const flush = () => {
-                if (!cur.length) return;
-                const dim = chartState.focus !== null && chartState.focus !== s.key;
-                svg.appendChild(svgEl("polyline", { points: cur.join(" "), fill: "none", stroke: colour.get(s.key), "stroke-opacity": dim ? 0.15 : 1,
-                    "stroke-width": chartState.focus === s.key ? 2.2 : 1.3, "stroke-linejoin": "round" }));
-                cur = [];
-            };
-            s.points.forEach((p, i) => {
-                if (i > 0 && p.t - s.points[i - 1].t > 3 * step) flush();
-                cur.push(x(p.t).toFixed(1) + "," + y(p.v).toFixed(1));
-            });
-            flush();
-        }
-        // Last-value tags on the right axis, pushed apart.
-        const tagH = font + 4;
-        const tags = shown.map((s) => ({ s, v: s.points[s.points.length - 1].v })).map((r) => Object.assign(r, { y0: y(r.v), y: y(r.v) })).sort((a, b) => a.y - b.y);
-        // Pushed down from the top edge, then up from the bottom edge: every tag
-        // stays inside the plot height (shifting them all up moved the highest out).
-        const tagTop = pad.top + tagH / 2, tagBottom = pad.top + plotH - tagH / 2;
-        for (let i = 0; i < tags.length; i++) tags[i].y = Math.max(tags[i].y, tagTop, i ? tags[i - 1].y + tagH : -Infinity);
-        for (let i = tags.length - 1; i >= 0; i--) tags[i].y = Math.min(tags[i].y, tagBottom, i < tags.length - 1 ? tags[i + 1].y - tagH : Infinity);
-        for (const tg of tags) {
-            const g = svgEl("g", { opacity: chartState.focus !== null && chartState.focus !== tg.s.key ? 0.25 : 1 });
-            g.appendChild(svgEl("line", { x1: pad.left + plotW, x2: pad.left + plotW + 4, y1: tg.y0, y2: tg.y, stroke: colour.get(tg.s.key) }));
-            g.appendChild(svgEl("rect", { x: pad.left + plotW + 4, y: tg.y - tagH / 2, width: pad.right - 6, height: tagH - 1, fill: colour.get(tg.s.key) }));
-            g.appendChild(svgEl("text", { x: pad.left + plotW + 8, y: tg.y + font / 3, fill: "#000", "font-size": font, "font-weight": 700 },
-                compact ? pct5(tg.v) : pct5(tg.v) + " " + tg.s.name.slice(0, 9).toUpperCase()));
-            svg.appendChild(g);
-        }
-        // Crosshair: every line at the time under the pointer (mouse, pen or touch).
+        bar.appendChild(presets);
+        const range = el("div", "lb-term-range");
+        const mkInput = (label) => {
+            const lab = el("label", "", label);
+            const inp = el("input");
+            inp.type = "datetime-local";
+            inp.step = 600;
+            inp.min = toInput(full0);
+            inp.max = toInput(full1);
+            lab.appendChild(inp);
+            range.appendChild(lab);
+            return inp;
+        };
+        const fromIn = mkInput("From (UTC)");
+        const toIn = mkInput("To (UTC)");
+        const onRange = () => {
+            const a = fromInput(fromIn.value), b = fromInput(toIn.value);
+            if (isFinite(a) && isFinite(b) && b > a) setView(a, b); else draw();
+        };
+        fromIn.addEventListener("change", onRange);
+        toIn.addEventListener("change", onRange);
+        bar.appendChild(range);
+        const opts = el("div", "lb-term-opts");
+        // Zoom in / out around the middle of the window, a factor 2 per click.
+        const zoomBy = (k) => { const mid = (vt0 + vt1) / 2, half = ((vt1 - vt0) * k) / 2; setView(mid - half, mid + half); };
+        const zoomGroup = el("div", "lb-term-presets lb-term-zoom");
+        zoomGroup.setAttribute("role", "group");
+        zoomGroup.setAttribute("aria-label", "Zoom");
+        const zoomIn = el("button", "", "+");
+        zoomIn.type = "button"; zoomIn.title = "Zoom in"; zoomIn.setAttribute("aria-label", "Zoom in");
+        zoomIn.addEventListener("click", () => zoomBy(0.5));
+        const zoomOut = el("button", "", "\u2212");
+        zoomOut.type = "button"; zoomOut.title = "Zoom out"; zoomOut.setAttribute("aria-label", "Zoom out");
+        zoomOut.addEventListener("click", () => zoomBy(2));
+        zoomGroup.appendChild(zoomIn);
+        zoomGroup.appendChild(zoomOut);
+        opts.appendChild(zoomGroup);
+        const reset = el("button", "lb-term-reset", "Reset");
+        reset.type = "button";
+        reset.title = "Back to the last week";
+        reset.addEventListener("click", () => setPreset(DEFAULT_PRESET));
+        opts.appendChild(reset);
+        bar.appendChild(opts);
+        fig.appendChild(bar);
+
+        const svg = svgEl("svg", { viewBox: "0 0 " + width + " " + height, role: "img", "aria-label": "PnL of the top " + series.length + " teams", class: "lb-term-svg" });
+        const clipId = "lb-clip-" + tab;
+        const defs = svgEl("defs", {});
+        const clip = svgEl("clipPath", { id: clipId });
+        clip.appendChild(svgEl("rect", { x: pad.left, y: pad.top, width: plotW, height: plotH }));
+        defs.appendChild(clip);
+        svg.appendChild(defs);
+        svg.appendChild(svgEl("rect", { x: 0, y: 0, width, height, fill: "#07090c" }));
+        const plot = svgEl("g", {});
         const cross = svgEl("g", { "pointer-events": "none" });
+        const brush = svgEl("rect", { y: pad.top, height: plotH, width: 0, fill: "#ff9f1a", "fill-opacity": 0.12, stroke: "#ff9f1a", "stroke-opacity": 0.6, visibility: "hidden", "pointer-events": "none" });
+        svg.appendChild(plot);
         svg.appendChild(cross);
-        const drawCross = () => {
+        svg.appendChild(brush);
+        fig.appendChild(svg);
+        const hint = el("p", "lb-term-hint", compact ? "Zoom: + / \u2212 or pinch. Drag sideways to move, tap for values." : "Zoom: mouse wheel on the chart, + / \u2212, or drag across it. Double-click to reset.");
+        fig.appendChild(hint);
+
+        // Scales of the last draw, read by the pointer handlers.
+        let vt0 = full0, vt1 = full1, x = () => 0, rows = () => [];
+        const timeAtPx = (px) => vt0 + ((px - pad.left) / plotW) * (vt1 - vt0);
+        const svgX = (clientX) => { const r = svg.getBoundingClientRect(); return ((clientX - r.left) / r.width) * width; };
+
+        function draw() {
+            const v = currentView();
+            vt0 = v.t0; vt1 = v.t1;
+            const shown = series.filter((s) => !chartState.hidden.has(s.key) && s.points.length);
+            const val = (s, raw) => raw;
+            let lo = 0, hi = 0;
+            for (const s of shown) for (const p of s.points) if (p.t >= vt0 && p.t <= vt1) { const w = val(s, p.v); if (w < lo) lo = w; if (w > hi) hi = w; }
+            const margin = (hi - lo || Math.abs(hi) || 1e-6) * 0.06;
+            lo -= margin; hi += margin;
+            x = (t) => pad.left + ((t - vt0) / (vt1 - vt0)) * plotW;
+            const y = (w) => pad.top + plotH - ((w - lo) / (hi - lo)) * plotH;
+            plot.replaceChildren();
+
+            for (let i = 0; i < 5; i++) {
+                const w = lo + ((hi - lo) * (i + 0.5)) / 5;
+                plot.appendChild(svgEl("line", { x1: pad.left, x2: pad.left + plotW, y1: y(w), y2: y(w), stroke: "#141920" }));
+                plot.appendChild(svgEl("text", { x: pad.left - 6, y: y(w) + font / 3, "text-anchor": "end", fill: "#6b7280", "font-size": font }, pct5(w)));
+            }
+            // Dashed line at every daily sample (12:00 UTC), labels on a step that fits the window.
+            const first = Date.parse(d.from);
+            for (let t = first + Math.ceil((vt0 - first) / DAY) * DAY; t <= vt1; t += DAY)
+                plot.appendChild(svgEl("line", { x1: x(t), x2: x(t), y1: pad.top, y2: pad.top + plotH, stroke: "#262b33", "stroke-dasharray": "2 3" }));
+            const step = timeStep(vt1 - vt0, compact);
+            const anchor = step >= DAY ? first : 0;
+            for (let t = anchor + Math.ceil((vt0 - anchor) / step) * step; t <= vt1; t += step) {
+                const label = step >= DAY ? dayLabel(t) : t % DAY === 0 ? dayLabel(t) : hhmm(t);
+                const tx = x(t);
+                plot.appendChild(svgEl("line", { x1: tx, x2: tx, y1: pad.top + plotH, y2: pad.top + plotH + 4, stroke: "#4b5563" }));
+                plot.appendChild(svgEl("text", { x: tx, y: height - 10, "text-anchor": tx - pad.left < 30 ? "start" : pad.left + plotW - tx < 30 ? "end" : "middle", fill: "#6b7280", "font-size": font }, label));
+            }
+            plot.appendChild(svgEl("line", { x1: pad.left, x2: pad.left + plotW, y1: y(0), y2: y(0), stroke: "#4b5563" }));
+            plot.appendChild(svgEl("line", { x1: pad.left + plotW, x2: pad.left + plotW, y1: pad.top, y2: pad.top + plotH, stroke: "#262b33" }));
+            const lines = svgEl("g", { "clip-path": "url(#" + clipId + ")" });
+            plot.appendChild(lines);
+            // Last line first: the teams higher up are drawn on top of the flat ones.
+            for (const s of shown.slice().reverse()) {
+                // The spacing of the series, without its last interval: the last point can
+                // be the latest snapshot seconds after the last step, and taking it as the
+                // spacing broke every other interval into a gap.
+                let gap = Infinity;
+                const last = s.points.length > 2 ? s.points.length - 1 : s.points.length;
+                for (let i = 1; i < last; i++) gap = Math.min(gap, s.points[i].t - s.points[i - 1].t);
+                // The points in the window and one on each side, so the line reaches the edges.
+                const i0 = Math.max(0, indexAt(s.points, vt0)), i1 = Math.min(s.points.length - 1, indexAt(s.points, vt1) + 1);
+                let cur = [];
+                const flush = () => {
+                    if (!cur.length) return;
+                    const dim = chartState.focus !== null && chartState.focus !== s.key;
+                    lines.appendChild(svgEl("polyline", { points: cur.join(" "), fill: "none", stroke: colour.get(s.key), "stroke-opacity": dim ? 0.15 : 1,
+                        "stroke-width": chartState.focus === s.key ? 2.2 : 1.3, "stroke-linejoin": "round" }));
+                    cur = [];
+                };
+                for (let i = i0; i <= i1; i++) {
+                    const p = s.points[i];
+                    if (i > i0 && p.t - s.points[i - 1].t > 3 * gap) flush();
+                    cur.push(x(p.t).toFixed(1) + "," + y(val(s, p.v)).toFixed(1));
+                }
+                flush();
+            }
+            // Value at the right edge of the window, as tags on the right axis, pushed apart.
+            const tagH = font + 4;
+            const tags = shown.map((s) => ({ s, raw: valueAt(s.points, vt1) })).filter((r) => r.raw !== null)
+                .map((r) => { const w = val(r.s, r.raw); return { s: r.s, v: w, y0: y(w), y: y(w) }; }).sort((a, b) => a.y - b.y);
+            // Pushed down from the top edge, then up from the bottom edge: every tag
+            // stays inside the plot height (shifting them all up moved the highest out).
+            const tagTop = pad.top + tagH / 2, tagBottom = pad.top + plotH - tagH / 2;
+            for (let i = 0; i < tags.length; i++) tags[i].y = Math.max(tags[i].y, tagTop, i ? tags[i - 1].y + tagH : -Infinity);
+            for (let i = tags.length - 1; i >= 0; i--) tags[i].y = Math.min(tags[i].y, tagBottom, i < tags.length - 1 ? tags[i + 1].y - tagH : Infinity);
+            for (const tg of tags) {
+                const g = svgEl("g", { opacity: chartState.focus !== null && chartState.focus !== tg.s.key ? 0.25 : 1 });
+                g.appendChild(svgEl("line", { x1: pad.left + plotW, x2: pad.left + plotW + 4, y1: Math.min(Math.max(tg.y0, pad.top), pad.top + plotH), y2: tg.y, stroke: colour.get(tg.s.key) }));
+                g.appendChild(svgEl("rect", { x: pad.left + plotW + 4, y: tg.y - tagH / 2, width: pad.right - 6, height: tagH - 1, fill: colour.get(tg.s.key) }));
+                g.appendChild(svgEl("text", { x: pad.left + plotW + 8, y: tg.y + font / 3, fill: "#000", "font-size": font, "font-weight": 700 },
+                    compact ? pct5(tg.v) : pct5(tg.v) + " " + tg.s.name.slice(0, 9).toUpperCase()));
+                plot.appendChild(g);
+            }
+            rows = (c) => shown.map((s) => { const raw = valueAt(s.points, c); return { s, v: raw === null ? null : val(s, raw) }; })
+                .filter((r) => r.v !== null).sort((a, b) => b.v - a.v);
+
+            // Toolbar state.
+            for (const [name, b] of presetButtons) b.setAttribute("aria-pressed", chartState.preset === name ? "true" : "false");
+            fromIn.value = toInput(vt0);
+            toIn.value = toInput(vt1);
+            // The pickers offer only a To after the From (and a From before the To), at least the narrowest window apart.
+            fromIn.max = toInput(vt1 - minSpan);
+            toIn.min = toInput(vt0 + minSpan);
+            reset.disabled = chartState.preset === DEFAULT_PRESET;
+            zoomIn.disabled = vt1 - vt0 <= minSpan + 1;
+            zoomOut.disabled = vt1 - vt0 >= full1 - full0 - 1;
+            if (chartState.cursor !== null && (chartState.cursor < vt0 || chartState.cursor > vt1)) chartState.cursor = null;
+            drawCross();
+        }
+
+        // Crosshair: every line at the time under the pointer (mouse, pen or touch).
+        function drawCross() {
             cross.replaceChildren();
             const c = chartState.cursor;
             if (c === null) return;
-            const rows = shown.map((s) => ({ s, v: valueAt(s.points, c) })).filter((r) => r.v !== null).sort((a, b) => b.v - a.v);
+            const list = rows(c);
             const cx = x(c), rowH = font + 4, boxW = compact ? 330 : 250;
             const bx = cx + 12 + boxW > pad.left + plotW ? Math.max(pad.left, cx - 12 - boxW) : cx + 12;
             cross.appendChild(svgEl("line", { x1: cx, x2: cx, y1: pad.top, y2: pad.top + plotH, stroke: "#ff9f1a", "stroke-dasharray": "3 3" }));
-            cross.appendChild(svgEl("rect", { x: bx, y: pad.top + 6, width: boxW, height: rowH + 8 + rows.length * rowH, fill: "#0f1319", stroke: "#262b33" }));
+            cross.appendChild(svgEl("rect", { x: bx, y: pad.top + 6, width: boxW, height: rowH + 8 + list.length * rowH, fill: "#0f1319", stroke: "#262b33" }));
             cross.appendChild(svgEl("text", { x: bx + 8, y: pad.top + 6 + rowH, fill: "#ff9f1a", "font-size": font, "font-weight": 700 }, stamp(c)));
-            rows.forEach((r, i) => {
+            list.forEach((r, i) => {
                 cross.appendChild(svgEl("rect", { x: bx + 8, y: pad.top + 10 + rowH * (i + 1), width: 8, height: 8, fill: colour.get(r.s.key) }));
                 cross.appendChild(svgEl("text", { x: bx + 22, y: pad.top + 6 + rowH * (i + 2), fill: "#d4d4d8", "font-size": font }, r.s.name.slice(0, compact ? 18 : 22)));
                 cross.appendChild(svgEl("text", { x: bx + boxW - 8, y: pad.top + 6 + rowH * (i + 2), "text-anchor": "end", fill: r.v >= 0 ? "#22c55e" : "#ef4444", "font-size": font }, pct5(r.v)));
             });
-        };
-        const onPointer = (e) => {
-            const r = svg.getBoundingClientRect();
-            const px = ((e.clientX - r.left) / r.width) * width;
-            chartState.cursor = px < pad.left || px > pad.left + plotW ? null : t0 + ((px - pad.left) / plotW) * (t1 - t0);
+        }
+        const setCursor = (px) => {
+            chartState.cursor = px < pad.left || px > pad.left + plotW ? null : timeAtPx(px);
             if (chartState.frame === null) chartState.frame = requestAnimationFrame(() => { chartState.frame = null; drawCross(); });
         };
-        svg.addEventListener("pointermove", onPointer);
-        svg.addEventListener("pointerdown", onPointer);
-        svg.addEventListener("pointerleave", (e) => { if (e.pointerType === "touch") return; chartState.cursor = null; drawCross(); });
-        fig.appendChild(svg);
+
+        // Mouse and pen: drag across the plot to zoom on that stretch, double-click to reset.
+        // Touch: one finger taps for values or pans a zoomed window sideways, two fingers pinch.
+        // touch-action: pan-y (CSS) leaves the vertical page scroll to the browser.
+        const touches = new Map();
+        svg.addEventListener("pointerdown", (e) => {
+            const px = svgX(e.clientX);
+            if (e.pointerType !== "touch") {
+                if (e.button !== 0 || px < pad.left || px > pad.left + plotW) return;
+                chartState.gesture = { kind: "brush", x0: px, x1: px };
+                svg.setPointerCapture(e.pointerId);
+                return;
+            }
+            touches.set(e.pointerId, px);
+            svg.setPointerCapture(e.pointerId);
+            if (touches.size === 1) chartState.gesture = { kind: "touch", x0: px, view: { t0: vt0, t1: vt1 }, moved: false };
+            else if (touches.size === 2) {
+                const [a, b] = [...touches.values()];
+                chartState.gesture = { kind: "pinch", dist: Math.max(Math.abs(a - b), 10), mid: timeAtPx((a + b) / 2), view: { t0: vt0, t1: vt1 } };
+                chartState.cursor = null;
+            }
+        });
+        svg.addEventListener("pointermove", (e) => {
+            const px = svgX(e.clientX);
+            const g = chartState.gesture;
+            if (e.pointerType !== "touch") {
+                if (g && g.kind === "brush") {
+                    g.x1 = Math.min(Math.max(px, pad.left), pad.left + plotW);
+                    brush.setAttribute("x", Math.min(g.x0, g.x1));
+                    brush.setAttribute("width", Math.abs(g.x1 - g.x0));
+                    brush.setAttribute("visibility", "visible");
+                }
+                setCursor(px);
+                return;
+            }
+            if (!touches.has(e.pointerId)) return;
+            touches.set(e.pointerId, px);
+            if (g && g.kind === "pinch" && touches.size === 2) {
+                const [a, b] = [...touches.values()];
+                const span = (g.view.t1 - g.view.t0) * g.dist / Math.max(Math.abs(a - b), 10);
+                const frac = ((a + b) / 2 - pad.left) / plotW;
+                chartState.preset = null;
+                chartState.view = clampView(g.mid - frac * span, g.mid - frac * span + span);
+                draw();
+            } else if (g && g.kind === "touch") {
+                const dx = px - g.x0;
+                if (!g.moved && Math.abs(dx) < 8) return;
+                g.moved = true;
+                // Pan only a zoomed window; on the whole phase a sideways drag moves the cursor.
+                if (g.view.t1 - g.view.t0 < full1 - full0 - 1) {
+                    const dt = (-dx / plotW) * (g.view.t1 - g.view.t0);
+                    chartState.preset = null;
+                    chartState.view = clampView(g.view.t0 + dt, g.view.t1 + dt);
+                    chartState.cursor = null;
+                    draw();
+                } else setCursor(px);
+            }
+        });
+        const endPointer = (e) => {
+            const g = chartState.gesture;
+            if (e.pointerType !== "touch") {
+                if (g && g.kind === "brush") {
+                    brush.setAttribute("visibility", "hidden");
+                    chartState.gesture = null;
+                    if (Math.abs(g.x1 - g.x0) > 6) {
+                        const a = timeAtPx(Math.min(g.x0, g.x1)), b = timeAtPx(Math.max(g.x0, g.x1));
+                        chartState.cursor = null;
+                        setView(a, b);
+                    }
+                }
+                return;
+            }
+            if (!touches.has(e.pointerId)) return;
+            const px = touches.get(e.pointerId);
+            touches.delete(e.pointerId);
+            if (g && g.kind === "touch" && !g.moved && e.type === "pointerup") {
+                // A tap shows the values at that time; a tap on the same spot hides them.
+                const near = chartState.cursor !== null && Math.abs(x(chartState.cursor) - px) < 24;
+                if (near) { chartState.cursor = null; drawCross(); } else setCursor(px);
+            }
+            if (touches.size === 1 && g && g.kind === "pinch") {
+                const [rest] = [...touches.values()];
+                chartState.gesture = { kind: "touch", x0: rest, view: { t0: vt0, t1: vt1 }, moved: true };
+            } else if (touches.size === 0) chartState.gesture = null;
+        };
+        svg.addEventListener("pointerup", endPointer);
+        svg.addEventListener("pointercancel", endPointer);
+        svg.addEventListener("pointerleave", (e) => { if (e.pointerType === "touch" || chartState.gesture) return; chartState.cursor = null; drawCross(); });
+        svg.addEventListener("dblclick", () => setPreset(DEFAULT_PRESET));
+        // Wheel over the plot zooms at the pointer (the trackpad pinch arrives as a wheel too);
+        // a sideways swipe pans. Outside the plot the wheel scrolls the page as usual.
+        svg.addEventListener("wheel", (e) => {
+            const px = svgX(e.clientX);
+            if (px < pad.left || px > pad.left + plotW) return;
+            e.preventDefault();
+            if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
+                if (vt1 - vt0 >= full1 - full0 - 1) return;
+                const dt = (e.deltaX / plotW) * (vt1 - vt0);
+                setView(vt0 + dt, vt1 + dt);
+                return;
+            }
+            const at = timeAtPx(px), k = Math.exp(Math.max(-1, Math.min(1, e.deltaY / 100)) * 0.25);
+            setView(at - (at - vt0) * k, at + (vt1 - at) * k);
+        }, { passive: false });
 
         // Legend: a button per team hides or shows its line.
         const table = el("table", "lb-term-legend");
@@ -458,7 +745,7 @@ title: Leaderboard
         table.appendChild(tbody);
         fig.appendChild(table);
         box.replaceChildren(fig);
-        drawCross();
+        draw();
     }
 
     // --- data ---
