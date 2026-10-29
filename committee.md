@@ -41,13 +41,22 @@ title: Committee & Sponsors
     </div>
 -->
     <h2 style="margin-top: 4rem;">Partners</h2>
-    <p>We are grateful to our partners for providing the infrastructure for the competition.</p>
+    <p>We are grateful to our sponsors and partners for supporting this competition and providing the infrastructure for the competition.</p>
+
+    <div class="glass-card" style="margin-top: 2rem; text-align: center;">
+        <div style="margin-bottom: 1rem;">
+            <p style="color: var(--accent-color); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem; margin-bottom: 1.5rem;">Competition Sponsor</p>
+            <a href="https://dxc.com/" target="_blank">
+                <img src="{{ '/assets/images/dxc.svg' | relative_url }}" alt="DXC Logo" style="max-height: 80px; width: auto; filter: drop-shadow(0 0 8px rgba(0,255,209,0.2)); transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+            </a>
+        </div>
+    </div>
 
     <div class="glass-card" style="margin-top: 2rem; text-align: center;">
         <div style="margin-bottom: 1rem;">
             <p style="color: var(--accent-color); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem; margin-bottom: 1.5rem;">Market Maker Partner</p>
             <a href="https://keyrock.eu/" target="_blank">
-                <img src="{{ '/assets/images/keyrock.png' | relative_url }}" alt="Keyrock Logo" style="max-width: 250px; height: auto; filter: drop-shadow(0 0 8px rgba(0,255,209,0.2)); transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                <img src="{{ '/assets/images/keyrock.png' | relative_url }}" alt="Keyrock Logo" style="max-height: 80px; width: auto; filter: drop-shadow(0 0 8px rgba(0,255,209,0.2)); transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
             </a>
         </div>
     </div>
@@ -56,7 +65,7 @@ title: Committee & Sponsors
         <div style="margin-bottom: 1rem;">
             <p style="color: var(--accent-color); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem; margin-bottom: 1.5rem;">Oracle Partner</p>
             <a href="https://seda.xyz/" target="_blank">
-                <img src="{{ '/assets/images/seda.png' | relative_url }}" alt="SEDA Logo" style="max-width: 250px; height: auto; filter: drop-shadow(0 0 8px rgba(0,255,209,0.2)); transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                <img src="{{ '/assets/images/seda.png' | relative_url }}" alt="SEDA Logo" style="max-height: 80px; width: auto; filter: drop-shadow(0 0 8px rgba(0,255,209,0.2)); transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
             </a>
         </div>
     </div>

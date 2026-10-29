@@ -13,7 +13,41 @@ title: Perpetual Alpha
     </div>
 </div>
 
-<div class="page-content">
+<div class="page-content" style="margin-top: 4rem;">
+    <!-- <h2>Sponsors &amp; Partners</h2>
+    <p>We are grateful to our sponsors for supporting this competition and providing the infrastructure for the competition.</p> -->
+    <h2>Sponsors &amp; Partners</h2>
+    <p>We are grateful to our sponsors and partners for supporting this competition and providing the infrastructure for the competition.</p>
+
+    <div class="glass-card" style="margin-top: 2rem; text-align: center;">
+        <div style="margin-bottom: 1rem;">
+            <p style="color: var(--accent-color); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem; margin-bottom: 1.5rem;">Competition Sponsor</p>
+            <a href="https://dxc.com/" target="_blank">
+                <img src="{{ '/assets/images/dxc.svg' | relative_url }}" alt="DXC Logo" style="max-height: 80px; width: auto; filter: drop-shadow(0 0 8px rgba(0,255,209,0.2)); transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+            </a>
+        </div>
+    </div>
+
+    <div class="glass-card" style="margin-top: 2rem; text-align: center;">
+        <div style="margin-bottom: 1rem;">
+            <p style="color: var(--accent-color); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem; margin-bottom: 1.5rem;">Market Maker Partner</p>
+            <a href="https://keyrock.eu/" target="_blank">
+                <img src="{{ '/assets/images/keyrock.png' | relative_url }}" alt="Keyrock Logo" style="max-height: 80px; width: auto; filter: drop-shadow(0 0 8px rgba(0,255,209,0.2)); transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+            </a>
+        </div>
+    </div>
+
+    <div class="glass-card" style="margin-top: 2rem; text-align: center;">
+        <div style="margin-bottom: 1rem;">
+            <p style="color: var(--accent-color); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem; margin-bottom: 1.5rem;">Oracle Partner</p>
+            <a href="https://seda.xyz/" target="_blank">
+                <img src="{{ '/assets/images/seda.png' | relative_url }}" alt="SEDA Logo" style="max-height: 80px; width: auto; filter: drop-shadow(0 0 8px rgba(0,255,209,0.2)); transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="page-content" style="margin-top: 4rem;">
     <h2>Overview</h2>
     <p>Perpetual Alpha is a live algorithmic trading competition in which teams design, implement, and operate autonomous trading agents on the Hyperliquid testnet, a high-performance decentralized derivatives exchange.</p>
     <!-- <p>Using the recently introduced HIP-3 builder-deployed perpetuals standard, the organizers will deploy a dedicated set of perpetual futures markets exclusively for the competition, spanning major cryptos, stock indexes, exchange rates, and commodities.</p> -->
@@ -25,8 +59,8 @@ title: Perpetual Alpha
         <h3>Important Dates</h3>
         <ul style="list-style-type: none; padding: 0;">
             <li style="margin-bottom: 0.5rem; text-decoration: line-through; opacity: 0.5;"><strong style="color: var(--accent-color);">Sep 20:</strong> Deadline registration</li>
-            <li style="margin-bottom: 0.5rem;"><strong style="color: var(--accent-color);">Oct 5:</strong> Practice tests (non-scored).</li>
-            <li style="margin-bottom: 0.5rem;"><strong style="color: var(--accent-color);">Oct 19:</strong> 3, 2, 1 ... GO! Scored Phase</li>
+            <li style="margin-bottom: 0.5rem; text-decoration: line-through; opacity: 0.5;"><strong style="color: var(--accent-color);">Oct 5:</strong> Practice tests (non-scored).</li>
+            <li style="margin-bottom: 0.5rem; text-decoration: line-through; opacity: 0.5;"><strong style="color: var(--accent-color);">Oct 19:</strong> 3, 2, 1 ... GO! Scored Phase</li>
             <li style="margin-bottom: 0.5rem;"><strong style="color: var(--accent-color);">Nov 6:</strong> End of the trading phase</li>
             <li style="margin-bottom: 0.5rem;"><strong style="color: var(--accent-color);">Nov 6:</strong> Report submission</li>
             <li style="margin-bottom: 0.5rem;"><strong style="color: var(--accent-color);">Nov 14-17:</strong> ICAIF 2026 Milan</li>
@@ -60,29 +94,3 @@ title: Perpetual Alpha
         <p>Teams must be made up of 1 to 4 members. Should the team be selected as a winner, at least one member must be available to attend ICAIF 2026 in Milan in person to present its work.</p>
     </div>
 </div>
-
-<div class="page-content" style="margin-top: 4rem;">
-    <!-- <h2>Sponsors & Partners</h2>
-    <p>We are grateful to our sponsors for supporting this competition and providing the infrastructure for the competition.</p> -->
-    <h2>Partners</h2>
-    <p>We are grateful to our partners for providing the infrastructure for the competition.</p>
-
-    <div class="glass-card" style="margin-top: 2rem; text-align: center;">
-        <div style="margin-bottom: 1rem;">
-            <p style="color: var(--accent-color); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem; margin-bottom: 1.5rem;">Market Maker Partner</p>
-            <a href="https://keyrock.eu/" target="_blank">
-                <img src="{{ '/assets/images/keyrock.png' | relative_url }}" alt="Keyrock Logo" style="max-width: 250px; height: auto; filter: drop-shadow(0 0 8px rgba(0,255,209,0.2)); transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-            </a>
-        </div>
-    </div>
-
-    <div class="glass-card" style="margin-top: 2rem; text-align: center;">
-        <div style="margin-bottom: 1rem;">
-            <p style="color: var(--accent-color); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem; margin-bottom: 1.5rem;">Oracle Partner</p>
-            <a href="https://seda.xyz/" target="_blank">
-                <img src="{{ '/assets/images/seda.png' | relative_url }}" alt="SEDA Logo" style="max-width: 250px; height: auto; filter: drop-shadow(0 0 8px rgba(0,255,209,0.2)); transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-            </a>
-        </div>
-    </div>
-</div>
-
