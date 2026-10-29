@@ -40,7 +40,7 @@ title: Committee & Sponsors
         <p><em>[Sponsor Logos and Banners will be placed here]</em></p>
     </div>
 -->
-    <h2 style="margin-top: 4rem;">Partners</h2>
+    <h2 style="margin-top: 4rem;">Sponsors &amp; Partners</h2>
     <p>We are grateful to our sponsors and partners for supporting this competition and providing the infrastructure for the competition.</p>
 
     <div class="glass-card" style="margin-top: 2rem; text-align: center;">
