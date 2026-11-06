@@ -158,7 +158,9 @@ title: Leaderboard
         const d = boards[tab];
         // The practice tab exists once its file is written.
         $("lb-tabs").hidden = !boards.practice;
-        $("lb-tab-live").textContent = boards.live && boards.live.phase ? boards.live.phase : "Current phase";
+        // Same wording as the practice tab once the phase has closed.
+        const livePhase = boards.live && boards.live.phase ? boards.live.phase : "Current phase";
+        $("lb-tab-live").textContent = boards.live && boards.live.status === "final" ? livePhase + " (final)" : livePhase;
         document.querySelectorAll("#lb-tabs button").forEach((b) => b.setAttribute("aria-current", b.dataset.tab === tab ? "page" : "false"));
 
         // A file without the score (older tracker) is ordered by PnL.
