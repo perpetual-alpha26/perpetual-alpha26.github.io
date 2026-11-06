@@ -1,20 +1,20 @@
 # Leaderboard page settings.
-# The backend writes the data (`tracker leaderboard`) and the organizer panel
-# serves it without login (LEADERBOARD_PUBLIC=1), to this site only (CORS).
-# data_url: the standings of the phase in progress (Practice, then Live Trading).
-# practice_url: the final standings of the practice phase, written once when it
-# closed; until then the panel answers 503 and the Practice tab stays hidden.
-# Empty data_url: the page says the leaderboard is not available yet.
-data_url: "https://d23m2l9bjnbgul.cloudfront.net/public/leaderboard.json"
-practice_url: "https://d23m2l9bjnbgul.cloudfront.net/public/practice.json"
-# PnL chart (top 10 by PnL at the last snapshot, a point every 10 minutes),
-# rewritten every 5 minutes; the practice one is frozen. Empty: no chart.
-chart_url: "https://d23m2l9bjnbgul.cloudfront.net/public/chart.json"
-practice_chart_url: "https://d23m2l9bjnbgul.cloudfront.net/public/practice-chart.json"
-# Local preview (`jekyll serve`) reads these files from the site root instead.
-dev_data_url: /leaderboard.dev.json
-dev_practice_url: /practice.dev.json
-dev_chart_url: /chart.dev.json
-dev_practice_chart_url: /practice-chart.dev.json
-# The standings change once a day, the chart every 5 minutes.
+# Both phases are closed: the final standings and PnL charts are static files
+# in this repository (data/standings/), frozen by the tracker at the end of each
+# phase (`job.sh freeze <phase>` on the host, copied from /opt/pa/standings).
+# The site no longer reads the organizer panel. If the organizers recompute the
+# standings (e.g. the jury score J), freeze them again and replace these files.
+# data_url: the standings of the last phase (Live Trading, 19/10 -> 06/11/2026).
+# practice_url: the final standings of the practice phase (05/10 -> 18/10/2026).
+data_url: /data/standings/live.json
+practice_url: /data/standings/practice.json
+# PnL chart (top 10 by PnL, a point every 10 minutes, up to the closing sample).
+chart_url: /data/standings/live-chart.json
+practice_chart_url: /data/standings/practice-chart.json
+# Local preview (`jekyll serve`) reads the same files.
+dev_data_url: /data/standings/live.json
+dev_practice_url: /data/standings/practice.json
+dev_chart_url: /data/standings/live-chart.json
+dev_practice_chart_url: /data/standings/practice-chart.json
+# Final standings no longer change: the page stops refreshing once it reads them.
 refresh_seconds: 300
