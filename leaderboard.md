@@ -412,9 +412,11 @@ title: Leaderboard
         const left = el("span", "lb-term-title");
         left.appendChild(el("span", "lb-term-badge", "PNL"));
         left.appendChild(el("span", "lb-term-name", "Top " + series.length + " by PnL"));
-        left.appendChild(el("span", "lb-term-sub", Math.round(f.step_s / 60) + "m · last snapshot"));
+        // A closed phase: the chart ends at the closing sample and no longer changes.
+        const closed = d.status === "final";
+        left.appendChild(el("span", "lb-term-sub", Math.round(f.step_s / 60) + (closed ? "m · final" : "m · last snapshot")));
         cap.appendChild(left);
-        cap.appendChild(el("span", "lb-term-sub", "upd " + stamp(Date.parse(f.generated_at))));
+        cap.appendChild(el("span", "lb-term-sub", closed ? "final " + stamp(Date.parse(d.to)) : "upd " + stamp(Date.parse(f.generated_at))));
         fig.appendChild(cap);
 
         // Toolbar: window buttons, From / To in UTC, reset, PnL from the start of the window.
@@ -784,11 +786,13 @@ title: Leaderboard
         status();
     }));
 
+    // Once the phase is final its files no longer change: stop fetching them.
+    const closed = () => boards.live && boards.live.status === "final";
     render();
     load();
-    setInterval(() => { if (!document.hidden) load(); }, REFRESH_MS);
+    setInterval(() => { if (!document.hidden && !closed()) load(); }, REFRESH_MS);
     setInterval(status, 30000);
-    document.addEventListener("visibilitychange", () => { if (!document.hidden) load(); });
+    document.addEventListener("visibilitychange", () => { if (!document.hidden && !closed()) load(); });
     // The chart picks its drawing (wide or narrow) from its width.
     let resizeTimer = null;
     window.addEventListener("resize", () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(renderChart, 150); });
