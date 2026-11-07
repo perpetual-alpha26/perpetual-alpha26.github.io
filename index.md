@@ -16,13 +16,13 @@ title: Perpetual Alpha
 <div class="page-content" style="margin-top: 4rem;">
     <h2>Presentations and Awards Ceremony</h2>
     <div class="glass-card" style="margin-top: 2rem;">
-        <p><strong>Sunday 15 November</strong><br>
+        <p><strong>Sunday 15 November, 11:00&ndash;13:00 CET</strong><br>
         ICAIF 2026 Milano &mdash; Venue details: <a href="https://icaif2026.org/venue/" target="_blank">https://icaif2026.org/venue/</a><br>
         <strong>Main Hall</strong></p>
         <ul style="list-style-type: none; padding: 0;">
             <li style="margin-bottom: 0.6rem;"><strong style="color: var(--accent-color);">11:00</strong> &nbsp;Agostino Capponi, Keynote speech</li>
             <li style="margin-bottom: 0.6rem;"><strong style="color: var(--accent-color);">11:40</strong> &nbsp;Edoardo Vittori and Giorgio Guidetti, Presentation of the Perpetual Alpha Competition</li>
-            <li style="margin-bottom: 0.6rem;"><strong style="color: var(--accent-color);">12:00</strong> &nbsp;Presentations by the three finalist teams: B&amp;S, BerserkerBots and Secretive Plotter</li>
+            <li style="margin-bottom: 0.6rem;"><strong style="color: var(--accent-color);">12:00</strong> &nbsp;Presentations by the three finalist teams: <strong style="color: #ffffff;">B&amp;S</strong>, <strong style="color: #ffffff;">BerserkerBots</strong> and <strong style="color: #ffffff;">Secretive Plotter</strong></li>
             <li style="margin-bottom: 0.6rem;"><strong style="color: var(--accent-color);">12:45</strong> &nbsp;Competition Awards</li>
         </ul>
     </div>
